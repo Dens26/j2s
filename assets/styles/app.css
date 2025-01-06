@@ -1,3 +1,113 @@
+/* Light Mode Variables */
+:root {
+    /* Backgrounds */
+    --app-background: #FDFCFC;
+    --subtle-background: #FDF7F5;
+    --ui-element-background: #F6EDEA;
+    --hovered-ui-element-background: #EFE4DF;
+    --active-selected-ui-element-background: #E7D9D3;
+
+    /* Borders */
+    --subtle-border: #DFCDC5;
+    --ui-element-border: #D3BCB3;
+    --ui-element-focus-ring: #D3BCB3;
+    --hovered-ui-element-border: #C2A499;
+
+    /* Solid Backgrounds */
+    --solid-background: #A18072;
+    --hovered-solid-background: #957468;
+
+    /* Text */
+    --low-contrast-text: #7D5E54;
+    --high-contrast-text: #43302B;
+}
+
+/* Dark Mode Variables (automatique si mode sombre activé) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Backgrounds */
+        --app-background: #12110F;
+        --subtle-background: #1C1816;
+        --ui-element-background: #28211D;
+        --hovered-ui-element-background: #322922;
+        --active-selected-ui-element-background: #3E3128;
+
+        /* Borders */
+        --subtle-border: #4D3C2F;
+        --ui-element-border: #614A39;
+        --ui-element-focus-ring: #614A39;
+        --hovered-ui-element-border: #7C5F46;
+
+        /* Solid Backgrounds */
+        --solid-background: #AD7F58;
+        --hovered-solid-background: #B88C67;
+
+        /* Text */
+        --low-contrast-text: #DBB594;
+        --high-contrast-text: #F2E1CA;
+    }
+}
+
+/* Base Styles */
+body {
+    background-color: var(--app-background);
+    color: var(--high-contrast-text);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* UI Elements */
+.background-secondary{
+    background-color: var(--subtle-background);
+}
+
+/* Components */
+.component {
+    background-color: var(--ui-element-background);
+    border: 1px solid var(--ui-element-border);
+    color: var(--low-contrast-text);
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.component:hover {
+    background-color: var(--hovered-ui-element-background);
+    border-color: var(--hovered-ui-element-border);
+}
+
+.component:active {
+    background-color: var(--active-selected-ui-element-background);
+    border-color: var(--hovered-ui-element-border);
+}
+
+/* Inputs */
+.input {
+    background-color: var(--ui-element-background);
+    border-color: var(--ui-element-border);
+}
+
+.input:focus{
+    background-color: var(--ui-element-background);
+    border-color: var(--ui-element-focus-ring);
+}
+
+.input:hover{
+    background-color: var(--ui-element-background);
+    border-color: var(--hovered-ui-element-border);
+}
+
+/* Button */
+.btn {
+    background-color: var(--solid-background);
+    border-color: var(--solid-background);
+}
+
+.btn:hover {
+    background-color: var(--hovered-solid-background);
+    border-color: var(--hovered-solid-background);
+}
+
+/* Fonts */
 .text-regular {
     font-family: "Oleo Script Swash Caps", serif;
     font-weight: 400;
@@ -8,4 +118,12 @@
     font-family: "Oleo Script Swash Caps", serif;
     font-weight: 700;
     font-style: normal;
+}
+
+.text-low{
+    color: var(--low-contrast-text);
+}
+
+.text-hight{
+    color: var(--high-contrast-text);
 }
