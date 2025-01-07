@@ -23,9 +23,12 @@
 	</head>
 	<body class="text-regular text-high">
 		{% include 'components/navbar.html.twig' %}
-		<div class="container my-5">
-			{% include 'partials/flash.html.twig' %}
-			{% block body %}{% endblock %}
+		<div class="main-container">
+			{% include 'components/searchResult.html.twig' %}
+			<div class="container my-5">
+				{% include 'partials/flash.html.twig' %}
+				{% block body %}{% endblock %}
+			</div>
 		</div>
 	</body>
 </html>
