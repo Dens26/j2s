@@ -55,6 +55,11 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
+.main-container{
+    max-width: 768px;
+    margin: 0 auto;
+}
+
 /* UI Elements */
 .background-primary {
     background-color: var(--app-background);
