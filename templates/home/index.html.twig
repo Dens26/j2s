@@ -4,9 +4,68 @@
 {% endblock %}
 
 {% block body %}
-	<div class="d-flex flex-column align-items-center">
-		<h1 class="text-bold">Découvre le jeu du moment</h1>
-        <p>Saisis le titre qui te vient à l'esprit et découvre les similitudes sur le jeu</p>
-        <button class="btn">A toi de jouer !</button>
+	<div
+		class="d-flex flex-column align-items-center text-center px-5">
+		<!-- Titre principal -->
+		<h1 class="fw-bold mb-4">Prêt à relever le défi du jour ?</h1>
+		<p class="mb-4">Testez vos connaissances et découvrez si vous pouvez trouver le jeu du moment en suivant ces étapes simples :</p>
+
+		<!-- Appel à l'action -->
+		<div class="d-flex gap-2">
+			<button class="btn btn-go">Trouve le jeu mystère !</button>
+			<button class="btn btn-go">Les défis passés !</button>
+		</div>
+
+		<!-- Étapes du jeu -->
+		<div class="text-start component mt-4">
+			<h3 class="fw-bold text-center">Comment jouer ?</h3>
+			<p>
+				<strong>🎲 1 :</strong>
+				Choisis l'option "Jeu mystère" ou "Défis passés"
+			</p>
+			<p>
+				<strong>🔎 2 :</strong>
+				Entrez le nom d'un jeu dans la barre de recherche.
+			</p>
+			<p>
+				<strong>🎮 3 :</strong>
+				Comparez les indices affichés avec le jeu secret.
+			</p>
+			<p>
+				<strong>🧩 4 :</strong>
+				Essayez plusieurs jeux et analysez les points communs.
+			</p>
+			<p>
+				<strong>🏆 5 :</strong>
+				Félicitations ! A bientôt pour un nouveau défi.
+			</p>
+		</div>
+
+		<!-- Section FAQ -->
+		{# <div class="mt-5 text-start component">
+			<h3 class="fw-bold">Questions Fréquentes</h3>
+
+			<p>
+				<strong>❓ Comment démarrer ?</strong><br>
+				Cliquez sur le bouton ci-dessus et essayez de deviner le jeu mystère en entrant un nom de jeu.</p>
+
+			<p>
+				<strong>❓ Que faire si je n'y arrive pas ?</strong><br>
+				Pas de souci ! Chaque tentative vous donnera des indices pour affiner votre recherche.</p>
+
+			<p>
+				<strong>❓ Puis-je jouer sur mon smartphone ?</strong><br>
+				Oui, le jeu est accessible sur tous les appareils : ordinateur, tablette et mobile.</p>
+
+			<p>
+				<strong>❓ Le jeu est-il payant ?</strong><br>
+				Non, ce jeu est entièrement gratuit et conçu pour le plaisir de tous.</p>
+
+			<p>
+				<strong>❓ Comment obtenir de l'aide ?</strong><br>
+				Besoin d'assistance ? Contactez-nous à
+				<a href="mailto:support@j2s.com">support@j2s.com</a>.</p>
+		</div> #}
 	</div>
+
 {% endblock %}
