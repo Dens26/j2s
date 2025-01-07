@@ -56,12 +56,29 @@ body {
 }
 
 /* UI Elements */
+.background-primary {
+    background-color: var(--app-background);
+}
+
 .background-secondary {
     background-color: var(--subtle-background);
 }
 
+/* Navbar */
 .navbar {
     padding: 0;
+}
+
+.navbar-border {
+    border-bottom: 1px solid var(--subtle-border);
+}
+
+.navbar-component {
+    background-color: var(--solid-background);
+}
+
+.navbar-component:hover {
+    background-color: var(--hovered-solid-background);
 }
 
 /* Components */
@@ -118,10 +135,11 @@ body {
 }
 
 /* Button */
-.btn-go{
+.btn-go {
     width: 150px;
     height: 70px;
 }
+
 .btn {
     background-color: var(--solid-background);
     border-color: var(--solid-background);
@@ -165,7 +183,7 @@ body {
     color: var(--high-contrast-text);
 }
 
-.my-navbar-nav{
+.my-navbar-nav {
     padding: 0;
     display: flex;
     gap: 1rem;

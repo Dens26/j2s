@@ -1,46 +1,43 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-border">
 	<div class="container-fluid background-secondary">
 		<a class="navbar-brand" href="{{path('app_home')}}"><img width="64" src="{{asset('logo/J2S.png')}}" alt="logo J2S"></a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler navbar-component" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="my-navbar-nav me-auto mb-2 mb-lg-0">
-                
-                <!-- Lien classique -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Accueil</a>
-                </li>
-
-                <!-- Menu Dropdown Modernisé -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" 
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Défis & Classements
-                    </a>
-                    <ul class="dropdown-menu shadow">
-                        <li>
-                            <a class="dropdown-item" href="#">🎲 Trouve le jeu mystère</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">🏆 Les défis de Sorralli</a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item" href="#">📊 Classement</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">📈 Mes statistiques</a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item" href="#">❓ Aide</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-			<form class="d-flex" role="search">
-				<input class="form-control me-2" type="search" placeholder="Recherchez un jeu" aria-label="Search">
+			<ul
+				class="my-navbar-nav me-auto mb-2 mb-lg-0">
+				{# Dropdown link #}
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Défis & Classements
+					</a>
+					<ul class="dropdown-menu shadow">
+						<li>
+							<a class="dropdown-item" href="#">🎲 Trouve le jeu mystère</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">🏆 Les défis de Sorralli</a>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-item" href="#">📊 Classement</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">📈 Mes statistiques</a>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-item" href="#">❓ Aide</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="me-2 my-2">
+				<a class="nav-link" href="#">Mon compte</a>
+			</div>
+			<form class="d-flex gap-1" class="d-flex" role="search">
+				<input class="form-control mr-2" type="search" placeholder="Recherchez un jeu" aria-label="Search">
 				<button class="btn" type="submit">Recherchez</button>
 			</form>
 		</div>
