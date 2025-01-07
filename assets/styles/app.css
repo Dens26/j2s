@@ -56,8 +56,12 @@ body {
 }
 
 /* UI Elements */
-.background-secondary{
+.background-secondary {
     background-color: var(--subtle-background);
+}
+
+.navbar {
+    padding: 0;
 }
 
 /* Components */
@@ -73,11 +77,28 @@ body {
 .component:hover {
     background-color: var(--hovered-ui-element-background);
     border-color: var(--hovered-ui-element-border);
+    color: var(--high-contrast-text);
 }
 
 .component:active {
     background-color: var(--active-selected-ui-element-background);
     border-color: var(--hovered-ui-element-border);
+    color: var(--hight-contrast-text);
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background-color: var(--ui-element-background);
+}
+
+.dropdown-item {
+    background-color: var(--ui-element-background);
+    color: var(--low-contrast-text);
+}
+
+.dropdown-item:hover {
+    background-color: var(--ui-element-background);
+    color: var(--high-contrast-text);
 }
 
 /* Inputs */
@@ -86,17 +107,21 @@ body {
     border-color: var(--ui-element-border);
 }
 
-.input:focus{
+.input:focus {
     background-color: var(--ui-element-background);
     border-color: var(--ui-element-focus-ring);
 }
 
-.input:hover{
+.input:hover {
     background-color: var(--ui-element-background);
     border-color: var(--hovered-ui-element-border);
 }
 
 /* Button */
+.btn-go{
+    width: 150px;
+    height: 70px;
+}
 .btn {
     background-color: var(--solid-background);
     border-color: var(--solid-background);
@@ -120,10 +145,29 @@ body {
     font-style: normal;
 }
 
-.text-low{
+.text-low {
     color: var(--low-contrast-text);
 }
 
-.text-hight{
+.text-high {
     color: var(--high-contrast-text);
+}
+
+.nav-link {
+    color: var(--low-contrast-text);
+}
+
+.nav-link:hover {
+    color: var(--high-contrast-text);
+}
+
+.nav-link:active {
+    color: var(--high-contrast-text);
+}
+
+.my-navbar-nav{
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
 }

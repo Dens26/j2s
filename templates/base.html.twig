@@ -21,7 +21,8 @@
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body class="text-regular text-hight">
+	<body class="text-regular text-high">
+		{% include 'components/navbar.html.twig' %}
 		<div class="container my-5">
 			{% include 'partials/flash.html.twig' %}
 			{% block body %}{% endblock %}
