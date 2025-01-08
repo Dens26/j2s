@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
 			{% block title %}J2S
 			{% endblock %}
@@ -25,7 +26,7 @@
 		{% include 'components/navbar.html.twig' %}
 		<div class="main-container">
 			{% include 'components/searchResult.html.twig' %}
-			<div class="container my-5">
+			<div class="my-5 mx-2">
 				{% include 'partials/flash.html.twig' %}
 				{% block body %}{% endblock %}
 			</div>

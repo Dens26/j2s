@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-border">
 	<div class="container-fluid background-secondary">
 
-		<a class="navbar-brand" href="{{path('app_home')}}"><img width="64" src="{{asset('logo/J2S.png')}}" alt="logo J2S"></a>
+		<a class="navbar-brand" href="{{path('app_home')}}"><img width="48" src="{{asset('logo/J2S.png')}}" alt="logo J2S"></a>
 
 		<button class="navbar-toggler navbar-component" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<div class="my-navbar collapse navbar-collapse" id="navbarSupportedContent">
 			<ul
 				class="my-navbar-nav me-auto mb-2 mb-lg-0">
 				{# Dropdown link #}
@@ -46,17 +46,17 @@
 						<ul class="dropdown-menu shadow">
 							{% if app.user %}
 								<li>
-									<a class="nav-link" href="#">Mon profil</a>
+									<a class="nav-link mx-2" href="#">Mon profil</a>
 								</li>
 								<li>
-									<a class="nav-link" href="#">Déconnexion</a>
+									<a class="nav-link mx-2" href="#">Déconnexion</a>
 								</li>
 							{% else %}
 								<li>
-									<a class="nav-link" href="{{path('app_register')}}">Inscription</a>
+									<a class="nav-link mx-2" href="{{path('app_register')}}">Inscription</a>
 								</li>
 								<li>
-									<a class="nav-link" href="#">Connexion</a>
+									<a class="nav-link mx-2" href="#">Connexion</a>
 								</li>
 							{% endif %}
 						</ul>
@@ -65,7 +65,7 @@
 			</div>
 			
 			<form class="d-flex gap-1" role="search" method="GET" action="{{ path('app_search') }}">
-				<input class="form-control mr-2" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
+				<input class="text-input form-control mr-2" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
 				<button class="btn" type="submit">Recherchez</button>
 			</form>
 		</div>
