@@ -1,17 +1,20 @@
 {% if searchTerm is defined and searchTerm is not empty %}
-	<div class="container my-5 component">
-		<h3>Résultats pour : "{{ searchTerm }}"</h3>
+	<a href="{{path('app_home')}}">Accueil</a>
+	<div class="component m-4 text-center">
+		<h3 class="mb-4">Résultats pour : "{{ searchTerm | capitalize}}"</h3>
 		{% if results is defined and results is not empty %}
-			<ul>
-				{% for result in results %}
-					<li>
-						<a href="https://boardgamegeek.com/boardgame/{{ result.id }}" target="_blank">
-							{{ result.name }}
-							({{ result.year }})
-						</a>
-					</li>
-				{% endfor %}
-			</ul>
+			{% for result in results %}
+				<button class="btn w-100 mb-2 d-flex align-items-center justify-content-start gap-1">
+					<div class="img-container">
+						{% if result.thumbnail %}
+							<img src="{{ result.thumbnail }}" alt="Thumbnail" class="img">
+						{% endif %}
+					</div>
+					<div class="text-high text-start">
+						{{ result.name }}
+					</div>
+				</button>
+			{% endfor %}
 		{% else %}
 			<p>Aucun résultat trouvé.</p>
 		{% endif %}

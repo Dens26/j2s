@@ -23,7 +23,9 @@ class RegisterUserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
                 'attr' => [
-                    'placeholder' => 'Saisissez votre adresse email'
+                    'placeholder' => 'Saisissez votre adresse email',
+                    'class' => 'text-input',
+                    'style' => 'text-transform: lowercase;'
                 ],
                 'constraints' => [
                     new Regex('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/')
@@ -32,7 +34,8 @@ class RegisterUserType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
                 'attr' => [
-                    'placeholder' => 'Saisissez votre nom d\'utilisateur'
+                    'placeholder' => 'Saisissez votre nom d\'utilisateur',
+                    'class' => 'text-input',
                 ],
                 'constraints' => [
                     new Length([
@@ -44,7 +47,9 @@ class RegisterUserType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
-                    'placeholder' => 'Saisissez votre nom'
+                    'placeholder' => 'Saisissez votre nom',
+                    'class' => 'text-input',
+                    'style' => 'text-transform: uppercase;',
                 ],
                 'constraints' => [
                     new Length([
@@ -56,7 +61,9 @@ class RegisterUserType extends AbstractType
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
                 'attr' => [
-                    'placeholder' => 'Saisissez votre prénom'
+                    'placeholder' => 'Saisissez votre prénom',
+                    'class' => 'text-input',
+                    'style' => 'text-transform: capitalize'
                 ],
                 'constraints' => [
                     new Length([
@@ -70,7 +77,9 @@ class RegisterUserType extends AbstractType
                 'mapped' => false,
                 'first_options' => [
                     'label' => 'Mot de passe',
-                    'attr' => ['placeholder' => 'Saisissez votre mot de passe'],
+                    'attr' => [
+                        'placeholder' => 'Saisissez votre mot de passe'
+                    ],
                     'constraints' => [
                         new NotBlank(),
                         new Length([
@@ -81,18 +90,20 @@ class RegisterUserType extends AbstractType
                             'pattern' => '/^(?=.*[A-Z])(?=.*\d).{8,30}$/',
                             'message' => 'Le mot de passe doit contenir au moins une majuscule et un chiffre.'
                         ])
-                        ],
-                        'hash_property_path' => 'password'
+                    ],
+                    'hash_property_path' => 'password'
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
-                    'attr' => ['placeholder' => 'Confirmez votre mot de passe']
+                    'attr' => [
+                        'placeholder' => 'Confirmez votre mot de passe'
+                    ]
                 ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
                 'attr' => [
-                    'class' => 'btn btn-success'
+                    'class' => 'btn d-flex w-100 justify-content-center'
                 ]
             ])
         ;

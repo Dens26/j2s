@@ -36,25 +36,27 @@ class SearchController extends AbstractController
     private function fetchBoardGameGeekData(string $searchTerm): array
     {
         $url = 'https://boardgamegeek.com/xmlapi/search?search=' . urlencode($searchTerm);
+        $results = [];
 
         try {
             $response = $this->client->request('GET', $url);
             $content = $response->getContent();
-
-            // Charger et analyser le XML correctement
             $xml = new \SimpleXMLElement($content);
-            $results = [];
 
-            // Parcourir chaque élément <boardgame> du XML
+            // Parcourir chaque boardgame trouvé
             foreach ($xml->boardgame as $game) {
-                $name = (string) $game->name;
-                $yearPublished = (string) $game->yearpublished;
                 $id = (string) $game['objectid'];
+                $name = (string) $game->name;
+                $yearPublished = (string) $game->yearpublished ?: 'N/A';
+
+                // Appel API pour récupérer le thumbnail
+                $thumbnail = $this->fetchThumbnail($id);
 
                 $results[] = [
                     'id' => $id,
                     'name' => $name,
-                    'year' => $yearPublished ?: 'N/A'
+                    'year' => $yearPublished,
+                    'thumbnail' => $thumbnail
                 ];
             }
 
@@ -64,4 +66,19 @@ class SearchController extends AbstractController
             return [];
         }
     }
+
+    private function fetchThumbnail(string $gameId): ?string
+    {
+        try {
+            $url = "https://boardgamegeek.com/xmlapi/boardgame/$gameId";
+            $response = $this->client->request('GET', $url);
+            $content = $response->getContent();
+            $xml = new \SimpleXMLElement($content);
+    
+            // Le `thumbnail` est directement un enfant de `boardgame`
+            return (string) $xml->boardgame->thumbnail ?? null;
+        } catch (\Exception $e) {
+            return null; // Si l'image n'est pas trouvée, retourner null
+        }
+    }    
 }
