@@ -64,6 +64,11 @@ body {
     margin: 0 auto;
 }
 
+.form-container {
+    max-width: 576px;
+    margin: 0 auto;
+}
+
 /* UI Elements */
 .background-primary {
     background-color: var(--subtle-background);
