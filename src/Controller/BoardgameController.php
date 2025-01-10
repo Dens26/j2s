@@ -38,7 +38,7 @@ class BoardgameController extends AbstractController
         ]);
     }
 
-    #[Route('/boardgame-show/{id}/{name}', name: 'app_boardgame_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route('/boardgame-show/{id}/{name}', name: 'app_boardgame_show', requirements: ['id' => '\d+', 'name' => '.+'], methods: ['GET'])]
     public function show(int $id, string $name, Request $request): Response
     {
         $url = "https://boardgamegeek.com/xmlapi/boardgame/$id";
