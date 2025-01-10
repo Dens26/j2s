@@ -1,13 +1,9 @@
+// app.js
+
 import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
 import './styles/app.css';
 
-// Ajout du comportement du spinner
+// Ajout du comportement du spinner et description toggle
 document.addEventListener("DOMContentLoaded", function () {
     const links = document.querySelectorAll(".pagination-link");
     const overlay = document.getElementById("loading-overlay");
@@ -26,6 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
             overlay.style.display = "flex"; // Active le spinner lors de la première recherche
         });
     }
+
+    // Gestion du toggle de description en utilisant un sélecteur universel
+    document.querySelectorAll('.toggle-description-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const shortDescription = this.previousElementSibling.querySelector('.short-description');
+            const fullDescription = this.previousElementSibling.querySelector('.full-description');
+
+            if (shortDescription.style.display === "none") {
+                shortDescription.style.display = "block";
+                fullDescription.style.display = "none";
+                this.textContent = "Afficher plus";
+            } else {
+                shortDescription.style.display = "none";
+                fullDescription.style.display = "block";
+                this.textContent = "Afficher moins";
+            }
+        });
+    });
 });
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+console.log('This log comes from assets/app.js - welcome to Symfony 7 AssetMapper! 🎉');
