@@ -28,16 +28,15 @@
 		{% include 'components/navbar.html.twig' %}
 		<div class="main-container">
 			{% include 'components/searchResult.html.twig' %}
-			<div class="my-5 mx-2">
-				{% include 'partials/flash.html.twig' %}
-				<!-- Overlay global -->
-				<div id="loading-overlay" class="loading-overlay" style="display: none;">
-					<div class="spinner-border text-light" role="status">
-						<span class="visually-hidden">Chargement...</span>
-					</div>
+			{% include 'partials/flash.html.twig' %}
+
+			<!-- Overlay global -->
+			<div id="loading-overlay" class="loading-overlay" style="display: none;">
+				<div class="spinner-border text-light" role="status">
+					<span class="visually-hidden">Chargement...</span>
 				</div>
-				{% block body %}{% endblock %}
 			</div>
+			{% block body %}{% endblock %}
 		</div>
 	</body>
 </html>

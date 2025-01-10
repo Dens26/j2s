@@ -146,6 +146,27 @@ body {
     color: var(--hight-contrast-text);
 }
 
+.component-high {
+    background-color: var(--solid-background);
+    border: 1px solid var(--high-contrast-text);
+    color: var(--low-contrast-text);
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.component-high:hover {
+    background-color: var(--hovered-solid-background);
+    border-color: var(--high-contrast-text);
+    color: var(--high-contrast-text);
+}
+
+.component-high:active {
+    background-color: var(--hovered-solid-background);
+    border-color: var(--high-contrast-text);
+    color: var(--hight-contrast-text);
+}
+
 /* Dropdown */
 .dropdown-menu {
     background-color: var(--ui-element-background);
@@ -192,8 +213,7 @@ body {
 
 /* Button */
 .btn-go {
-    width: 150px;
-    height: 70px;
+    height: 75px;
 }
 
 .btn {
@@ -214,12 +234,67 @@ body {
 
 /* img */
 .img-container {
-    width: 100px;
+    display: flex;
+    justify-content: start;
+    width: 75px;
+    margin-right: 1rem;
 }
 
 .img {
     height: 50px;
 }
+
+/* Home */
+.home-container {
+    max-width: 576px;
+    margin: 0 auto;
+}
+
+
+/* app_boardgame_show */
+.app-boardgame-show-head {
+    background-color: var(--solid-background);
+}
+
+.app-boardgame-show-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--high-contrast-text);
+}
+
+.app-boardgame-show-content {
+    margin-bottom: 1rem;
+    color: var(--low-contrast-text);
+}
+
+.app-boardgame-show-illustration-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.app-boardgame-show-illustration {
+    width: 275px;
+}
+
+.app-boardgame-show-button-show {
+    background-color: transparent;
+    border: none;
+    color: var(--high-contrast-text);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    /* Aligné à droite */
+    width: 100%;
+    /* Prend toute la largeur du conteneur */
+    cursor: pointer;
+    /* Curseur pointer pour l'accessibilité */
+}
+
+
 
 /* Fonts */
 .text-regular {
@@ -254,4 +329,24 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+@media screen and (min-width: 768px) {
+
+    /* img */
+    .img-container {
+        margin-right: 2rem;
+    }
+
+    .img {
+        height: 100px;
+        width: 100%;
+    }
+
+    /* app_boardgame_show */
+    .app-boardgame-show-illustration {
+        height: 100%;
+        width: 100%;
+    }
 }
