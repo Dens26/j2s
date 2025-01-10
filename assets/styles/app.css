@@ -213,8 +213,7 @@ body {
 
 /* Button */
 .btn-go {
-    width: 150px;
-    height: 70px;
+    height: 75px;
 }
 
 .btn {
@@ -235,13 +234,21 @@ body {
 
 /* img */
 .img-container {
-    width: 100px;
+    display: flex;
+    justify-content: start;
+    width: 75px;
+    margin-right: 1rem;
 }
 
 .img {
     height: 50px;
 }
 
+/* Home */
+.home-container {
+    max-width: 576px;
+    margin: 0 auto;
+}
 
 
 /* app_boardgame_show */
@@ -251,6 +258,7 @@ body {
 
 .app-boardgame-show-name {
     font-weight: 700;
+    font-size: 1.25rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
     color: var(--high-contrast-text);
@@ -268,7 +276,7 @@ body {
 }
 
 .app-boardgame-show-illustration {
-    width: 250px;
+    width: 275px;
 }
 
 .app-boardgame-show-button-show {
@@ -278,9 +286,12 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: flex-end; /* Aligné à droite */
-    width: 100%; /* Prend toute la largeur du conteneur */
-    cursor: pointer; /* Curseur pointer pour l'accessibilité */
+    justify-content: flex-end;
+    /* Aligné à droite */
+    width: 100%;
+    /* Prend toute la largeur du conteneur */
+    cursor: pointer;
+    /* Curseur pointer pour l'accessibilité */
 }
 
 
@@ -318,4 +329,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+@media screen and (min-width: 768px) {
+
+    /* img */
+    .img-container {
+        margin-right: 2rem;
+    }
+
+    .img {
+        height: 100px;
+    }
+
+    /* app_boardgame_show */
+    .app-boardgame-show-illustration {
+        height: 100%;
+    }
 }
