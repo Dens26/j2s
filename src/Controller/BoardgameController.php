@@ -17,7 +17,7 @@ class BoardgameController extends AbstractController
         $this->client = $client;
     }
 
-    #[Route('/search', name: 'app_boardgame_search', methods: ['GET'])]
+    #[Route('/boardgame-search', name: 'app_boardgame_search', methods: ['GET'])]
     public function search(Request $request): Response
     {
         $searchTerm = $request->query->get('search', '');
@@ -35,6 +35,45 @@ class BoardgameController extends AbstractController
             'page' => $page,
             'totalPages' => $totalPages,
             'totalResults' => $totalResults
+        ]);
+    }
+
+    #[Route('/boardgame-show/{id}/{name}', name: 'app_boardgame_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function show(int $id, string $name, Request $request): Response
+    {
+        $url = "https://boardgamegeek.com/xmlapi/boardgame/$id";
+
+        $response = $this->client->request('GET', $url);
+        $content = $response->getContent();
+        $xml = new \SimpleXMLElement($content);
+
+        $results = [
+            'name' => (string)$name,
+            'names' => $xml->boardgame->name ? (array)$xml->boardgame->name : [],
+            'yearPublished' => (string)$xml->boardgame->yearpublished ?? null,
+            'minPlayers' => (string)$xml->boardgame->minplayers ?? null,
+            'maxPlayers' => (string)$xml->boardgame->maxplayers ?? null,
+            'playingTime' => (string)$xml->boardgame->playingtime ?? null,
+            'minPlayTime' => (string)$xml->boardgame->minplaytime ?? null,
+            'maxPlayTime' => (string)$xml->boardgame->maxplaytime ?? null,
+            'age' => (string)$xml->boardgame->age ?? null,
+            'description' => (string)$xml->boardgame->description ?? null,
+            'thumbnail' => (string)$xml->boardgame->thumbnail ?? null,
+            'image' => (string)$xml->boardgame->image ?? null,
+            'publishers' => $xml->boardgame->boardgamepublisher ? (array)$xml->boardgame->boardgamepublisher : [],
+            'versions' => $xml->boardgame->boardgameversion ? (array)$xml->boardgame->boardgameversion : [],
+            'artists' => $xml->boardgame->boardgameartist ? (array)$xml->boardgame->boardgameartist : [],
+            'categories' => $xml->boardgame->boardgamecategory ? (array)$xml->boardgame->boardgamecategory : [],
+            'subdomain' => $xml->boardgame->boardgamesubdomain ? (array)$xml->boardgame->boardgamesubdomain : [],
+            'mechanic' => $xml->boardgame->boardgamemechanic ? (array)$xml->boardgame->boardgamemechanic : [],
+            'designer' => $xml->boardgame->boardgamedesigner ? (array)$xml->boardgame->boardgamedesigner : [],
+        ];
+        /*
+            Translate description with DeepL API Free
+        */
+
+        return $this->render('boardgame/show.html.twig', [
+            'results' => $results
         ]);
     }
 
@@ -70,7 +109,6 @@ class BoardgameController extends AbstractController
                     $results[] = [
                         'id' => $id,
                         'name' => $name,
-                        'year' => $yearPublished,
                         'thumbnail' => $thumbnail
                     ];
                 }

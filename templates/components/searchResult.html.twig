@@ -14,7 +14,7 @@
 
         {% if results is defined and results is not empty %}
             {% for result in results %}
-                <button class="btn w-100 mb-2 d-flex align-items-center justify-content-start gap-1">
+                <a href="{{ path('app_boardgame_show', {id: result.id, name: result.name})}}" class="btn w-100 mb-2 d-flex align-items-center justify-content-start gap-1">
                     <div class="img-container">
                         {% if result.thumbnail %}
                             <img src="{{ result.thumbnail }}" alt="Thumbnail" class="img" style="max-width: 80px;">
@@ -23,7 +23,7 @@
                     <div class="text-high text-start">
                         {{ result.name }}
                     </div>
-                </button>
+                </a>
             {% endfor %}
         {% else %}
             <p>Aucun résultat trouvé.</p>
