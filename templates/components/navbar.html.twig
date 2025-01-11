@@ -46,24 +46,24 @@
 						<ul class="dropdown-menu shadow">
 							{% if app.user %}
 								<li>
-									<a class="nav-link mx-2" href="#">Mon profil</a>
+									<a class="nav-link mx-2" href="{{path('app_account')}}">Mon profil</a>
 								</li>
 								<li>
-									<a class="nav-link mx-2" href="#">Déconnexion</a>
+									<a class="nav-link mx-2" href="{{path('app_logout')}}">Déconnexion</a>
 								</li>
 							{% else %}
 								<li>
 									<a class="nav-link mx-2" href="{{path('app_register')}}">Inscription</a>
 								</li>
 								<li>
-									<a class="nav-link mx-2" href="#">Connexion</a>
+									<a class="nav-link mx-2" href="{{path('app_login')}}">Connexion</a>
 								</li>
 							{% endif %}
 						</ul>
 					</li>
 				</ul>
 			</div>
-			
+
 			<form class="d-flex gap-1" role="search" method="GET" action="{{ path('app_boardgame_search') }}">
 				<input class="text-input form-control mr-2" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
 				<button class="btn" type="submit">Recherchez</button>
