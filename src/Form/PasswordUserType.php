@@ -8,7 +8,12 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherAwareInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -18,7 +23,7 @@ class PasswordUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('actualPassword', PasswordType::class, [
+            ->add('currentPassword', PasswordType::class, [
                 'label' => 'Mot de passe actuel',
                 'mapped' => false,
                 'attr' => [
@@ -70,6 +75,18 @@ class PasswordUserType extends AbstractType
                     'class' => 'btn d-flex w-100 justify-content-center'
                 ]
             ])
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                $form = $event->getForm();
+                $user = $form->getConfig()->getOptions()['data'];
+                $passwordHasher = $form->getConfig()->getOptions()['passwordHasher'];
+                $isPasswordValid = $passwordHasher->isPasswordValid(
+                    $user,
+                    $form->get('currentPassword')->getData()
+                );
+                if (!$isPasswordValid){
+                    $form->get('currentPassword')->addError(new FormError('Mot de passe incorrect'));
+                }
+            })
         ;
     }
 
@@ -77,6 +94,7 @@ class PasswordUserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'passwordHasher' => null
         ]);
     }
 }

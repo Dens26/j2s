@@ -40,24 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-
-    document.querySelectorAll('.toggle-changepassword-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const container = this.closest('div');
-            const hiddenForm = container.querySelector('.hidden-form');
-            const showForm = container.querySelector('.show-form');
-
-            if (hiddenForm.style.display === "none" || hiddenForm.style.display === "") {
-                hiddenForm.style.display = "block";
-                showForm.style.display = "none";
-            } else {
-                hiddenForm.style.display = "none";
-                showForm.style.display = "block";
-            }
-        });
-    });
-
-
 });
 
 console.log('This log comes from assets/app.js - welcome to Symfony 7 AssetMapper! 🎉');

@@ -15,34 +15,20 @@
 
 			<p class="subtitle">Information du compte</p>
 
-			<p class="m-0 text-high">Adresse mail du compte</p>
-			<p>{{app.user.email}}</p>
-
-			<p class="m-0 text-high">Username</p>
-			<p>{{app.user.username}}</p>
-
 			<p class="m-0 text-high">Nom complet</p>
 			<p>{{app.user.firstname}}
 				{{app.user.lastname}}</p>
 
-			{# <p class="m-0 text-high">Modifiez le mot de passe</p>
-												<div class="component">
-													{{ form(form)}}
-													</div>
-												</div> #}
+			<p class="m-0 text-high">Username</p>
+			<p>{{app.user.username}}</p>
 
-			<div>
-				<button class="toggle-changepassword-button app-account-changepassword-button">
-                    Cliquez ici pour modifier le mot de passe ...
-                </button>
-				<div class="show-form m-0">
-				</div>
-				<div class="hidden-form m-0" style="display: none;">
-					<div class="component">
-						{{ form(form) }}
-						</div>
-					</div>
-				</div>
+			<p class="m-0 text-high">Adresse mail du compte</p>
+			<p>{{app.user.email}}</p>
 
+			<p class="m-0 text-high">Modifiez votre mot de passe :</p>
+			<div class="component">
+				{{ form(form)}}
+				</div>
 			</div>
+
 		{% endblock %}
