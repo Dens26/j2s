@@ -232,6 +232,11 @@ body {
     text-align: center;
 }
 
+.subtitle {
+    font-size: 1.5rem;
+    color: var(--high-contrast-text);
+}
+
 /* img */
 .img-container {
     display: flex;
@@ -287,11 +292,32 @@ body {
     padding: 0;
     display: flex;
     justify-content: flex-end;
-    /* Aligné à droite */
     width: 100%;
-    /* Prend toute la largeur du conteneur */
     cursor: pointer;
-    /* Curseur pointer pour l'accessibilité */
+}
+
+.app-account-changepassword-button{
+    background-color: transparent;
+    border: none;
+    color: var(--high-contrast-text);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    cursor: pointer;
+}
+
+.app-account-changepassword-button:hover{
+    background-color: transparent;
+    border: none;
+    color: var(--low-contrast-text);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    cursor: pointer;
 }
 
 
