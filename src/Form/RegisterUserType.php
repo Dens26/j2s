@@ -24,7 +24,6 @@ class RegisterUserType extends AbstractType
                 'label' => 'Adresse email',
                 'attr' => [
                     'placeholder' => 'Saisissez votre adresse email',
-                    'class' => 'text-input',
                     'style' => 'text-transform: lowercase;'
                 ],
                 'constraints' => [
@@ -34,8 +33,7 @@ class RegisterUserType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
                 'attr' => [
-                    'placeholder' => 'Saisissez votre nom d\'utilisateur',
-                    'class' => 'text-input',
+                    'placeholder' => 'Saisissez votre nom d\'utilisateur'
                 ],
                 'constraints' => [
                     new Length([
@@ -48,7 +46,6 @@ class RegisterUserType extends AbstractType
                 'label' => 'Nom',
                 'attr' => [
                     'placeholder' => 'Saisissez votre nom',
-                    'class' => 'text-input',
                     'style' => 'text-transform: uppercase;',
                 ],
                 'constraints' => [
@@ -62,7 +59,6 @@ class RegisterUserType extends AbstractType
                 'label' => 'Prénom',
                 'attr' => [
                     'placeholder' => 'Saisissez votre prénom',
-                    'class' => 'text-input',
                     'style' => 'text-transform: capitalize'
                 ],
                 'constraints' => [
