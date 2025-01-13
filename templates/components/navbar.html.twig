@@ -17,21 +17,21 @@
 					</a>
 					<ul class="dropdown-menu shadow">
 						<li>
-							<a class="dropdown-item" href="#">🎲 Trouve le jeu mystère</a>
+							<a class="dropdown-item" href="{{path('app_find_the_game')}}">🎲 Trouve le jeu mystère</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="#">🏆 Les défis de Sorralli</a>
-						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li>
-							<a class="dropdown-item" href="#">📊 Classement</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">📈 Mes statistiques</a>
+							<a class="dropdown-item" href="{{path('app_old_challenges')}}">🏆 Les défis de Sorralli</a>
 						</li>
 						<li><hr class="dropdown-divider"></li>
 						<li>
-							<a class="dropdown-item" href="#">❓ Aide</a>
+							<a class="dropdown-item" href="{{path('app_ranking')}}">📊 Classement</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{path('app_statistics')}}">📈 Mes statistiques</a>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-item" href="{{path('app_help')}}">❓ Aide</a>
 						</li>
 					</ul>
 				</li>
@@ -46,24 +46,24 @@
 						<ul class="dropdown-menu shadow">
 							{% if app.user %}
 								<li>
-									<a class="nav-link mx-2" href="#">Mon profil</a>
+									<a class="nav-link mx-2" href="{{path('app_account')}}">Mon profil</a>
 								</li>
 								<li>
-									<a class="nav-link mx-2" href="#">Déconnexion</a>
+									<a class="nav-link mx-2" href="{{path('app_logout')}}">Déconnexion</a>
 								</li>
 							{% else %}
 								<li>
 									<a class="nav-link mx-2" href="{{path('app_register')}}">Inscription</a>
 								</li>
 								<li>
-									<a class="nav-link mx-2" href="#">Connexion</a>
+									<a class="nav-link mx-2" href="{{path('app_login')}}">Connexion</a>
 								</li>
 							{% endif %}
 						</ul>
 					</li>
 				</ul>
 			</div>
-			
+
 			<form class="d-flex gap-1" role="search" method="GET" action="{{ path('app_boardgame_search') }}">
 				<input class="text-input form-control mr-2" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
 				<button class="btn" type="submit">Recherchez</button>
