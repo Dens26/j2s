@@ -32,6 +32,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/account, roles: ROLE_USER }
+        - { path: ^/findthegame, roles: ROLE_USER }
+        - { path: ^/oldchallenges, roles: ROLE_USER }
+        - { path: ^/ranking, roles: ROLE_USER }
+        - { path: ^/statistics, roles: ROLE_USER }
+
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
