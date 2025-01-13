@@ -59,6 +59,10 @@ body {
     background-color: var(--app-background);
 }
 
+a:hover{
+    color: var(--low-contrast-text);
+}
+
 .main-container {
     max-width: 992px;
     margin: 0 auto;
@@ -230,6 +234,8 @@ body {
 .title {
     font-size: 2rem;
     text-align: center;
+    font-weight: bold;
+    color: var(--high-contrast-text);
 }
 
 .subtitle {
@@ -296,7 +302,7 @@ body {
     cursor: pointer;
 }
 
-.app-account-changepassword-button{
+.app-account-changepassword-button {
     background-color: transparent;
     border: none;
     color: var(--high-contrast-text);
@@ -308,7 +314,7 @@ body {
     cursor: pointer;
 }
 
-.app-account-changepassword-button:hover{
+.app-account-changepassword-button:hover {
     background-color: transparent;
     border: none;
     color: var(--low-contrast-text);
@@ -323,18 +329,31 @@ body {
 
 
 /* Fonts */
-.text-regular {
-    font-family: "Oleo Script Swash Caps", serif;
+.pt-serif-regular {
+    font-family: "PT Serif", serif;
     font-weight: 400;
     font-style: normal;
 }
 
-.text-bold {
-    font-family: "Oleo Script Swash Caps", serif;
+.pt-serif-bold {
+    font-family: "PT Serif", serif;
     font-weight: 700;
     font-style: normal;
 }
 
+.pt-serif-regular-italic {
+    font-family: "PT Serif", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.pt-serif-bold-italic {
+    font-family: "PT Serif", serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* Text color */
 .text-low {
     color: var(--low-contrast-text);
 }
