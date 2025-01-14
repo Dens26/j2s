@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\security;
 
 use App\Classe\Mail;
 use App\Entity\User;
@@ -45,7 +45,7 @@ class PasswordResetController extends AbstractController
             }
             $this->addFlash('danger', 'L\'adresse e-mail que vous avez renseignée ne correspond à aucun compte existant');
         }
-        return $this->render('password_reset/request.html.twig', [
+        return $this->render('security/password_reset/request.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -75,7 +75,7 @@ class PasswordResetController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            return $this->render('password_reset/confirm.html.twig', [
+            return $this->render('security/password_reset/confirm.html.twig', [
                 'form' => $form->createView()
             ]);
         }

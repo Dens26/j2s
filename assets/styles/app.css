@@ -50,7 +50,7 @@
 
 /* Base Styles */
 * {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--low-contrast-text);
     transition: background-color 0.3s, color 0.3s;
 }

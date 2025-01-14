@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\security;
 
 use App\Entity\User;
 use App\Form\RegisterUserType;
@@ -33,7 +33,7 @@ class RegisterController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        return $this->render('register/index.html.twig', [
+        return $this->render('security/register/index.html.twig', [
             'form' => $form->createView()
         ]);
     }

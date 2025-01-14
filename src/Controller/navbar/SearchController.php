@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\navbar;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class BoardgameController extends AbstractController
+class SearchController extends AbstractController
 {
     private HttpClientInterface $client;
 
@@ -72,7 +72,7 @@ class BoardgameController extends AbstractController
             Translate description with DeepL API Free
         */
 
-        return $this->render('boardgame/show.html.twig', [
+        return $this->render('pages/search/show.html.twig', [
             'results' => $results
         ]);
     }
