@@ -67,6 +67,10 @@ class SearchController extends AbstractController
             'subdomain' => $xml->boardgame->boardgamesubdomain ? (array)$xml->boardgame->boardgamesubdomain : [],
             'mechanic' => $xml->boardgame->boardgamemechanic ? (array)$xml->boardgame->boardgamemechanic : [],
             'designer' => $xml->boardgame->boardgamedesigner ? (array)$xml->boardgame->boardgamedesigner : [],
+            'graphicDesigner' => $xml->boardgame->boardgamegraphicdesigner ? (array)$xml->boardgame->boardgamegraphicdesigner : [],
+            'developer' => $xml->boardgame->boardgamedeveloper ? (array)$xml->boardgame->boardgamedeveloper : [],
+            'honor' => $xml->boardgame->boardgamehonor ? (array)$xml->boardgame->boardgamehonor : [],
+            'family' => $xml->boardgame->boardgamefamily ? (array)$xml->boardgame->boardgamefamily : [],
         ];
         /*
             Translate description with DeepL API Free
