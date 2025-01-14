@@ -103,6 +103,12 @@ class Game
     #[ORM\ManyToMany(targetEntity: Publisher::class, mappedBy: 'game')]
     private Collection $publishers;
 
+    /**
+     * @var Collection<int, GraphicDesigner>
+     */
+    #[ORM\ManyToMany(targetEntity: GraphicDesigner::class, mappedBy: 'game')]
+    private Collection $graphicDesigners;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -114,6 +120,7 @@ class Game
         $this->artists = new ArrayCollection();
         $this->honors = new ArrayCollection();
         $this->publishers = new ArrayCollection();
+        $this->graphicDesigners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -491,6 +498,33 @@ class Game
     {
         if ($this->publishers->removeElement($publisher)) {
             $publisher->removeGame($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GraphicDesigner>
+     */
+    public function getGraphicDesigners(): Collection
+    {
+        return $this->graphicDesigners;
+    }
+
+    public function addGraphicDesigner(GraphicDesigner $graphicDesigner): static
+    {
+        if (!$this->graphicDesigners->contains($graphicDesigner)) {
+            $this->graphicDesigners->add($graphicDesigner);
+            $graphicDesigner->addGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGraphicDesigner(GraphicDesigner $graphicDesigner): static
+    {
+        if ($this->graphicDesigners->removeElement($graphicDesigner)) {
+            $graphicDesigner->removeGame($this);
         }
 
         return $this;

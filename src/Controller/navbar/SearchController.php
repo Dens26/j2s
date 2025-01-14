@@ -2,6 +2,10 @@
 
 namespace App\Controller\navbar;
 
+use App\Entity\Game;
+use App\Entity\Publisher;
+use App\Repository\GameRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,42 +43,81 @@ class SearchController extends AbstractController
     }
 
     #[Route('/boardgame-show/{id}/{name}', name: 'app_boardgame_show', requirements: ['id' => '\d+', 'name' => '.+'], methods: ['GET'])]
-    public function show(int $id, string $name, Request $request): Response
+    public function show(int $id, string $name, EntityManagerInterface $entityManager): Response
     {
-        $url = "https://boardgamegeek.com/xmlapi/boardgame/$id";
+        // Vérification si le jeu existe en base de données
+        $game = $entityManager->getRepository(GameRepository::class)->findOneBy(['gameId' => $id]);
+        if ($game) {
+        }
 
+        // Le jeu n'existe pas : Appel à l'API
+        $url = "https://boardgamegeek.com/xmlapi/boardgame/$id";
         $response = $this->client->request('GET', $url);
         $content = $response->getContent();
         $xml = new \SimpleXMLElement($content);
 
+        // Mapping des données du jeu
         $results = [
             'name' => (string)$name,
-            'names' => $xml->boardgame->name ? (array)$xml->boardgame->name : [],
+            'names' => $xml->boardgame->name ? json_encode((array)$xml->boardgame->name) : '[]',
             'yearPublished' => (string)$xml->boardgame->yearpublished ?? null,
             'minPlayers' => (string)$xml->boardgame->minplayers ?? null,
             'maxPlayers' => (string)$xml->boardgame->maxplayers ?? null,
             'playingTime' => (string)$xml->boardgame->playingtime ?? null,
-            'minPlayTime' => (string)$xml->boardgame->minplaytime ?? null,
-            'maxPlayTime' => (string)$xml->boardgame->maxplaytime ?? null,
+            // 'minPlayTime' => (string)$xml->boardgame->minplaytime ?? null,
+            // 'maxPlayTime' => (string)$xml->boardgame->maxplaytime ?? null,
             'age' => (string)$xml->boardgame->age ?? null,
             'description' => (string)$xml->boardgame->description ?? null,
             'thumbnail' => (string)$xml->boardgame->thumbnail ?? null,
             'image' => (string)$xml->boardgame->image ?? null,
             'publishers' => $xml->boardgame->boardgamepublisher ? (array)$xml->boardgame->boardgamepublisher : [],
-            'versions' => $xml->boardgame->boardgameversion ? (array)$xml->boardgame->boardgameversion : [],
+            // 'versions' => $xml->boardgame->boardgameversion ? (array)$xml->boardgame->boardgameversion : [],
             'artists' => $xml->boardgame->boardgameartist ? (array)$xml->boardgame->boardgameartist : [],
             'categories' => $xml->boardgame->boardgamecategory ? (array)$xml->boardgame->boardgamecategory : [],
-            'subdomain' => $xml->boardgame->boardgamesubdomain ? (array)$xml->boardgame->boardgamesubdomain : [],
-            'mechanic' => $xml->boardgame->boardgamemechanic ? (array)$xml->boardgame->boardgamemechanic : [],
-            'designer' => $xml->boardgame->boardgamedesigner ? (array)$xml->boardgame->boardgamedesigner : [],
-            'graphicDesigner' => $xml->boardgame->boardgamegraphicdesigner ? (array)$xml->boardgame->boardgamegraphicdesigner : [],
-            'developer' => $xml->boardgame->boardgamedeveloper ? (array)$xml->boardgame->boardgamedeveloper : [],
+            'subdomains' => $xml->boardgame->boardgamesubdomain ? (array)$xml->boardgame->boardgamesubdomain : [],
+            'mechanics' => $xml->boardgame->boardgamemechanic ? (array)$xml->boardgame->boardgamemechanic : [],
+            'designers' => $xml->boardgame->boardgamedesigner ? (array)$xml->boardgame->boardgamedesigner : [],
+            'graphicDesigners' => $xml->boardgame->boardgamegraphicdesigner ? (array)$xml->boardgame->boardgamegraphicdesigner : [],
+            'developers' => $xml->boardgame->boardgamedeveloper ? (array)$xml->boardgame->boardgamedeveloper : [],
             'honor' => $xml->boardgame->boardgamehonor ? (array)$xml->boardgame->boardgamehonor : [],
-            'family' => $xml->boardgame->boardgamefamily ? (array)$xml->boardgame->boardgamefamily : [],
+            'families' => $xml->boardgame->boardgamefamily ? (array)$xml->boardgame->boardgamefamily : [],
         ];
         /*
             Translate description with DeepL API Free
         */
+
+        // Création du jeu
+        $game = new Game();
+        $game
+        ->setGameId($id)
+        ->setName($results['name'])
+        ->setAllNames($results['names'])
+        ->setYearPublished($results['yearPublished'])
+        ->setMinPlayers($results['minPlayers'])
+        ->setMaxPlayers($results['maxPlayers'])
+        ->setPlayingTime($results['playingTime'])
+        ->setAge($results['age'])
+        ->setDescription($results['description'])
+        ->setThumbnail($results['thumbnail'])
+        ->setImage($results['image'])
+        ;
+
+        $entityManager->persist($game);
+
+        // Gestion des table liées
+        $this->handleRelateData($results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager);
+        $this->handleRelateData($results['artists'], $game, Publisher::class, 'addArtist', $entityManager);
+        $this->handleRelateData($results['categories'], $game, Publisher::class, 'addCategory', $entityManager);
+        $this->handleRelateData($results['subdomains'], $game, Publisher::class, 'addSubdomain', $entityManager);
+        $this->handleRelateData($results['mechanics'], $game, Publisher::class, 'addMechanic', $entityManager);
+        $this->handleRelateData($results['designers'], $game, Publisher::class, 'addDesigner', $entityManager);
+        $this->handleRelateData($results['graphicDesigners'], $game, Publisher::class, 'addGraphicDesigner', $entityManager);
+        $this->handleRelateData($results['developers'], $game, Publisher::class, 'addDeveloper', $entityManager);
+        $this->handleRelateData($results['honor'], $game, Publisher::class, 'addHonor', $entityManager);
+        $this->handleRelateData($results['families'], $game, Publisher::class, 'addFamily', $entityManager);
+
+        // Sauvegarde des données
+        $entityManager->flush();
 
         return $this->render('pages/search/show.html.twig', [
             'results' => $results
@@ -134,7 +177,6 @@ class SearchController extends AbstractController
         }
     }
 
-
     private function fetchThumbnail(string $gameId): ?string
     {
         try {
@@ -148,5 +190,53 @@ class SearchController extends AbstractController
         } catch (\Exception $e) {
             return null; // Si l'image n'est pas trouvée, retourner null
         }
+    }
+
+    private function formatGame(Game $game) : array
+    {
+        return [
+            'id' => $game->getGameId(),
+            'name' => $game->getName(),
+            'names' => json_decode($game->getAllNames(), true) ?? [],
+            'yearPublished' => $game->getYearPublished(),
+            'minPlayers' => $game->getMinPlayers(),
+            'maxPlayers' => $game->getMaxPlayers(),
+            'playingTime' => $game->getPlayingTime(),
+            'age' => $game->getAge(),
+            'description' => $game->getDescription(),
+            'thumbnail' => $game->getThumbnail(),
+            'image' => $game->getImage(),
+            'publishers' => $game->getPublishers()->map(fn($publisher) => $publisher->getName())->toArray(),
+            'artists' => $game->getArtists()->map(fn($artist) => $artist->getName())->toArray(),
+            'categories' => $game->getCategories()->map(fn($category) => $category->getName())->toArray(),
+            'subdomains' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'mechanics' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'designers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'graphicDesigners' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'developers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'honors' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'families' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+        ];
+    }
+
+    private function handleRelateData(array $data, Game $game, string $entityClass, string $addMethod, EntityManagerInterface $entityManager) :void
+    {
+        foreach ($data as $item){
+            // Vérification si l'élément existe
+            $relatedEntity = $entityManager->getRepository($entityClass)->findOneBy(['name' => $item]);
+
+            // L'item n'existe pas
+            if (!$relatedEntity){
+                $relatedEntity = new $entityClass();
+                $relatedEntity->setName($item);
+                $entityManager->persist($relatedEntity);
+            }
+
+            // Ajout de l'entité au jeu
+            $game->{$addMethod}($relatedEntity);
+        }
+
+        // Sauvegarde des changements
+        $entityManager->flush();
     }
 }
