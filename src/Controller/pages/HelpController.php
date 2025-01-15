@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\pages;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +11,7 @@ class HelpController extends AbstractController
     #[Route('/help', name: 'app_help')]
     public function index(): Response
     {
-        return $this->render('help/index.html.twig', [
+        return $this->render('pages/help/index.html.twig', [
             'controller_name' => 'HelpController',
         ]);
     }

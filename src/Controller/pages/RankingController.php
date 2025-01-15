@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\pages;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +11,7 @@ class RankingController extends AbstractController
     #[Route('/ranking', name: 'app_ranking')]
     public function index(): Response
     {
-        return $this->render('ranking/index.html.twig', [
+        return $this->render('pages/ranking/index.html.twig', [
             'controller_name' => 'RankingController',
         ]);
     }

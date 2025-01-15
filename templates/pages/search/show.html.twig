@@ -38,9 +38,9 @@
 				<div class="d-flex gap-2">
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark">Créateurs du jeu :</div>
+							<div class="text-dark fw-bold">Créateurs du jeu :</div>
 							{% if results.artists|length >0 %}
-								{% for i in 0..(results.artists|length -2) %}
+								{% for i in 0..(results.artists|length -1) %}
 									<div class="text-dark">-{{ results.artists[i] }}</div>
 								{% endfor %}
 							{% endif %}
@@ -49,10 +49,34 @@
 
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark">Designer du jeu :</div>
-							{% if results.designer|length >0 %}
-								{% for i in 0..(results.designer|length -2) %}
-									<div class="text-dark">-{{ results.designer[i] }}</div>
+							<div class="text-dark fw-bold">Designers du jeu :</div>
+							{% if results.designers|length >0 %}
+								{% for i in 0..(results.designers|length -1) %}
+									<div class="text-dark">-{{ results.designers[i] }}</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex gap-2 mt-2">
+					<div class="component-high d-flex w-50">
+						<div class="app-boardgame-show-content">
+							<div class="text-dark fw-bold">Développeurs du jeu :</div>
+							{% if results.developers|length >0 %}
+								{% for i in 0..(results.developers|length -1) %}
+									<div class="text-dark">-{{ results.developers[i] }}</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="component-high d-flex w-50">
+						<div class="app-boardgame-show-content">
+							<div class="text-dark fw-bold">Designers graphique :</div>
+							{% if results.graphicDesigners|length >0 %}
+								{% for i in 0..(results.graphicDesigners|length -1) %}
+									<div class="text-dark">-{{ results.graphicDesigners[i] }}</div>
 								{% endfor %}
 							{% endif %}
 						</div>
@@ -68,7 +92,7 @@
 			<div class="text-high fw-bold">Catégorie :</div>
 			--
 			{% if results.categories|length >0 %}
-				{% for i in 0..(results.categories|length -2) %}
+				{% for i in 0..(results.categories|length -1) %}
 					{{ results.categories[i] }}
 					--
 				{% endfor %}
@@ -78,10 +102,10 @@
 		<div class="app-boardgame-show-content">
 			<div class="text-high fw-bold">Sous domaine :</div>
 			--
-			{% if results.subdomain|length >0 %}
+			{% if results.subdomains|length >0 %}
 
-				{% for i in 0..(results.subdomain|length -2) %}
-					{{ results.subdomain[i] }}
+				{% for i in 0..(results.subdomains|length -1) %}
+					{{ results.subdomains[i] }}
 					--
 				{% endfor %}
 			{% endif %}
@@ -90,10 +114,10 @@
 		<div class="app-boardgame-show-content">
 			<div class="text-high fw-bold">Style de jeu :</div>
 			--
-			{% if results.mechanic|length >0 %}
+			{% if results.mechanics|length >0 %}
 
-				{% for i in 0..(results.mechanic|length -2) %}
-					{{ results.mechanic[i] }}
+				{% for i in 0..(results.mechanics|length -1) %}
+					{{ results.mechanics[i] }}
 					--
 				{% endfor %}
 			{% endif %}
@@ -109,10 +133,21 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
+			<div class="text-high fw-bold">Récompenses :</div>
+			--
+			{% if results.honors|length >0 %}
+				{% for i in 0..(results.honors|length -1) %}
+					{{ results.honors[i] }}
+					--
+				{% endfor %}
+			{% endif %}
+		</div>
+
+		<div class="app-boardgame-show-content">
 			<div class="text-high fw-bold">Editeurs :</div>
 			--
 			{% if results.publishers|length >0 %}
-				{% for i in 0..(results.publishers|length -2) %}
+				{% for i in 0..(results.publishers|length -1) %}
 					{{ results.publishers[i] }}
 					--
 				{% endfor %}
