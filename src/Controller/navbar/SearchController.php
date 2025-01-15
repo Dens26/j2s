@@ -2,9 +2,17 @@
 
 namespace App\Controller\navbar;
 
+use App\Entity\Artist;
+use App\Entity\Category;
+use App\Entity\Designer;
+use App\Entity\Developer;
+use App\Entity\Family;
 use App\Entity\Game;
+use App\Entity\GraphicDesigner;
+use App\Entity\Honor;
+use App\Entity\Mechanic;
 use App\Entity\Publisher;
-use App\Repository\GameRepository;
+use App\Entity\Subdomain;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,8 +54,11 @@ class SearchController extends AbstractController
     public function show(int $id, string $name, EntityManagerInterface $entityManager): Response
     {
         // Vérification si le jeu existe en base de données
-        $game = $entityManager->getRepository(GameRepository::class)->findOneBy(['gameId' => $id]);
+        $game = $entityManager->getRepository(Game::class)->findOneBy(['gameId' => $id]);
         if ($game) {
+            return $this->render('pages/search/show.html.twig', [
+                'results' => $this->formatGame($game)
+            ]);
         }
 
         // Le jeu n'existe pas : Appel à l'API
@@ -59,7 +70,7 @@ class SearchController extends AbstractController
         // Mapping des données du jeu
         $results = [
             'name' => (string)$name,
-            'names' => $xml->boardgame->name ? json_encode((array)$xml->boardgame->name) : '[]',
+            'names' => $xml->boardgame->name ? json_encode($this->filterNames((array)$xml->boardgame->name)) : '[]',
             'yearPublished' => (string)$xml->boardgame->yearpublished ?? null,
             'minPlayers' => (string)$xml->boardgame->minplayers ?? null,
             'maxPlayers' => (string)$xml->boardgame->maxplayers ?? null,
@@ -79,7 +90,7 @@ class SearchController extends AbstractController
             'designers' => $xml->boardgame->boardgamedesigner ? (array)$xml->boardgame->boardgamedesigner : [],
             'graphicDesigners' => $xml->boardgame->boardgamegraphicdesigner ? (array)$xml->boardgame->boardgamegraphicdesigner : [],
             'developers' => $xml->boardgame->boardgamedeveloper ? (array)$xml->boardgame->boardgamedeveloper : [],
-            'honor' => $xml->boardgame->boardgamehonor ? (array)$xml->boardgame->boardgamehonor : [],
+            'honors' => $xml->boardgame->boardgamehonor ? (array)$xml->boardgame->boardgamehonor : [],
             'families' => $xml->boardgame->boardgamefamily ? (array)$xml->boardgame->boardgamefamily : [],
         ];
         /*
@@ -89,41 +100,56 @@ class SearchController extends AbstractController
         // Création du jeu
         $game = new Game();
         $game
-        ->setGameId($id)
-        ->setName($results['name'])
-        ->setAllNames($results['names'])
-        ->setYearPublished($results['yearPublished'])
-        ->setMinPlayers($results['minPlayers'])
-        ->setMaxPlayers($results['maxPlayers'])
-        ->setPlayingTime($results['playingTime'])
-        ->setAge($results['age'])
-        ->setDescription($results['description'])
-        ->setThumbnail($results['thumbnail'])
-        ->setImage($results['image'])
+            ->setGameId($id)
+            ->setName($results['name'])
+            ->setAllNames($results['names'])
+            ->setYearPublished($results['yearPublished'])
+            ->setMinPlayers($results['minPlayers'])
+            ->setMaxPlayers($results['maxPlayers'])
+            ->setPlayingTime($results['playingTime'])
+            ->setAge($results['age'])
+            ->setDescription($results['description'])
+            ->setThumbnail($results['thumbnail'])
+            ->setImage($results['image'])
         ;
 
         $entityManager->persist($game);
 
         // Gestion des table liées
         $this->handleRelateData($results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager);
-        $this->handleRelateData($results['artists'], $game, Publisher::class, 'addArtist', $entityManager);
-        $this->handleRelateData($results['categories'], $game, Publisher::class, 'addCategory', $entityManager);
-        $this->handleRelateData($results['subdomains'], $game, Publisher::class, 'addSubdomain', $entityManager);
-        $this->handleRelateData($results['mechanics'], $game, Publisher::class, 'addMechanic', $entityManager);
-        $this->handleRelateData($results['designers'], $game, Publisher::class, 'addDesigner', $entityManager);
-        $this->handleRelateData($results['graphicDesigners'], $game, Publisher::class, 'addGraphicDesigner', $entityManager);
-        $this->handleRelateData($results['developers'], $game, Publisher::class, 'addDeveloper', $entityManager);
-        $this->handleRelateData($results['honor'], $game, Publisher::class, 'addHonor', $entityManager);
-        $this->handleRelateData($results['families'], $game, Publisher::class, 'addFamily', $entityManager);
+        $this->handleRelateData($results['artists'], $game, Artist::class, 'addArtist', $entityManager);
+        $this->handleRelateData($results['categories'], $game, Category::class, 'addCategory', $entityManager);
+        $this->handleRelateData($results['subdomains'], $game, Subdomain::class, 'addSubdomain', $entityManager);
+        $this->handleRelateData($results['mechanics'], $game, Mechanic::class, 'addMechanic', $entityManager);
+        $this->handleRelateData($results['designers'], $game, Designer::class, 'addDesigner', $entityManager);
+        $this->handleRelateData($results['graphicDesigners'], $game, GraphicDesigner::class, 'addGraphicDesigner', $entityManager);
+        $this->handleRelateData($results['developers'], $game, Developer::class, 'addDeveloper', $entityManager);
+        $this->handleRelateData($results['honors'], $game, Honor::class, 'addHonor', $entityManager);
+        $this->handleRelateData($results['families'], $game, Family::class, 'addFamily', $entityManager);
 
         // Sauvegarde des données
         $entityManager->flush();
-
         return $this->render('pages/search/show.html.twig', [
-            'results' => $results
+            'results' => $this->formatGame($game)
         ]);
     }
 
+    private function filterNames(array $data): array
+    {
+        return array_filter(
+            array_map(
+                fn($item) => is_object($item) ? (string)$item : $item,
+                $data
+            ),
+            fn($item) => is_string($item) && $this->isLatinString($item)
+        );
+    }
+
+    private function isLatinString(string $string): bool
+    {
+        // Vérifie si la chaîne contient uniquement des caractères latins, espaces ou ponctuations simples
+        return preg_match('/^[a-zA-Z0-9\s\p{P}]+$/u', $string);
+    }
 
     private function fetchBoardGameGeekData(string $searchTerm, int $page, int $resultsPerPage): array
     {
@@ -192,7 +218,7 @@ class SearchController extends AbstractController
         }
     }
 
-    private function formatGame(Game $game) : array
+    private function formatGame(Game $game): array
     {
         return [
             'id' => $game->getGameId(),
@@ -219,14 +245,17 @@ class SearchController extends AbstractController
         ];
     }
 
-    private function handleRelateData(array $data, Game $game, string $entityClass, string $addMethod, EntityManagerInterface $entityManager) :void
+    private function handleRelateData(array $data, Game $game, string $entityClass, string $addMethod, EntityManagerInterface $entityManager): void
     {
-        foreach ($data as $item){
+        // Filtrage des données pour ne garder que les valeurs de type string
+        $filteredData = array_filter($data, fn($item) => is_string($item));
+
+        foreach ($filteredData as $item) {
             // Vérification si l'élément existe
             $relatedEntity = $entityManager->getRepository($entityClass)->findOneBy(['name' => $item]);
 
             // L'item n'existe pas
-            if (!$relatedEntity){
+            if (!$relatedEntity) {
                 $relatedEntity = new $entityClass();
                 $relatedEntity->setName($item);
                 $entityManager->persist($relatedEntity);
@@ -235,8 +264,5 @@ class SearchController extends AbstractController
             // Ajout de l'entité au jeu
             $game->{$addMethod}($relatedEntity);
         }
-
-        // Sauvegarde des changements
-        $entityManager->flush();
     }
 }

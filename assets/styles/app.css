@@ -57,6 +57,7 @@
 
 body {
     background-color: var(--app-background);
+    height: 100vh;
 }
 
 a:hover{

@@ -21,6 +21,9 @@ class Family
     #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'families')]
     private Collection $game;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->game = new ArrayCollection();
@@ -51,6 +54,18 @@ class Family
     public function removeGame(game $game): static
     {
         $this->game->removeElement($game);
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
