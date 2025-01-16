@@ -32,11 +32,26 @@ document.addEventListener("DOMContentLoaded", function () {
             if (shortDescription.style.display === "none") {
                 shortDescription.style.display = "block";
                 fullDescription.style.display = "none";
-                this.textContent = "Afficher plus";
+                this.textContent = "Afficher plus ...";
             } else {
                 shortDescription.style.display = "none";
                 fullDescription.style.display = "block";
-                this.textContent = "Afficher moins";
+                this.textContent = "... Afficher moins";
+            }
+        });
+    });
+
+    // Gestion du toggle des récompenses
+    document.querySelectorAll('.toggle-content-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const extraContent = this.previousElementSibling;
+
+            if (extraContent.style.display === "none") {
+                extraContent.style.display = "block";
+                this.textContent = "... Afficher moins";
+            } else {
+                extraContent.style.display = "none";
+                this.textContent = "Afficher plus ...";
             }
         });
     });

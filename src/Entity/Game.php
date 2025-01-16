@@ -92,12 +92,6 @@ class Game
     private Collection $artists;
 
     /**
-     * @var Collection<int, Honor>
-     */
-    #[ORM\ManyToMany(targetEntity: Honor::class, mappedBy: 'game')]
-    private Collection $honors;
-
-    /**
      * @var Collection<int, Publisher>
      */
     #[ORM\ManyToMany(targetEntity: Publisher::class, mappedBy: 'game')]
@@ -109,6 +103,12 @@ class Game
     #[ORM\ManyToMany(targetEntity: GraphicDesigner::class, mappedBy: 'game')]
     private Collection $graphicDesigners;
 
+    /**
+     * @var Collection<int, HonorGame>
+     */
+    #[ORM\OneToMany(targetEntity: HonorGame::class, mappedBy: 'game')]
+    private Collection $honorGames;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -118,9 +118,9 @@ class Game
         $this->mechanics = new ArrayCollection();
         $this->subdomains = new ArrayCollection();
         $this->artists = new ArrayCollection();
-        $this->honors = new ArrayCollection();
         $this->publishers = new ArrayCollection();
         $this->graphicDesigners = new ArrayCollection();
+        $this->honorGames = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -450,33 +450,6 @@ class Game
     }
 
     /**
-     * @return Collection<int, Honor>
-     */
-    public function getHonors(): Collection
-    {
-        return $this->honors;
-    }
-
-    public function addHonor(Honor $honor): static
-    {
-        if (!$this->honors->contains($honor)) {
-            $this->honors->add($honor);
-            $honor->addGame($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHonor(Honor $honor): static
-    {
-        if ($this->honors->removeElement($honor)) {
-            $honor->removeGame($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Publisher>
      */
     public function getPublishers(): Collection
@@ -525,6 +498,36 @@ class Game
     {
         if ($this->graphicDesigners->removeElement($graphicDesigner)) {
             $graphicDesigner->removeGame($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HonorGame>
+     */
+    public function getHonorGames(): Collection
+    {
+        return $this->honorGames;
+    }
+
+    public function addHonorGame(HonorGame $honorGame): static
+    {
+        if (!$this->honorGames->contains($honorGame)) {
+            $this->honorGames->add($honorGame);
+            $honorGame->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHonorGame(HonorGame $honorGame): static
+    {
+        if ($this->honorGames->removeElement($honorGame)) {
+            // set the owning side to null (unless already changed)
+            if ($honorGame->getGame() === $this) {
+                $honorGame->setGame(null);
+            }
         }
 
         return $this;

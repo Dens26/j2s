@@ -15,47 +15,23 @@ class Honor
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Collection<int, game>
-     */
-    #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'honors')]
-    private Collection $game;
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    /**
+     * @var Collection<int, HonorGame>
+     */
+    #[ORM\OneToMany(targetEntity: HonorGame::class, mappedBy: 'honor')]
+    private Collection $honorGames;
+
     public function __construct()
     {
-        $this->game = new ArrayCollection();
+        $this->honorGames = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, game>
-     */
-    public function getGame(): Collection
-    {
-        return $this->game;
-    }
-
-    public function addGame(game $game): static
-    {
-        if (!$this->game->contains($game)) {
-            $this->game->add($game);
-        }
-
-        return $this;
-    }
-
-    public function removeGame(game $game): static
-    {
-        $this->game->removeElement($game);
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -66,6 +42,36 @@ class Honor
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HonorGame>
+     */
+    public function getHonorGames(): Collection
+    {
+        return $this->honorGames;
+    }
+
+    public function addHonorGame(HonorGame $honorGame): static
+    {
+        if (!$this->honorGames->contains($honorGame)) {
+            $this->honorGames->add($honorGame);
+            $honorGame->setHonor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHonorGame(HonorGame $honorGame): static
+    {
+        if ($this->honorGames->removeElement($honorGame)) {
+            // set the owning side to null (unless already changed)
+            if ($honorGame->getHonor() === $this) {
+                $honorGame->setHonor(null);
+            }
+        }
 
         return $this;
     }
