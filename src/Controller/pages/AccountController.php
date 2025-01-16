@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\pages;
 
 use App\Form\PasswordUserType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +27,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Votre mot de passe a été correctement mis à jour !');
         }
 
-        return $this->render('account/index.html.twig', [
+        return $this->render('pages/account/index.html.twig', [
             'form' => $form->createView()
         ]);
     }

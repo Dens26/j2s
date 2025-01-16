@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\pages;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +11,6 @@ class OldChallengesController extends AbstractController
     #[Route('/oldchallenges', name: 'app_old_challenges')]
     public function index(): Response
     {
-        return $this->render('old_challenges/index.html.twig');
+        return $this->render('pages/old_challenges/index.html.twig');
     }
 }

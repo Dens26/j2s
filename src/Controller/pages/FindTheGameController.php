@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\pages;
 
-use App\Classe\Mail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class HomeController extends AbstractController
+class FindTheGameController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/findthegame', name: 'app_find_the_game')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig');
+        return $this->render('pages/find_the_game/index.html.twig');
     }
 }
