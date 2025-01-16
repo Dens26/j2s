@@ -92,12 +92,6 @@ class Game
     private Collection $artists;
 
     /**
-     * @var Collection<int, Honor>
-     */
-    #[ORM\ManyToMany(targetEntity: Honor::class, mappedBy: 'game')]
-    private Collection $honors;
-
-    /**
      * @var Collection<int, Publisher>
      */
     #[ORM\ManyToMany(targetEntity: Publisher::class, mappedBy: 'game')]
@@ -109,6 +103,9 @@ class Game
     #[ORM\ManyToMany(targetEntity: GraphicDesigner::class, mappedBy: 'game')]
     private Collection $graphicDesigners;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?HonorGame $HonorGame = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -118,7 +115,6 @@ class Game
         $this->mechanics = new ArrayCollection();
         $this->subdomains = new ArrayCollection();
         $this->artists = new ArrayCollection();
-        $this->honors = new ArrayCollection();
         $this->publishers = new ArrayCollection();
         $this->graphicDesigners = new ArrayCollection();
     }
@@ -450,33 +446,6 @@ class Game
     }
 
     /**
-     * @return Collection<int, Honor>
-     */
-    public function getHonors(): Collection
-    {
-        return $this->honors;
-    }
-
-    public function addHonor(Honor $honor): static
-    {
-        if (!$this->honors->contains($honor)) {
-            $this->honors->add($honor);
-            $honor->addGame($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHonor(Honor $honor): static
-    {
-        if ($this->honors->removeElement($honor)) {
-            $honor->removeGame($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Publisher>
      */
     public function getPublishers(): Collection
@@ -526,6 +495,18 @@ class Game
         if ($this->graphicDesigners->removeElement($graphicDesigner)) {
             $graphicDesigner->removeGame($this);
         }
+
+        return $this;
+    }
+
+    public function getHonorGame(): ?HonorGame
+    {
+        return $this->HonorGame;
+    }
+
+    public function setHonorGame(?HonorGame $HonorGame): static
+    {
+        $this->HonorGame = $HonorGame;
 
         return $this;
     }
