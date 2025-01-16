@@ -16,6 +16,14 @@ class HonorGame
     #[ORM\Column(length: 4)]
     private ?string $year = null;
 
+    #[ORM\ManyToOne(inversedBy: 'honorGames')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Honor $honor = null;
+
+    #[ORM\ManyToOne(inversedBy: 'honorGames')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Game $game = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +37,30 @@ class HonorGame
     public function setYear(string $year): static
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    public function getHonor(): ?honor
+    {
+        return $this->honor;
+    }
+
+    public function setHonor(?honor $honor): static
+    {
+        $this->honor = $honor;
+
+        return $this;
+    }
+
+    public function getGame(): ?game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?game $game): static
+    {
+        $this->game = $game;
 
         return $this;
     }

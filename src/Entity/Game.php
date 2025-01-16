@@ -103,8 +103,11 @@ class Game
     #[ORM\ManyToMany(targetEntity: GraphicDesigner::class, mappedBy: 'game')]
     private Collection $graphicDesigners;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?HonorGame $HonorGame = null;
+    /**
+     * @var Collection<int, HonorGame>
+     */
+    #[ORM\OneToMany(targetEntity: HonorGame::class, mappedBy: 'game')]
+    private Collection $honorGames;
 
     public function __construct()
     {
@@ -117,6 +120,7 @@ class Game
         $this->artists = new ArrayCollection();
         $this->publishers = new ArrayCollection();
         $this->graphicDesigners = new ArrayCollection();
+        $this->honorGames = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -499,14 +503,32 @@ class Game
         return $this;
     }
 
-    public function getHonorGame(): ?HonorGame
+    /**
+     * @return Collection<int, HonorGame>
+     */
+    public function getHonorGames(): Collection
     {
-        return $this->HonorGame;
+        return $this->honorGames;
     }
 
-    public function setHonorGame(?HonorGame $HonorGame): static
+    public function addHonorGame(HonorGame $honorGame): static
     {
-        $this->HonorGame = $HonorGame;
+        if (!$this->honorGames->contains($honorGame)) {
+            $this->honorGames->add($honorGame);
+            $honorGame->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHonorGame(HonorGame $honorGame): static
+    {
+        if ($this->honorGames->removeElement($honorGame)) {
+            // set the owning side to null (unless already changed)
+            if ($honorGame->getGame() === $this) {
+                $honorGame->setGame(null);
+            }
+        }
 
         return $this;
     }

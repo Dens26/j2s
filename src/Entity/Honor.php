@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HonorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HonorRepository::class)]
@@ -16,8 +18,16 @@ class Honor
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?HonorGame $game = null;
+    /**
+     * @var Collection<int, HonorGame>
+     */
+    #[ORM\OneToMany(targetEntity: HonorGame::class, mappedBy: 'honor')]
+    private Collection $honorGames;
+
+    public function __construct()
+    {
+        $this->honorGames = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -36,14 +46,32 @@ class Honor
         return $this;
     }
 
-    public function getGame(): ?HonorGame
+    /**
+     * @return Collection<int, HonorGame>
+     */
+    public function getHonorGames(): Collection
     {
-        return $this->game;
+        return $this->honorGames;
     }
 
-    public function setGame(?HonorGame $game): static
+    public function addHonorGame(HonorGame $honorGame): static
     {
-        $this->game = $game;
+        if (!$this->honorGames->contains($honorGame)) {
+            $this->honorGames->add($honorGame);
+            $honorGame->setHonor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHonorGame(HonorGame $honorGame): static
+    {
+        if ($this->honorGames->removeElement($honorGame)) {
+            // set the owning side to null (unless already changed)
+            if ($honorGame->getHonor() === $this) {
+                $honorGame->setHonor(null);
+            }
+        }
 
         return $this;
     }

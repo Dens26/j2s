@@ -84,6 +84,10 @@ a:hover{
 }
 
 /* Navbar */
+.main-navbar-container{
+    position: sticky;
+    top: 0;
+}
 .navbar-container {
     max-width: 992px;
     margin: 0 auto;
