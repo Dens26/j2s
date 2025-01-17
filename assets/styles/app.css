@@ -55,9 +55,12 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-body {
-    background-color: var(--app-background);
-    height: 100vh;
+html, body {
+    height: 100%; /* Permet de s'assurer que le body prend toute la hauteur de la fenêtre */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 a:hover {
@@ -65,9 +68,10 @@ a:hover {
 }
 
 .main-container {
+    flex: 1;
     max-width: 992px;
     margin: 0 auto;
-    margin-bottom: 50px;
+    padding-bottom: 20px;
 }
 
 .form-container {
@@ -257,11 +261,45 @@ a:hover {
 }
 
 /* Footer */
-.footer-container{
+.footer-fixed {
     background-color: var(--app-background);
     position: fixed;
     bottom: 0;
     width: 100vw;
+    z-index: 100;
+    padding: 8px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Par défaut, avec ombrage */
+    transition: box-shadow 0.3s ease;
+}
+
+.footer-fixed.no-shadow {
+    box-shadow: none; /* Supprime l'ombrage */
+}
+
+.footer-fixed .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* Partie classique (informations légales) */
+.footer-classic {
+    background-color: var(--app-background);
+    padding-top: 10px;
+    padding-bottom: 35px;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer-classic a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin: 0 8px;
+}
+
+.footer-classic a:hover {
+    text-decoration: underline;
 }
 
 /* Home */
@@ -338,8 +376,10 @@ a:hover {
 /* Home */
 .step {
     text-align: left;
+    margin: 10px auto;
     margin-left: clamp(20px, 10vw, 80px);
     margin-right: clamp(20px, 10vw, 80px);
+    font-size: 0.80rem;
 }
 
 /* Fonts */
@@ -390,6 +430,13 @@ a:hover {
     align-items: center;
 }
 
+@media screen and (min-width: 576px) {
+
+    /* Home */
+    .step {
+        font-size: 0.95rem;
+    }
+}
 
 @media screen and (min-width: 768px) {
 

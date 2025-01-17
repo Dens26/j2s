@@ -55,6 +55,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    // Gestion de l'ombrage du footer
+    function updateFooterShadow() {
+        const footerFixed = document.querySelector(".footer-fixed");
+        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolledPosition = window.scrollY;
+
+        if (scrolledPosition >= scrollableHeight - 100 || scrollableHeight <= 0) {
+            footerFixed.classList.add("no-shadow");
+        } else {
+            footerFixed.classList.remove("no-shadow");
+        }
+    }
+
+    // Écouteur pour le défilement
+    document.addEventListener("scroll", updateFooterShadow);
+
+    // Appel initial pour gérer les pages avec peu de contenu
+    updateFooterShadow();
 });
 
 console.log('This log comes from assets/app.js - welcome to Symfony 7 AssetMapper! 🎉');
