@@ -96,8 +96,8 @@ class SearchController extends AbstractController
             'families' => $xml->boardgame->boardgamefamily ? (array)$xml->boardgame->boardgamefamily : [],
         ];
 
-        // Translate description with DeepL API Free
-        $translatedDescription = $translatorService->translateIfQuotaAvailable($results['description']);
+        // Si il n'y a pas assez de credit pour traduire la description
+        $translateAvailable = $translatorService->checkIfQuotaAvailable($results['description']);
 
         // Création du jeu
         $game = new Game();
@@ -110,30 +110,36 @@ class SearchController extends AbstractController
             ->setMaxPlayers($results['maxPlayers'])
             ->setPlayingTime($results['playingTime'])
             ->setAge($results['age'])
-            ->setDescription($translatedDescription)
+            ->setDescription($translatorService->translateToFrench($results['description']))
             ->setThumbnail($results['thumbnail'])
             ->setImage($results['image'])
         ;
 
-        $entityManager->persist($game);
+        if ($translateAvailable) {
+            $entityManager->persist($game);
+        }
 
         // Gestion des table liées
-        $this->handleRelateData($results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager);
-        $this->handleRelateData($results['artists'], $game, Artist::class, 'addArtist', $entityManager);
-        $this->handleRelateData($results['categories'], $game, Category::class, 'addCategory', $entityManager);
-        $this->handleRelateData($results['subdomains'], $game, Subdomain::class, 'addSubdomain', $entityManager);
-        $this->handleRelateData($results['mechanics'], $game, Mechanic::class, 'addMechanic', $entityManager);
-        $this->handleRelateData($results['designers'], $game, Designer::class, 'addDesigner', $entityManager);
-        $this->handleRelateData($results['graphicDesigners'], $game, GraphicDesigner::class, 'addGraphicDesigner', $entityManager);
-        $this->handleRelateData($results['developers'], $game, Developer::class, 'addDeveloper', $entityManager);
-        $this->handleRelateHonorData($results['honors'], $game, $entityManager);
-        $this->handleRelateData($results['families'], $game, Family::class, 'addFamily', $entityManager);
+        $this->handleRelateData($results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager, $translateAvailable);
+        $this->handleRelateData($results['artists'], $game, Artist::class, 'addArtist', $entityManager, $translateAvailable);
+        $this->handleRelateData($results['categories'], $game, Category::class, 'addCategory', $entityManager, $translateAvailable);
+        $this->handleRelateData($results['subdomains'], $game, Subdomain::class, 'addSubdomain', $entityManager, $translateAvailable);
+        $this->handleRelateData($results['mechanics'], $game, Mechanic::class, 'addMechanic', $entityManager, $translateAvailable);
+        $this->handleRelateData($results['designers'], $game, Designer::class, 'addDesigner', $entityManager, $translateAvailable);
+        $this->handleRelateData($results['graphicDesigners'], $game, GraphicDesigner::class, 'addGraphicDesigner', $entityManager, $translateAvailable);
+        $this->handleRelateData($results['developers'], $game, Developer::class, 'addDeveloper', $entityManager, $translateAvailable);
+        $this->handleRelateHonorData($results['honors'], $game, $entityManager, $translateAvailable);
+        $this->handleRelateData($results['families'], $game, Family::class, 'addFamily', $entityManager, $translateAvailable);
 
         // Sauvegarde des données
-        $entityManager->flush();
+        if ($translateAvailable) {
+            $entityManager->flush();
+        }
 
         // Rafraîchir l'entité pour garantir que les relations sont chargées
-        $entityManager->refresh($game);
+        if ($translateAvailable) {
+            $entityManager->refresh($game);
+        }
         return $this->render('pages/search/show.html.twig', [
             'results' => $this->formatGame($game)
         ]);
@@ -259,7 +265,7 @@ class SearchController extends AbstractController
         return $results;
     }
 
-    private function handleRelateData(array $data, Game $game, string $entityClass, string $addMethod, EntityManagerInterface $entityManager): void
+    private function handleRelateData(array $data, Game $game, string $entityClass, string $addMethod, EntityManagerInterface $entityManager, bool $translateAvailable): void
     {
         // Filtrage des données pour ne garder que les valeurs de type string
         $filteredData = array_filter($data, fn($item) => is_string($item));
@@ -272,14 +278,16 @@ class SearchController extends AbstractController
             if (!$relatedEntity) {
                 $relatedEntity = new $entityClass();
                 $relatedEntity->setName($item);
-                $entityManager->persist($relatedEntity);
+                if ($translateAvailable) {
+                    $entityManager->persist($relatedEntity);
+                }
             }
 
             // Ajout de l'entité au jeu
             $game->{$addMethod}($relatedEntity);
         }
     }
-    private function handleRelateHonorData(array $data, Game $game, EntityManagerInterface $entityManager): void
+    private function handleRelateHonorData(array $data, Game $game, EntityManagerInterface $entityManager, bool $translateAvailable): void
     {
         // Filtrage des données pour ne garder que les valeurs de type string
         $filteredData = array_filter($data, fn($item) => is_string($item));
@@ -293,7 +301,9 @@ class SearchController extends AbstractController
             if (!$honor) {
                 $honor = new Honor();
                 $honor->setName($name);
-                $entityManager->persist($honor);
+                if ($translateAvailable) {
+                    $entityManager->persist($honor);
+                }
             }
 
             $honorGame = new HonorGame();
@@ -301,9 +311,13 @@ class SearchController extends AbstractController
             $honorGame->setHonor($honor);
             $honorGame->setYear($year);
 
-            $entityManager->persist($honorGame);
+            if ($translateAvailable) {
+                $entityManager->persist($honorGame);
+            }
         }
         // Flusher toutes les entités persistées
-        $entityManager->flush();
+        if ($translateAvailable) {
+            $entityManager->flush();
+        }
     }
 }
