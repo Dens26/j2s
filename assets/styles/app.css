@@ -60,13 +60,14 @@ body {
     height: 100vh;
 }
 
-a:hover{
+a:hover {
     color: var(--low-contrast-text);
 }
 
 .main-container {
     max-width: 992px;
     margin: 0 auto;
+    margin-bottom: 50px;
 }
 
 .form-container {
@@ -84,10 +85,11 @@ a:hover{
 }
 
 /* Navbar */
-.main-navbar-container{
+.main-navbar-container {
     position: sticky;
     top: 0;
 }
+
 .navbar-container {
     max-width: 992px;
     margin: 0 auto;
@@ -254,6 +256,14 @@ a:hover{
     height: 50px;
 }
 
+/* Footer */
+.footer-container{
+    background-color: var(--app-background);
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+}
+
 /* Home */
 .home-container {
     max-width: 576px;
@@ -325,7 +335,12 @@ a:hover{
     cursor: pointer;
 }
 
-
+/* Home */
+.step {
+    text-align: left;
+    margin-left: clamp(20px, 10vw, 80px);
+    margin-right: clamp(20px, 10vw, 80px);
+}
 
 /* Fonts */
 .pt-serif-regular {
