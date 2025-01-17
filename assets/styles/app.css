@@ -67,6 +67,7 @@ a:hover {
 .main-container {
     max-width: 992px;
     margin: 0 auto;
+    margin-bottom: 50px;
 }
 
 .form-container {
@@ -253,6 +254,14 @@ a:hover {
 
 .img {
     height: 50px;
+}
+
+/* Footer */
+.footer-container{
+    background-color: var(--app-background);
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
 }
 
 /* Home */
