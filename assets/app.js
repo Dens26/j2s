@@ -55,6 +55,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    // Gestion de l'ombrage du footer
+    document.addEventListener("scroll", function () {
+        const footerFixed = document.querySelector(".footer-fixed");
+        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolledPosition = window.scrollY;
+    
+        if (scrolledPosition >= scrollableHeight - 100) {
+            footerFixed.classList.add("no-shadow");
+        } else {
+            footerFixed.classList.remove("no-shadow");
+        }
+    });
 });
 
 console.log('This log comes from assets/app.js - welcome to Symfony 7 AssetMapper! 🎉');
