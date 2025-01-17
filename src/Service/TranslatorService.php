@@ -7,13 +7,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class TranslatorService
 {
     private HttpClientInterface $client;
-    private int $usageLimit = 500000;
+    private int $usageLimit;
     private string $apiKey;
 
     public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
         $this->apiKey = $_ENV['DEEPL_APIKEY'];
+        $this->usageLimit = (int) ($_ENV['USAGE_LIMIT'] ?? 0);
     }
 
     /**
@@ -38,17 +39,17 @@ class TranslatorService
      * 
      * @return string
      */
-    public function translateIfQuotaAvailable(string $description): string
+    public function checkIfQuotaAvailable(string $description): string
     {
         $currentUsage = $this->getUsageCount();
 
         // Return the original text if usage limit exceeded
-        if ($currentUsage >= $this->usageLimit) {
-            return $description;
+        if ($currentUsage >= $this->usageLimit && $currentUsage > strlen($description)) {
+            return false;
         }
 
         // Return the translated text
-        return $this->translateToFrench($description);
+        return true;
     }
 
 
@@ -58,19 +59,22 @@ class TranslatorService
      * 
      * @return string
      */
-    private function translateToFrench(string $text): string
+    public function translateToFrench(string $text): string
     {
-        $response = $this->client->request('POST', 'https://api-free.deepl.com/v2/translate', [
-            'headers' => [
-                'Authorization' => 'DeepL-Auth-Key ' . $this->apiKey,
-            ],
-            'body' => [
-                'text' => $text,
-                'target_lang' => 'FR'
-            ],
-        ]);
+        if ($this->checkIfQuotaAvailable($text)) {
+            $response = $this->client->request('POST', 'https://api-free.deepl.com/v2/translate', [
+                'headers' => [
+                    'Authorization' => 'DeepL-Auth-Key ' . $this->apiKey,
+                ],
+                'body' => [
+                    'text' => $text,
+                    'target_lang' => 'FR'
+                ],
+            ]);
 
-        $data = $response->toArray();
-        return $data['translations'][0]['text'] ?? $text;
+            $data = $response->toArray();
+            return $data['translations'][0]['text'] ?? $text;
+        }
+        return $text;
     }
 }
