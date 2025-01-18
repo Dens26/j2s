@@ -1,6 +1,14 @@
 twig:
-    file_name_pattern: '*.twig'
-    form_themes: ['bootstrap_5_layout.html.twig']
+    file_name_pattern: "*.twig"
+    form_themes: ["bootstrap_5_layout.html.twig"]
+
+    globals:
+        contact_email: "%app.contact_email%"
+        support_email: "%app.support_email%"
+        hosting_name: "%app.hosting_name%"
+        hosting_address: "%app.hosting_address%"
+        hosting_phone: "%app.hosting_phone%"
+        hosting_email: "%app.hosting_email%"
 
 when@test:
     twig:
