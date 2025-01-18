@@ -56,6 +56,7 @@
 }
 
 html, body {
+    background-color: var(--app-background);
     height: 100%; /* Permet de s'assurer que le body prend toute la hauteur de la fenêtre */
     margin: 0;
     padding: 0;
