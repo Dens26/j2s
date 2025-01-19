@@ -16,6 +16,8 @@ use App\Entity\Publisher;
 use App\Entity\Subdomain;
 use App\Service\TranslatorService;
 use Doctrine\ORM\EntityManagerInterface;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,6 +65,10 @@ class SearchController extends AbstractController
             ]);
         }
 
+        $config = HTMLPurifier_Config::createDefault();
+        $config->set('HTML.Allowed', 'p,strong,em,br,ul,ol,li,a,code,pre,blockquote');
+        $purifier = new HTMLPurifier($config);
+
         // Game not exist : Call the API
         $url = "https://boardgamegeek.com/xmlapi/boardgame/$id";
         $response = $this->client->request('GET', $url);
@@ -80,7 +86,8 @@ class SearchController extends AbstractController
             // 'minPlayTime' => (string)$xml->boardgame->minplaytime ?? null,
             // 'maxPlayTime' => (string)$xml->boardgame->maxplaytime ?? null,
             'age' => (string)$xml->boardgame->age ?? null,
-            'description' => (string)$xml->boardgame->description ?? null,
+            'description' => $purifier->purify((string)$xml->boardgame->description . "<script>alert('Test de script');</script>
+" ?? null),
             'thumbnail' => (string)$xml->boardgame->thumbnail ?? null,
             'image' => (string)$xml->boardgame->image ?? null,
             'publishers' => $xml->boardgame->boardgamepublisher ? (array)$xml->boardgame->boardgamepublisher : [],
