@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN--Création du jeu!
+{% endblock %}
+
+{% block body %}
+	<div class="my-4 mx-3">
+		<div class="m-2">
+			<h1 class="title mb-4">Création du jeu pour le prochain stream</h1>
+
+			<form class="d-flex gap-1" role="search" method="GET" action="{{ path('app_boardgame_search') }}">
+				<input class="form-control mr-2" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
+				<button class="btn" type="submit">Recherchez</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}
