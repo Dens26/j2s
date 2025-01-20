@@ -20,6 +20,8 @@
     /* Text */
     --low-contrast-text: #7D5E54;
     --high-contrast-text: #43302B;
+    --admin-section-text: #3b82f6;
+    --admin-section-text-hover: #003d9e;
 }
 
 /* Dark Mode Variables (automatique si mode sombre activé) */
@@ -45,6 +47,8 @@
         /* Text */
         --low-contrast-text: #DBB594;
         --high-contrast-text: #F2E1CA;
+        --admin-section-text: #3b82f6;
+        --admin-section-text-hover: #8db8ff;
     }
 }
 
@@ -57,11 +61,19 @@
 
 html, body {
     background-color: var(--app-background);
-    height: 100%; /* Permet de s'assurer que le body prend toute la hauteur de la fenêtre */
+    height: 100%;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
+}
+
+.admin-section{
+    color: var(--admin-section-text);
+}
+
+.admin-section:hover {
+    color: var(--admin-section-text-hover);
 }
 
 a:hover {

@@ -21,6 +21,11 @@ security:
                 check_path: app_login
             lazy: true
             provider: app_user_provider
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 2592000
+                path: /
+                always_remember_me: true 
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
