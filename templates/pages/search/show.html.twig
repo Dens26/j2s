@@ -29,7 +29,7 @@
 					</div>
 					<div>
 						<div class="component-high d-flex justify-content-center">
-							<span class="text-dark me-1">Temps de jeu :</span>
+							<span class="text-dark me-1">Temps de jeu:</span>
 							{{results.playingTime}}<span class="ms-1 text-dark">minutes</span>
 						</div>
 					</div>
@@ -38,7 +38,7 @@
 				<div class="d-flex gap-2">
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark fw-bold">Créateurs du jeu :</div>
+							<div class="text-dark fw-bold">Créateurs:</div>
 							{% if results.artists|length >0 %}
 								{% for i in 0..(results.artists|length -1) %}
 									<div class="text-dark">-{{ results.artists[i] }}</div>
@@ -49,7 +49,7 @@
 
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark fw-bold">Designers du jeu :</div>
+							<div class="text-dark fw-bold">Designers:</div>
 							{% if results.designers|length >0 %}
 								{% for i in 0..(results.designers|length -1) %}
 									<div class="text-dark">-{{ results.designers[i] }}</div>
@@ -62,7 +62,7 @@
 				<div class="d-flex gap-2 mt-2">
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark fw-bold">Développeurs du jeu :</div>
+							<div class="text-dark fw-bold">Développeurs:</div>
 							{% if results.developers|length >0 %}
 								{% for i in 0..(results.developers|length -1) %}
 									<div class="text-dark">-{{ results.developers[i] }}</div>
@@ -90,7 +90,7 @@
 	<div class="m-4">
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Catégorie :</div>
+			<div class="text-high fw-bold">Catégories:</div>
 			{% if results.categories|length > 0 %}
 				<div class="content-list">
 					{% for category in results.categories|slice(0, 5) %}
@@ -113,7 +113,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Sous domaine :</div>
+			<div class="text-high fw-bold">Domaines:</div>
 			{% if results.subdomains|length > 0 %}
 				<div class="content-list">
 					{% for subdomain in results.subdomains|slice(0, 5) %}
@@ -136,7 +136,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Style de jeu :</div>
+			<div class="text-high fw-bold">Style de jeu:</div>
 			{% if results.mechanics|length > 0 %}
 				<div class="content-list">
 					{% for mechanic in results.mechanics|slice(0, 5) %}
@@ -159,7 +159,7 @@
 		</div>
 
 		<div>
-			<div class="text-high fw-bold fw-bold">Description :</div>
+			<div class="text-high fw-bold fw-bold">Description:</div>
 			<div>
 				<p class="short-description m-0">{{ results.description|slice(0, 100) }}...</p>
 				<p class="full-description m-0" style="display: none;">{{ results.description | raw }}</p>
@@ -168,7 +168,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Récompenses :</div>
+			<div class="text-high fw-bold">Récompenses:</div>
 			{% if results.honors|length > 0 %}
 				<div class="content-list">
 					{% for honor in results.honors|slice(0, 5) %}
@@ -195,7 +195,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Editeurs :</div>
+			<div class="text-high fw-bold">Editeurs:</div>
 			{% if results.publishers|length > 0 %}
 				<div class="content-list">
 					{% for publisher in results.publishers|slice(0, 5) %}

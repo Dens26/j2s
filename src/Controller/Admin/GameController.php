@@ -6,10 +6,12 @@ use App\Classe\GameClass;
 use App\Entity\Game;
 use App\Service\TranslatorService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GameController extends AbstractController
@@ -28,9 +30,62 @@ class GameController extends AbstractController
     }
 
     #[Route('/admin-game-create', name: 'admin_game_create')]
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        return $this->render('admin/game/create.html.twig');
+        // Récupérer toutes les données du formulaire
+        $data = $request->request->all();
+
+        // Définir les groupes à traiter
+        $groupPrefixes = [
+            'artist',
+            'designer_',
+            'graphicDesigner_',
+            'developper_',
+            'category_',
+            'subdomain_',
+            'mechanic_',
+            'honor_',
+            'publisher_'
+        ];
+
+        // Initialiser le tableau final
+        $organizedData = [
+            'id' => $data['id'] ?? null,
+            'name' => $data['name'] ?? null,
+            'yearPublished' => $data['yearPublished'] ?? null,
+            'players' => $data['players'] ?? null,
+            'playingTime' => $data['playingTime'] ?? null,
+            'artists' => [],
+            'designers' => [],
+            'graphicDesigners' => [],
+        ];
+
+        // Parcourir les préfixes pour regrouper les données dynamiquement
+        foreach ($groupPrefixes as $prefix) {
+            // Déduire le nom du groupe à partir du préfixe
+            $groupName = rtrim($prefix, '_') . 's'; // e.g., "designer_" devient "designers"
+
+            // Filtrer les données pour ce groupe
+            $organizedData[$groupName] = [];
+            foreach ($data as $key => $value) {
+                if (str_starts_with($key, $prefix)) {
+                    $organizedData[$groupName][] = $value;
+                }
+            }
+        }
+
+        if ($request->request->count() < 7) {
+            $this->addFlash('danger', 'Il faut un minimum de 5 indices');
+            // Redirige vers une autre route
+            return $this->redirectToRoute('admin_game_show', [
+                'id' => $organizedData['id'],
+                'name' => $organizedData['name']
+            ]);
+        }
+
+        return $this->render('admin/game/confirm.html.twig', [
+            'data' => $organizedData
+        ]);
     }
 
     #[Route('/admin-game-show/{id}/{name}', name: 'admin_game_show')]
@@ -46,7 +101,7 @@ class GameController extends AbstractController
         }
 
         $result = $gameClass->ShowGame($entityManager, $id, $name, $translatorService);
-        
+
         return $this->render('admin/game/show.html.twig', [
             'results' => $gameClass->formatGame($result)
         ]);

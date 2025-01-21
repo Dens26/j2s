@@ -73,8 +73,7 @@ class GameClass
             // 'minPlayTime' => (string)$xml->boardgame->minplaytime ?? null,
             // 'maxPlayTime' => (string)$xml->boardgame->maxplaytime ?? null,
             'age' => (string)$xml->boardgame->age ?? null,
-            'description' => $purifier->purify((string)$xml->boardgame->description . "<script>alert('Test de script');</script>
-" ?? null),
+            'description' => $purifier->purify((string)$xml->boardgame->description . "<script>alert('Test de script');</script>" ?? null),
             'thumbnail' => (string)$xml->boardgame->thumbnail ?? null,
             'image' => (string)$xml->boardgame->image ?? null,
             'publishers' => $xml->boardgame->boardgamepublisher ? (array)$xml->boardgame->boardgamepublisher : [],

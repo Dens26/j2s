@@ -26,30 +26,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Gestion des groupes de cases à cocher
     function handleCheckboxGroups() {
-        // Sélectionne tous les groupes de cases à cocher avec le contrôleur
+        // Sélectionne tous les groupes avec le contrôleur
         const checkboxGroups = document.querySelectorAll('[data-controller="checkbox-group"]');
     
         checkboxGroups.forEach(group => {
             // Trouve la case principale
-            const mainCheckbox = group.querySelector('input[type="checkbox"]:first-child');
+            const mainCheckbox = group.querySelector('input[type="checkbox"]');
     
-            // Trouve toutes les sous-cases dans ce groupe (excluant la première case)
-            const dependentCheckboxes = group.querySelectorAll('input[type="checkbox"]:not([id="artists"])');
+            // Trouve toutes les sous-cases dans ce groupe (excluant la case principale)
+            const dependentCheckboxes = group.querySelectorAll('input[type="checkbox"]:not([id="' + mainCheckbox.id + '"])');
     
             if (mainCheckbox) {
+                // Vérifie l'état initial (par exemple, si la case mère est déjà cochée)
+                updateDependentCheckboxes(mainCheckbox.checked, dependentCheckboxes);
+    
                 // Ajoute un événement pour activer/désactiver les sous-cases
                 mainCheckbox.addEventListener('change', () => {
-                    const isChecked = mainCheckbox.checked;
-                    dependentCheckboxes.forEach(checkbox => {
-                        checkbox.disabled = !isChecked; // Active ou désactive les cases
-                        if (!isChecked) {
-                            checkbox.checked = false; // Décoche les cases si désactivées
-                        }
-                    });
+                    updateDependentCheckboxes(mainCheckbox.checked, dependentCheckboxes);
                 });
             }
         });
     }
+    
+    function updateDependentCheckboxes(isChecked, dependentCheckboxes) {
+        dependentCheckboxes.forEach(checkbox => {
+            checkbox.disabled = !isChecked;
+            if (!isChecked) {
+                checkbox.checked = false;
+            }
+        });
+    }
+    
+    // Appeler la fonction après le chargement du DOM
+    document.addEventListener("DOMContentLoaded", handleCheckboxGroups);
+    
 
     // Gestion du toggle des descriptions
     function handleDescriptionToggle() {

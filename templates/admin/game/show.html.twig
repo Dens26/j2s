@@ -10,225 +10,188 @@
 
 		<p class="admin-section-subtitle fs-3">{{ results.name }}</p>
 
-		<p>Sélectionne les indices que tu veux comparer et faire apparaître :</p>
+		<p>Sélectionne les indices que tu veux comparer et faire apparaître:</p>
 
+		{# Form #}
 		<form class="mx-4" action="{{ path('admin_game_create') }}" method="post">
+			{# Hidden value #}
+			<div hidden>
+				<input type="text" name="id" value="{{results.id}}">
+				<input type="text" name="name" value="{{results.name}}">
+			</div>
+			{# Year published #}
 			<div>
-				<input type="checkbox" id="yearPublished" name="_yearPublished" value="{{ results.yearPublished }}" required>
-				<label class="my-1" for="yearPublished">Année de publication :
+				<input type="checkbox" id="yearPublished" name="yearPublished" value="{{ results.yearPublished }}">
+				<label class="my-1" for="yearPublished">Année de publication:
 					{{ results.yearPublished }}
 				</label>
 			</div>
+
+			{# Players number #}
 			<div>
-				<input type="checkbox" id="players" name="_players" value="{{ results.minPlayers }} - {{ results.maxPlayers}}" required>
-				<label class="my-1" for="players">Nombre de joueurs :
+				<input type="checkbox" id="players" name="players" value="{{ results.minPlayers }} - {{ results.maxPlayers}}">
+				<label class="my-1" for="players">Nombre de joueurs:
 					{{ results.minPlayers }}-{{ results.maxPlayers }}
 					joueurs
 				</label>
 			</div>
+
+			{# Playing time #}
 			<div>
-				<input type="checkbox" id="playingTime" name="_playingTime" value="{{ results.playingTime }}" required>
+				<input type="checkbox" id="playingTime" name="playingTime" value="{{ results.playingTime }}">
 				<label class="my-1" for="playingTime">Temps de jeu :
 					{{ results.playingTime }}
 					minutes
 				</label>
 			</div>
+
+			{# Artists #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="artists" name="_artists" value="">
-				<label class="my-1" for="artists">Créateur(s) :</label>
+				<input type="checkbox" id="artists" name="artists" value="">
+				<label class="my-1" for="artists">Créateur:</label>
 				{% if results.artists|length > 0 %}
 					<div class="ms-4">
 						{% for i in 0..(results.artists|length - 1) %}
 							<div>
-								<input type="checkbox" id="creator_{{ i }}" name="_creator_{{ i }}" value="{{ results.artists[i] }}" disabled>
-								<label for="creator_{{ i }}">{{ results.artists[i] }}</label>
+								<input type="checkbox" id="artist_{{ i }}" name="artist_{{ i }}" value="{{ results.artists[i] }}" disabled>
+								<label for="artist_{{ i }}">{{ results.artists[i] }}</label>
 							</div>
 						{% endfor %}
 					</div>
 				{% endif %}
 			</div>
 
+			{# Designers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="designers" name="designers" value="">
+				<label class="my-1" for="designers">Designers:</label>
+				{% if results.designers|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.designers|length - 1) %}
+							<div>
+								<input type="checkbox" id="designer_{{ i }}" name="designer_{{ i }}" value="{{ results.designers[i] }}" disabled>
+								<label for="designer_{{ i }}">{{ results.designers[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
 
+			{# Graphic designers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="graphicDesigners" name="graphicDesigners" value="">
+				<label class="my-1" for="graphicDesigners">Designers graphique:</label>
+				{% if results.graphicDesigners|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.graphicDesigners|length - 1) %}
+							<div>
+								<input type="checkbox" id="graphicDesigner_{{ i }}" name="graphicDesigner_{{ i }}" value="{{ results.graphicDesigners[i] }}" disabled>
+								<label for="graphicDesigner_{{ i }}">{{ results.graphicDesigners[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Developers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="developers" name="developers" value="">
+				<label class="my-1" for="developers">Développeurs:</label>
+				{% if results.developers|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.developers|length - 1) %}
+							<div>
+								<input type="checkbox" id="developer_{{ i }}" name="developer_{{ i }}" value="{{ results.developers[i] }}" disabled>
+								<label for="developer_{{ i }}">{{ results.developers[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Categories #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="categories" name="categories" value="">
+				<label class="my-1" for="categories">Catégories:</label>
+				{% if results.categories|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.categories|length - 1) %}
+							<div>
+								<input type="checkbox" id="category_{{ i }}" name="category_{{ i }}" value="{{ results.categories[i] }}" disabled>
+								<label for="category_{{ i }}">{{ results.categories[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Categories #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="subdomains" name="subdomains" value="">
+				<label class="my-1" for="subdomains">Domaines::</label>
+				{% if results.subdomains|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.subdomains|length - 1) %}
+							<div>
+								<input type="checkbox" id="subdomain_{{ i }}" name="subdomain_{{ i }}" value="{{ results.subdomains[i] }}" disabled>
+								<label for="subdomain_{{ i }}">{{ results.subdomains[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Mechanics #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="mechanics" name="mechanics" value="">
+				<label class="my-1" for="mechanics">Style de jeu:</label>
+				{% if results.mechanics|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.mechanics|length - 1) %}
+							<div>
+								<input type="checkbox" id="mechanic_{{ i }}" name="mechanic_{{ i }}" value="{{ results.mechanics[i] }}" disabled>
+								<label for="mechanic_{{ i }}">{{ results.mechanics[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Honors #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="honors" name="honors" value="">
+				<label class="my-1" for="honors">Récompenses:</label>
+				{% if results.honors|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.honors|length - 1) %}
+							<div>
+								<input type="checkbox" id="honor_{{ i }}" name="honor_{{ i }}" value="{{ results.honors[i].name }}" disabled>
+								<label for="honor_{{ i }}">{{ results.honors[i].name }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Publishers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="publishers" name="publishers" value="">
+				<label class="my-1" for="publishers">Editeurs:</label>
+				{% if results.publishers|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.publishers|length - 1) %}
+							<div>
+								<input type="checkbox" id="publisher_{{ i }}" name="publisher_{{ i }}" value="{{ results.publishers[i] }}" disabled>
+								<label for="publisher_{{ i }}">{{ results.publishers[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+			<div class="d-flex justify-content-center mt-4">
+				<button class="btn" type="submit">Valider</button>
+			</div>
 		</form>
 
-		<div class="d-flex gap-2">
-			<div class="component-high d-flex w-50">
-				<div class="app-boardgame-show-content">
-					<div class="text-dark fw-bold">Créateurs du jeu :</div>
-					{% if results.artists|length >0 %}
-						{% for i in 0..(results.artists|length -1) %}
-							<div class="text-dark">-{{ results.artists[i] }}</div>
-						{% endfor %}
-					{% endif %}
-				</div>
-			</div>
-
-			<div class="component-high d-flex w-50">
-				<div class="app-boardgame-show-content">
-					<div class="text-dark fw-bold">Designers du jeu :</div>
-					{% if results.designers|length >0 %}
-						{% for i in 0..(results.designers|length -1) %}
-							<div class="text-dark">-{{ results.designers[i] }}</div>
-						{% endfor %}
-					{% endif %}
-				</div>
-			</div>
-		</div>
-
-		<div class="d-flex gap-2 mt-2">
-			<div class="component-high d-flex w-50">
-				<div class="app-boardgame-show-content">
-					<div class="text-dark fw-bold">Développeurs du jeu :</div>
-					{% if results.developers|length >0 %}
-						{% for i in 0..(results.developers|length -1) %}
-							<div class="text-dark">-{{ results.developers[i] }}</div>
-						{% endfor %}
-					{% endif %}
-				</div>
-			</div>
-
-			<div class="component-high d-flex w-50">
-				<div class="app-boardgame-show-content">
-					<div class="text-dark fw-bold">Designers graphique :</div>
-					{% if results.graphicDesigners|length >0 %}
-						{% for i in 0..(results.graphicDesigners|length -1) %}
-							<div class="text-dark">-{{ results.graphicDesigners[i] }}</div>
-						{% endfor %}
-					{% endif %}
-				</div>
-			</div>
-		</div>
-
-
-		<div class="m-4">
-
-			<div class="app-boardgame-show-content">
-				<div class="text-high fw-bold">Catégorie :</div>
-				{% if results.categories|length > 0 %}
-					<div class="content-list">
-						{% for category in results.categories|slice(0, 5) %}
-							<div>
-								{{ category }}
-							</div>
-						{% endfor %}
-					</div>
-					{% if results.categories|length > 5 %}
-						<div class="extra-content" style="display: none;">
-							{% for honor in results.categories|slice(5) %}
-								<div>
-									{{ category }}
-								</div>
-							{% endfor %}
-						</div>
-						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
-					{% endif %}
-				{% endif %}
-			</div>
-
-			<div class="app-boardgame-show-content">
-				<div class="text-high fw-bold">Sous domaine :</div>
-				{% if results.subdomains|length > 0 %}
-					<div class="content-list">
-						{% for subdomain in results.subdomains|slice(0, 5) %}
-							<div>
-								{{ subdomain }}
-							</div>
-						{% endfor %}
-					</div>
-					{% if results.subdomains|length > 5 %}
-						<div class="extra-content" style="display: none;">
-							{% for honor in results.subdomains|slice(5) %}
-								<div>
-									{{ subdomain }}
-								</div>
-							{% endfor %}
-						</div>
-						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
-					{% endif %}
-				{% endif %}
-			</div>
-
-			<div class="app-boardgame-show-content">
-				<div class="text-high fw-bold">Style de jeu :</div>
-				{% if results.mechanics|length > 0 %}
-					<div class="content-list">
-						{% for mechanic in results.mechanics|slice(0, 5) %}
-							<div>
-								{{ mechanic }}
-							</div>
-						{% endfor %}
-					</div>
-					{% if results.mechanics|length > 5 %}
-						<div class="extra-content" style="display: none;">
-							{% for mechanic in results.mechanics|slice(5) %}
-								<div>
-									{{ mechanic }}
-								</div>
-							{% endfor %}
-						</div>
-						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
-					{% endif %}
-				{% endif %}
-			</div>
-
-			<div>
-				<div class="text-high fw-bold fw-bold">Description :</div>
-				<div>
-					<p class="short-description m-0">{{ results.description|slice(0, 100) }}...</p>
-					<p class="full-description m-0" style="display: none;">{{ results.description | raw }}</p>
-				</div>
-				<button class="toggle-description-button app-boardgame-show-button-show">Afficher plus ...</button>
-			</div>
-
-			<div class="app-boardgame-show-content">
-				<div class="text-high fw-bold">Récompenses :</div>
-				{% if results.honors|length > 0 %}
-					<div class="content-list">
-						{% for honor in results.honors|slice(0, 5) %}
-							<div>
-								{{ honor.year }}
-								-
-								{{ honor.name }}
-							</div>
-						{% endfor %}
-					</div>
-					{% if results.honors|length > 5 %}
-						<div class="extra-content" style="display: none;">
-							{% for honor in results.honors|slice(5) %}
-								<div>
-									{{ honor.year }}
-									-
-									{{ honor.name }}
-								</div>
-							{% endfor %}
-						</div>
-						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
-					{% endif %}
-				{% endif %}
-			</div>
-
-			<div class="app-boardgame-show-content">
-				<div class="text-high fw-bold">Editeurs :</div>
-				{% if results.publishers|length > 0 %}
-					<div class="content-list">
-						{% for publisher in results.publishers|slice(0, 5) %}
-							<div>
-								{{ publisher }}
-							</div>
-						{% endfor %}
-					</div>
-					{% if results.publishers|length > 5 %}
-						<div class="extra-content" style="display: none;">
-							{% for publisher in results.publishers|slice(5) %}
-								<div>
-									{{ publisher }}
-								</div>
-							{% endfor %}
-						</div>
-						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
-					{% endif %}
-				{% endif %}
-			</div>
-		</div>
 	</div>
 {% endblock %}

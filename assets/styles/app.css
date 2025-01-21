@@ -73,28 +73,6 @@ body {
     flex-direction: column;
 }
 
-.admin-container{
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.admin-section-title {
-    color: var(--admin-section-text);
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-.admin-section-title:hover {
-    color: var(--admin-section-text-hover);
-}
-
-.admin-section-subtitle {
-    color: var(--admin-section-text);
-}
-
-.admin-section-subtitle:hover {
-    color: var(--admin-section-text-hover);
-}
-
 a:hover {
     color: var(--low-contrast-text);
 }
@@ -466,9 +444,74 @@ a:hover {
 }
 
 /* ADMIN */
+.admin-container{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.admin-section-title {
+    color: var(--admin-section-text);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.admin-section-title:hover {
+    color: var(--admin-section-text-hover);
+}
+
+.admin-section-subtitle {
+    color: var(--admin-section-text);
+}
+
+.admin-section-subtitle:hover {
+    color: var(--admin-section-text-hover);
+}
+
 .admin-searchbar-container {
     max-width: 576px;
     margin: 0 auto;
+}
+
+.admin-component {
+    background-color: var(--ui-element-background);
+    border: 1px solid var(--ui-element-border);
+    color: var(--low-contrast-text);
+    padding: 10px;
+    border-radius: 50px;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    text-align: center;
+}
+
+.admin-component:hover {
+    background-color: var(--hovered-ui-element-background);
+    border-color: var(--hovered-ui-element-border);
+    color: var(--high-contrast-text);
+}
+
+.admin-component:active {
+    background-color: var(--active-selected-ui-element-background);
+    border-color: var(--hovered-ui-element-border);
+    color: var(--hight-contrast-text);
+}
+
+.admin-component-high {
+    background-color: var(--solid-background);
+    border: 1px solid var(--high-contrast-text);
+    color: var(--low-contrast-text);
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.admin-component-high:hover {
+    background-color: var(--hovered-solid-background);
+    border-color: var(--high-contrast-text);
+    color: var(--high-contrast-text);
+}
+
+.admin-component-high:active {
+    background-color: var(--hovered-solid-background);
+    border-color: var(--high-contrast-text);
+    color: var(--hight-contrast-text);
 }
 
 @media screen and (min-width: 576px) {
