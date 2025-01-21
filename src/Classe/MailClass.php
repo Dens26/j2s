@@ -5,7 +5,7 @@ namespace App\Classe;
 use Mailjet\Client;
 use Mailjet\Resources;
 
-class Mail
+class MailClass
 {
     public function resetPassword(string $email, string $name, string $subject, $content)
     {

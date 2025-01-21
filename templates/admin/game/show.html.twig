@@ -1,0 +1,234 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN--Paramétrage du jeu
+{% endblock %}
+
+{% block body %}
+	<div class="my-4 mx-3 admin-container">
+		<h1 class="text-center admin-section-title my-4 d-flex justify-content-center">Configuration du jeu pour le prochain stream</h1>
+
+
+		<p class="admin-section-subtitle fs-3">{{ results.name }}</p>
+
+		<p>Sélectionne les indices que tu veux comparer et faire apparaître :</p>
+
+		<form class="mx-4" action="{{ path('admin_game_create') }}" method="post">
+			<div>
+				<input type="checkbox" id="yearPublished" name="_yearPublished" value="{{ results.yearPublished }}" required>
+				<label class="my-1" for="yearPublished">Année de publication :
+					{{ results.yearPublished }}
+				</label>
+			</div>
+			<div>
+				<input type="checkbox" id="players" name="_players" value="{{ results.minPlayers }} - {{ results.maxPlayers}}" required>
+				<label class="my-1" for="players">Nombre de joueurs :
+					{{ results.minPlayers }}-{{ results.maxPlayers }}
+					joueurs
+				</label>
+			</div>
+			<div>
+				<input type="checkbox" id="playingTime" name="_playingTime" value="{{ results.playingTime }}" required>
+				<label class="my-1" for="playingTime">Temps de jeu :
+					{{ results.playingTime }}
+					minutes
+				</label>
+			</div>
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="artists" name="_artists" value="">
+				<label class="my-1" for="artists">Créateur(s) :</label>
+				{% if results.artists|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.artists|length - 1) %}
+							<div>
+								<input type="checkbox" id="creator_{{ i }}" name="_creator_{{ i }}" value="{{ results.artists[i] }}" disabled>
+								<label for="creator_{{ i }}">{{ results.artists[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+
+		</form>
+
+		<div class="d-flex gap-2">
+			<div class="component-high d-flex w-50">
+				<div class="app-boardgame-show-content">
+					<div class="text-dark fw-bold">Créateurs du jeu :</div>
+					{% if results.artists|length >0 %}
+						{% for i in 0..(results.artists|length -1) %}
+							<div class="text-dark">-{{ results.artists[i] }}</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="component-high d-flex w-50">
+				<div class="app-boardgame-show-content">
+					<div class="text-dark fw-bold">Designers du jeu :</div>
+					{% if results.designers|length >0 %}
+						{% for i in 0..(results.designers|length -1) %}
+							<div class="text-dark">-{{ results.designers[i] }}</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<div class="d-flex gap-2 mt-2">
+			<div class="component-high d-flex w-50">
+				<div class="app-boardgame-show-content">
+					<div class="text-dark fw-bold">Développeurs du jeu :</div>
+					{% if results.developers|length >0 %}
+						{% for i in 0..(results.developers|length -1) %}
+							<div class="text-dark">-{{ results.developers[i] }}</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="component-high d-flex w-50">
+				<div class="app-boardgame-show-content">
+					<div class="text-dark fw-bold">Designers graphique :</div>
+					{% if results.graphicDesigners|length >0 %}
+						{% for i in 0..(results.graphicDesigners|length -1) %}
+							<div class="text-dark">-{{ results.graphicDesigners[i] }}</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+
+		<div class="m-4">
+
+			<div class="app-boardgame-show-content">
+				<div class="text-high fw-bold">Catégorie :</div>
+				{% if results.categories|length > 0 %}
+					<div class="content-list">
+						{% for category in results.categories|slice(0, 5) %}
+							<div>
+								{{ category }}
+							</div>
+						{% endfor %}
+					</div>
+					{% if results.categories|length > 5 %}
+						<div class="extra-content" style="display: none;">
+							{% for honor in results.categories|slice(5) %}
+								<div>
+									{{ category }}
+								</div>
+							{% endfor %}
+						</div>
+						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
+					{% endif %}
+				{% endif %}
+			</div>
+
+			<div class="app-boardgame-show-content">
+				<div class="text-high fw-bold">Sous domaine :</div>
+				{% if results.subdomains|length > 0 %}
+					<div class="content-list">
+						{% for subdomain in results.subdomains|slice(0, 5) %}
+							<div>
+								{{ subdomain }}
+							</div>
+						{% endfor %}
+					</div>
+					{% if results.subdomains|length > 5 %}
+						<div class="extra-content" style="display: none;">
+							{% for honor in results.subdomains|slice(5) %}
+								<div>
+									{{ subdomain }}
+								</div>
+							{% endfor %}
+						</div>
+						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
+					{% endif %}
+				{% endif %}
+			</div>
+
+			<div class="app-boardgame-show-content">
+				<div class="text-high fw-bold">Style de jeu :</div>
+				{% if results.mechanics|length > 0 %}
+					<div class="content-list">
+						{% for mechanic in results.mechanics|slice(0, 5) %}
+							<div>
+								{{ mechanic }}
+							</div>
+						{% endfor %}
+					</div>
+					{% if results.mechanics|length > 5 %}
+						<div class="extra-content" style="display: none;">
+							{% for mechanic in results.mechanics|slice(5) %}
+								<div>
+									{{ mechanic }}
+								</div>
+							{% endfor %}
+						</div>
+						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
+					{% endif %}
+				{% endif %}
+			</div>
+
+			<div>
+				<div class="text-high fw-bold fw-bold">Description :</div>
+				<div>
+					<p class="short-description m-0">{{ results.description|slice(0, 100) }}...</p>
+					<p class="full-description m-0" style="display: none;">{{ results.description | raw }}</p>
+				</div>
+				<button class="toggle-description-button app-boardgame-show-button-show">Afficher plus ...</button>
+			</div>
+
+			<div class="app-boardgame-show-content">
+				<div class="text-high fw-bold">Récompenses :</div>
+				{% if results.honors|length > 0 %}
+					<div class="content-list">
+						{% for honor in results.honors|slice(0, 5) %}
+							<div>
+								{{ honor.year }}
+								-
+								{{ honor.name }}
+							</div>
+						{% endfor %}
+					</div>
+					{% if results.honors|length > 5 %}
+						<div class="extra-content" style="display: none;">
+							{% for honor in results.honors|slice(5) %}
+								<div>
+									{{ honor.year }}
+									-
+									{{ honor.name }}
+								</div>
+							{% endfor %}
+						</div>
+						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
+					{% endif %}
+				{% endif %}
+			</div>
+
+			<div class="app-boardgame-show-content">
+				<div class="text-high fw-bold">Editeurs :</div>
+				{% if results.publishers|length > 0 %}
+					<div class="content-list">
+						{% for publisher in results.publishers|slice(0, 5) %}
+							<div>
+								{{ publisher }}
+							</div>
+						{% endfor %}
+					</div>
+					{% if results.publishers|length > 5 %}
+						<div class="extra-content" style="display: none;">
+							{% for publisher in results.publishers|slice(5) %}
+								<div>
+									{{ publisher }}
+								</div>
+							{% endfor %}
+						</div>
+						<button class="toggle-content-button app-boardgame-show-button-show">Afficher plus ...</button>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

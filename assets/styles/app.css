@@ -3,6 +3,8 @@
     /* Backgrounds */
     --app-background: #FDFCFC;
     --subtle-background: #FDF7F5;
+    --admin-background: white;
+
     --ui-element-background: #F6EDEA;
     --hovered-ui-element-background: #EFE4DF;
     --active-selected-ui-element-background: #E7D9D3;
@@ -20,8 +22,8 @@
     /* Text */
     --low-contrast-text: #7D5E54;
     --high-contrast-text: #43302B;
-    --admin-section-text: #3b82f6;
-    --admin-section-text-hover: #003d9e;
+    --admin-section-text: rgb(0, 0, 0);
+    --admin-section-text-hover: rgb(52, 52, 52);
 }
 
 /* Dark Mode Variables (automatique si mode sombre activé) */
@@ -30,6 +32,8 @@
         /* Backgrounds */
         --app-background: #12110F;
         --subtle-background: #1C1816;
+        --admin-background: black;
+
         --ui-element-background: #28211D;
         --hovered-ui-element-background: #322922;
         --active-selected-ui-element-background: #3E3128;
@@ -47,8 +51,8 @@
         /* Text */
         --low-contrast-text: #DBB594;
         --high-contrast-text: #F2E1CA;
-        --admin-section-text: #3b82f6;
-        --admin-section-text-hover: #8db8ff;
+        --admin-section-text: rgb(192, 192, 192);
+        --admin-section-text-hover: white;
     }
 }
 
@@ -59,7 +63,8 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-html, body {
+html,
+body {
     background-color: var(--app-background);
     height: 100%;
     margin: 0;
@@ -68,11 +73,25 @@ html, body {
     flex-direction: column;
 }
 
-.admin-section{
+.admin-container{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.admin-section-title {
+    color: var(--admin-section-text);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.admin-section-title:hover {
+    color: var(--admin-section-text-hover);
+}
+
+.admin-section-subtitle {
     color: var(--admin-section-text);
 }
 
-.admin-section:hover {
+.admin-section-subtitle:hover {
     color: var(--admin-section-text-hover);
 }
 
@@ -282,12 +301,14 @@ a:hover {
     width: 100vw;
     z-index: 100;
     padding: 8px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Par défaut, avec ombrage */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    /* Par défaut, avec ombrage */
     transition: box-shadow 0.3s ease;
 }
 
 .footer-fixed.no-shadow {
-    box-shadow: none; /* Supprime l'ombrage */
+    box-shadow: none;
+    /* Supprime l'ombrage */
 }
 
 .footer-fixed .social-links {
@@ -442,6 +463,12 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* ADMIN */
+.admin-searchbar-container {
+    max-width: 576px;
+    margin: 0 auto;
 }
 
 @media screen and (min-width: 576px) {
