@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN--Confirmation!
+{% endblock %}
+
+{% block body %}
+	<div class="admin-container m-4">
+		<div class="m-2">
+			<h1 class="admin-section-title mb-4 d-flex justify-content-center">Aperçu du jeu mystère</h1>
+
+			<form
+				class="d-flex row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2" action="">
+				<!-- Affichage du nom du jeu -->
+				<div class="w-100">
+					<input class="form-control admin-searchbar-container text-center" type="text" value="{{ data.name }}" disabled>
+				</div>
+				<!-- Parcourir les données -->
+				{% for key, items in data %}
+					{% if key != 'id' and key != 'name' %}
+						{% if items is iterable and items|length != 0 %}
+							<div class="admin-component my-3">
+								<h3 class="fw-bold">{{ key|capitalize }}</h3>
+								<!-- Affiche le nom de la catégorie -->
+								<ul>
+									{% for item in items %}
+										<li class="btn">{{ item }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% elseif items is not empty %}
+							<div class="admin-component my-3">
+								<h3 class="fw-bold">{{ key|capitalize }}</h3>
+								<p>{{ items }}</p>
+								<!-- Affiche l'élément si ce n'est pas un tableau -->
+							</div>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+
+
+				<!-- Bouton de confirmation -->
+				<div class="w-100">
+					<div class="d-flex justify-content-center mt-4">
+						<button class="btn btn-primary" type="submit">Confirmer</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
