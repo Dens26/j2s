@@ -2,7 +2,7 @@
 
 namespace App\Controller\security;
 
-use App\Classe\Mail;
+use App\Classe\MailClass;
 use App\Entity\User;
 use App\Form\PasswordResetRequestType;
 use App\Form\ResetPasswordType;
@@ -37,7 +37,7 @@ class PasswordResetController extends AbstractController
                 ], UrlGeneratorInterface::ABSOLUTE_URL);
 
                 // Envoie de l'email avec un lien de connexion
-                $mail = new Mail();
+                $mail = new MailClass();
                 $mail->resetPassword($email, $user->getFirstname() . ' ' . $user->getLastname(), 'Réinitialisation du mot de passe', "<a href='$resetLink'>Réinitialiser</a>");
 
                 $this->addFlash('success', 'Un email de réinitialisation a été envoyé.');

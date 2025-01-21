@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN--Création du jeu!
+{% endblock %}
+
+{% block body %}
+	<div class="admin-container my-4 mx-3">
+		<div class="m-2">
+			<h1 class="admin-section-title mb-4 d-flex justify-content-center">Création du jeu pour le prochain stream</h1>
+
+			<form class="d-flex gap-2 admin-searchbar-container" role="search" method="GET" action="{{ path('admin_game_search') }}">
+				<input class="form-control" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
+				<button class="btn" type="submit">Recherchez</button>
+			</form>
+
+			{% include 'components/admin/searchResult.html.twig' %}
+		</div>
+	</div>
+{% endblock %}
