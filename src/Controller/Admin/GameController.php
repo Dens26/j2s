@@ -37,7 +37,7 @@ class GameController extends AbstractController
 
         // Définir les groupes à traiter
         $groupPrefixes = [
-            'artist',
+            'artist_',
             'designer_',
             'graphicDesigner_',
             'developper_',
@@ -53,6 +53,7 @@ class GameController extends AbstractController
             'id' => $data['id'] ?? null,
             'name' => $data['name'] ?? null,
             'yearPublished' => $data['yearPublished'] ?? null,
+            'age' => $data['age'] ?? null,
             'players' => $data['players'] ?? null,
             'playingTime' => $data['playingTime'] ?? null,
             'artists' => [],
