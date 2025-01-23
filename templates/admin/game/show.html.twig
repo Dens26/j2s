@@ -21,7 +21,7 @@
 			</div>
 			{# Year published #}
 			<div>
-				<input type="checkbox" id="yearPublished" name="yearPublished" value="{{ results.yearPublished }}">
+				<input type="checkbox" id="yearPublished" name="yearPublished" value="{{ results.yearPublished }}" checked>
 				<label class="my-1" for="yearPublished">Année de publication:
 					{{ results.yearPublished }}
 				</label>
@@ -29,7 +29,7 @@
 
 			{# Players number #}
 			<div>
-				<input type="checkbox" id="players" name="players" value="{{ results.minPlayers }} - {{ results.maxPlayers}}">
+				<input type="checkbox" id="players" name="players" value="{{ results.minPlayers }} - {{ results.maxPlayers}}"checked>
 				<label class="my-1" for="players">Nombre de joueurs:
 					{{ results.minPlayers }}-{{ results.maxPlayers }}
 					joueurs
@@ -38,16 +38,25 @@
 
 			{# Playing time #}
 			<div>
-				<input type="checkbox" id="playingTime" name="playingTime" value="{{ results.playingTime }}">
-				<label class="my-1" for="playingTime">Temps de jeu :
+				<input type="checkbox" id="playingTime" name="playingTime" value="{{ results.playingTime }}"checked>
+				<label class="my-1" for="playingTime">Temps de jeu:
 					{{ results.playingTime }}
 					minutes
 				</label>
 			</div>
 
+			{# Age #}
+			<div>
+				<input type="checkbox" id="age" name="age" value="{{ results.age }}"checked>
+				<label class="my-1" for="age">Age:
+					{{ results.age }}
+					ans
+				</label>
+			</div>
+
 			{# Artists #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="artists" name="artists" value="">
+				<input type="checkbox" id="artists" name="artists" value=""checked>
 				<label class="my-1" for="artists">Créateur:</label>
 				{% if results.artists|length > 0 %}
 					<div class="ms-4">
@@ -63,7 +72,7 @@
 
 			{# Designers #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="designers" name="designers" value="">
+				<input type="checkbox" id="designers" name="designers" value=""checked>
 				<label class="my-1" for="designers">Designers:</label>
 				{% if results.designers|length > 0 %}
 					<div class="ms-4">
@@ -79,7 +88,7 @@
 
 			{# Graphic designers #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="graphicDesigners" name="graphicDesigners" value="">
+				<input type="checkbox" id="graphicDesigners" name="graphicDesigners" value=""checked>
 				<label class="my-1" for="graphicDesigners">Designers graphique:</label>
 				{% if results.graphicDesigners|length > 0 %}
 					<div class="ms-4">
@@ -95,7 +104,7 @@
 
 			{# Developers #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="developers" name="developers" value="">
+				<input type="checkbox" id="developers" name="developers" value=""checked>
 				<label class="my-1" for="developers">Développeurs:</label>
 				{% if results.developers|length > 0 %}
 					<div class="ms-4">
@@ -111,7 +120,7 @@
 
 			{# Categories #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="categories" name="categories" value="">
+				<input type="checkbox" id="categories" name="categories" value=""checked>
 				<label class="my-1" for="categories">Catégories:</label>
 				{% if results.categories|length > 0 %}
 					<div class="ms-4">
@@ -127,7 +136,7 @@
 
 			{# Categories #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="subdomains" name="subdomains" value="">
+				<input type="checkbox" id="subdomains" name="subdomains" value=""checked>
 				<label class="my-1" for="subdomains">Domaines::</label>
 				{% if results.subdomains|length > 0 %}
 					<div class="ms-4">
@@ -143,7 +152,7 @@
 
 			{# Mechanics #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="mechanics" name="mechanics" value="">
+				<input type="checkbox" id="mechanics" name="mechanics" value=""checked>
 				<label class="my-1" for="mechanics">Style de jeu:</label>
 				{% if results.mechanics|length > 0 %}
 					<div class="ms-4">
@@ -159,7 +168,7 @@
 
 			{# Honors #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="honors" name="honors" value="">
+				<input type="checkbox" id="honors" name="honors" value=""checked>
 				<label class="my-1" for="honors">Récompenses:</label>
 				{% if results.honors|length > 0 %}
 					<div class="ms-4">
@@ -175,7 +184,7 @@
 
 			{# Publishers #}
 			<div data-controller="checkbox-group">
-				<input type="checkbox" id="publishers" name="publishers" value="">
+				<input type="checkbox" id="publishers" name="publishers" value=""checked>
 				<label class="my-1" for="publishers">Editeurs:</label>
 				{% if results.publishers|length > 0 %}
 					<div class="ms-4">

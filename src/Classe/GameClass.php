@@ -90,7 +90,7 @@ class GameClass
         ];
 
         // Si il n'y a pas assez de credit pour traduire la description
-        $translateAvailable = $translatorService->checkIfQuotaAvailable($results['description']);
+        $translateAvailable = true;
 
         // Création du jeu
         $game = new Game();
@@ -107,6 +107,7 @@ class GameClass
             ->setThumbnail($results['thumbnail'])
             ->setImage($results['image'])
         ;
+
 
         if ($translateAvailable) {
             $entityManager->persist($game);

@@ -26,21 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Gestion des groupes de cases à cocher
     function handleCheckboxGroups() {
-        // Sélectionne tous les groupes avec le contrôleur
         const checkboxGroups = document.querySelectorAll('[data-controller="checkbox-group"]');
     
         checkboxGroups.forEach(group => {
-            // Trouve la case principale
             const mainCheckbox = group.querySelector('input[type="checkbox"]');
-    
-            // Trouve toutes les sous-cases dans ce groupe (excluant la case principale)
             const dependentCheckboxes = group.querySelectorAll('input[type="checkbox"]:not([id="' + mainCheckbox.id + '"])');
     
             if (mainCheckbox) {
-                // Vérifie l'état initial (par exemple, si la case mère est déjà cochée)
                 updateDependentCheckboxes(mainCheckbox.checked, dependentCheckboxes);
-    
-                // Ajoute un événement pour activer/désactiver les sous-cases
                 mainCheckbox.addEventListener('change', () => {
                     updateDependentCheckboxes(mainCheckbox.checked, dependentCheckboxes);
                 });
@@ -51,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateDependentCheckboxes(isChecked, dependentCheckboxes) {
         dependentCheckboxes.forEach(checkbox => {
             checkbox.disabled = !isChecked;
+            checkbox.checked = true;
             if (!isChecked) {
                 checkbox.checked = false;
             }
