@@ -8,41 +8,94 @@
 		<div class="m-2">
 			<h1 class="admin-section-title mb-4 d-flex justify-content-center">Aperçu du jeu mystère</h1>
 
-			<form
-				class="d-flex row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2" action="">
-				<!-- Affichage du nom du jeu -->
-				<div class="w-100">
+			<form action="">
+				<div class="w-100 mb-4">
 					<input class="form-control admin-searchbar-container text-center" type="text" value="{{ data.name }}" disabled>
 				</div>
-				<!-- Parcourir les données -->
-				{% for key, items in data %}
-					{% if key != 'id' and key != 'name' %}
-						{% if items is iterable and items|length != 0 %}
-							<div class="admin-component my-3">
-								<h3 class="fw-bold">{{ key|capitalize }}</h3>
-								<!-- Affiche le nom de la catégorie -->
-								<ul>
-									{% for item in items %}
-										<li class="btn">{{ item }}</li>
-									{% endfor %}
-								</ul>
-							</div>
-						{% elseif items is not empty %}
-							<div class="admin-component my-3">
-								<h3 class="fw-bold">{{ key|capitalize }}</h3>
-								<p>{{ items }}</p>
-								<!-- Affiche l'élément si ce n'est pas un tableau -->
-							</div>
-						{% endif %}
-					{% endif %}
-				{% endfor %}
 
-
-				<!-- Bouton de confirmation -->
-				<div class="w-100">
-					<div class="d-flex justify-content-center mt-4">
-						<button class="btn btn-primary" type="submit">Confirmer</button>
+				<div class="admin-component row row-cols-1 row-cols-md-3 g-2 mb-4 align-items-center">
+					<div class="btn admin-btn d-flex align-items-center justify-content-center">
+						<img class="me-2" width="32" height="32" src="{{asset('logo/category.png')}}" alt="">
+						<div>
+							{% for category in data.categorys %}
+								<div>{{category}}</div>
+							{% endfor %}
+						</div>
 					</div>
+					<div>
+						<div class="btn admin-btn d-flex align-items-center justify-content-center">
+							<img class="me-2" width="32" height="32" src="{{asset('logo/subdomain.png')}}" alt="">
+							<div>
+								{% for subdomain in data.subdomains %}
+									<div>{{subdomain}}</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="btn admin-btn d-flex align-items-center justify-content-center">
+							<img class="me-2" width="32" height="32" src="{{asset('logo/mechanic.png')}}" alt="">
+							<div>
+								{% for mechanic in data.mechanics %}
+									<div>{{mechanic}}</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="admin-component row row-cols-2 row-cols-md-4 g-1 mb-4">
+					<div class="btn admin-btn">
+						<div>{{data.age}}
+							ans</div>
+					</div>
+					<div class="btn admin-btn">
+						<div>{{data.players}}
+							joueurs</div>
+					</div>
+					<div class="btn admin-btn">
+						<div>{{data.playingTime}}
+							minutes</div>
+					</div>
+					<div class="btn admin-btn">
+						<div>{{data.yearPublished}}</div>
+					</div>
+				</div>
+
+				<div class="admin-component row row-cols-1 row-cols-md-3 g-1 mb-4">
+					<div class="btn admin-btn">
+						{% for artist in data.artists %}
+							<div>{{artist}}</div>
+						{% endfor %}
+					</div>
+					<div class="btn admin-btn">
+						{% for designer in data.designers %}
+							<div>{{designer}}</div>
+						{% endfor %}
+					</div>
+					<div class="btn admin-btn">
+						{% for graphicDesigner in data.graphicDesigners %}
+							<div>{{graphicDesigner}}</div>
+						{% endfor %}
+					</div>
+				</div>
+
+				<div class="admin-component row row-cols-1 row-cols-md-2 g-1">
+					<div class="btn admin-btn">
+						{% for honor in data.honors %}
+							<div>{{honor}}</div>
+						{% endfor %}
+					</div>
+					<div class="btn admin-btn">
+						{% for publisher in data.publishers %}
+							<div>{{publisher}}</div>
+						{% endfor %}
+					</div>
+				</div>
+
+
+				<div class="d-flex justify-content-center mt-4">
+					<button class="btn btn-primary" type="submit">Confirmer</button>
 				</div>
 			</form>
 		</div>
