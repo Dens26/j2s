@@ -390,8 +390,8 @@ a:hover {
 .step {
     text-align: left;
     margin: 10px auto;
-    margin-left: clamp(20px, 10vw, 80px);
-    margin-right: clamp(20px, 10vw, 80px);
+    /* margin-left: clamp(20px, 10vw, 80px);
+    margin-right: clamp(20px, 10vw, 80px); */
     font-size: 0.80rem;
 }
 
@@ -444,7 +444,7 @@ a:hover {
 }
 
 /* ADMIN */
-.admin-container{
+.admin-container {
     font-family: 'Courier New', Courier, monospace;
 }
 
@@ -532,11 +532,13 @@ a:hover {
     border-color: var(--hovered-solid-background);
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 390px) {
 
     /* Home */
     .step {
         font-size: 0.95rem;
+        margin-left: clamp(20px, 10vw, 80px);
+        margin-right: clamp(20px, 10vw, 80px);
     }
 }
 
