@@ -6,8 +6,10 @@ use App\Repository\FamilyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: FamilyRepository::class)]
+#[UniqueEntity('name')]
 class Family
 {
     #[ORM\Id]
@@ -21,7 +23,7 @@ class Family
     #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'families')]
     private Collection $game;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
