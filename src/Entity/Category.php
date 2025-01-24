@@ -24,6 +24,9 @@ class Category
     #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'categories')]
     private Collection $game;
 
+    #[ORM\Column(length: 255)]
+    private ?string $translatedName = null;
+
     public function __construct()
     {
         $this->game = new ArrayCollection();
@@ -66,6 +69,18 @@ class Category
     public function removeGame(game $game): static
     {
         $this->game->removeElement($game);
+
+        return $this;
+    }
+
+    public function getTranslatedName(): ?string
+    {
+        return $this->translatedName;
+    }
+
+    public function setTranslatedName(string $translatedName): static
+    {
+        $this->translatedName = $translatedName;
 
         return $this;
     }

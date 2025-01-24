@@ -44,7 +44,7 @@ class TranslatorService
         $currentUsage = $this->getUsageCount();
 
         // Return the original text if usage limit exceeded
-        if ($currentUsage >= $this->usageLimit && $currentUsage > strlen($description)) {
+        if ($currentUsage >= $this->usageLimit && $currentUsage > strlen($description) + 500) {
             return false;
         }
 
