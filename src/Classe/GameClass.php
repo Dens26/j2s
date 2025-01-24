@@ -92,6 +92,9 @@ class GameClass
         // Si il n'y a pas assez de credit pour traduire la description
         $translateAvailable = $translatorService->checkIfQuotaAvailable($results['description']);
 
+        // Traduction des autres tables
+        $this->translateItems($results, $translateAvailable, $translatorService);
+
         // Création du jeu
         $game = new Game();
         $game
@@ -103,27 +106,26 @@ class GameClass
             ->setMaxPlayers($results['maxPlayers'])
             ->setPlayingTime($results['playingTime'])
             ->setAge($results['age'])
-            ->setDescription($translatorService->translateDescription($results['description']))
+            ->setDescription($results['description'])
             ->setThumbnail($results['thumbnail'])
             ->setImage($results['image'])
         ;
-
 
         if ($translateAvailable) {
             $entityManager->persist($game);
         }
 
         // Gestion des table liées
-        $this->handleRelateData($translatorService, false, $results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, false, $results['artists'], $game, Artist::class, 'addArtist', $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, true, $results['categories'], $game, Category::class, 'addCategory', $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, true, $results['subdomains'], $game, Subdomain::class, 'addSubdomain', $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, true, $results['mechanics'], $game, Mechanic::class, 'addMechanic', $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, false, $results['designers'], $game, Designer::class, 'addDesigner', $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, false, $results['graphicDesigners'], $game, GraphicDesigner::class, 'addGraphicDesigner', $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, false, $results['developers'], $game, Developer::class, 'addDeveloper', $entityManager, $translateAvailable);
+        $this->handleRelateData(false, $results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager, $translateAvailable);
+        $this->handleRelateData(false, $results['artists'], $game, Artist::class, 'addArtist', $entityManager, $translateAvailable);
+        $this->handleRelateData(true, $results['categories'], $game, Category::class, 'addCategory', $entityManager, $translateAvailable);
+        $this->handleRelateData(true, $results['subdomains'], $game, Subdomain::class, 'addSubdomain', $entityManager, $translateAvailable);
+        $this->handleRelateData(true, $results['mechanics'], $game, Mechanic::class, 'addMechanic', $entityManager, $translateAvailable);
+        $this->handleRelateData(false, $results['designers'], $game, Designer::class, 'addDesigner', $entityManager, $translateAvailable);
+        $this->handleRelateData(false, $results['graphicDesigners'], $game, GraphicDesigner::class, 'addGraphicDesigner', $entityManager, $translateAvailable);
+        $this->handleRelateData(false, $results['developers'], $game, Developer::class, 'addDeveloper', $entityManager, $translateAvailable);
         $this->handleRelateHonorData($results['honors'], $game, $entityManager, $translateAvailable);
-        $this->handleRelateData($translatorService, true, $results['families'], $game, Family::class, 'addFamily', $entityManager, $translateAvailable);
+        $this->handleRelateData(true, $results['families'], $game, Family::class, 'addFamily', $entityManager, $translateAvailable);
 
         // Sauvegarde des données
         if ($translateAvailable) {
@@ -174,6 +176,79 @@ class GameClass
         });
         return $results;
     }
+
+    private function translateItems(array &$results, bool $translateAvailable, TranslatorService $translatorService): void
+    {
+        // Liste des champs à traduire (en plus de la description)
+        $fieldsToTranslate = ['categories', 'subdomains', 'mechanics', 'families'];
+
+        // Créer un tableau des valeurs à traduire (en incluant la description)
+        $itemsToTranslate = [];
+
+        // Ajout des catégories, sous-domaines, mécaniques, familles
+        foreach ($fieldsToTranslate as $field) {
+            if (isset($results[$field]) && is_array($results[$field]) && count($results[$field]) > 1) {
+                $itemsToTranslate = array_merge($itemsToTranslate, array_slice($results[$field], 1));
+            }
+        }
+
+        // Ajouter la description dans le tableau à traduire
+        if (isset($results['description'])) {
+            $itemsToTranslate[] = $results['description'];
+        }
+
+        // Si la traduction est disponible et qu'il y a des éléments à traduire, procéder à la traduction
+        if ($translateAvailable && !empty($itemsToTranslate)) {
+            $translatedItems = json_decode($translatorService->translate(json_encode($itemsToTranslate)), true);
+
+            if (is_array($translatedItems)) {
+                $index = 0;
+
+                // Réintégrer les traductions dans les résultats
+                foreach ($fieldsToTranslate as $field) {
+                    if (isset($results[$field]) && is_array($results[$field]) && count($results[$field]) > 1) {
+                        // Traduction des autres champs (categories, subdomains, etc.)
+                        $results[$field] = array_map(function ($original) use (&$index, $translatedItems) {
+                            return [
+                                'name' => $original,
+                                'translated-name' => $translatedItems[$index++] ?? 'Pas de traduction',
+                            ];
+                        }, array_slice($results[$field], 1));
+                    }
+                }
+
+                // Mettre à jour la description avec le texte traduit
+                if (isset($results['description'])) {
+                    $results['description'] = $translatedItems[$index] ?? 'Pas de traduction';
+                }
+            } else {
+                // Si la traduction échoue, utiliser l'original ou une valeur par défaut
+                $this->setDefaultTranslations($results, $fieldsToTranslate);
+            }
+        } else {
+            // Si la traduction n'est pas disponible, ajouter des traductions par défaut
+            $this->setDefaultTranslations($results, $fieldsToTranslate);
+        }
+    }
+
+    private function setDefaultTranslations(array &$results, array $fieldsToTranslate): void
+    {
+        // Si la traduction échoue ou n'est pas disponible, définir des traductions par défaut
+        foreach ($fieldsToTranslate as $field) {
+            if ($field === 'description' && isset($results['description'])) {
+                $results['description'] = 'Pas de traduction';  // Utilisation d'une valeur par défaut pour la description
+            } elseif (isset($results[$field]) && is_array($results[$field]) && count($results[$field]) > 1) {
+                $results[$field] = array_map(function ($original) {
+                    return [
+                        'name' => $original,
+                        'translated-name' => 'Pas de traduction',
+                    ];
+                }, array_slice($results[$field], 1));
+            }
+        }
+    }
+
+
 
     private function fetchBoardGameGeekData(string $searchTerm, int $page, int $resultsPerPage): array
     {
@@ -253,38 +328,51 @@ class GameClass
         return preg_match('/^[a-zA-Z0-9\s\p{P}]+$/u', $string);
     }
 
-    private function handleRelateData(TranslatorService $translatorService, bool $translate, array $data, Game $game, string $entityClass, string $addMethod, EntityManagerInterface $entityManager, bool $translateAvailable): void
+    private function handleRelateData(bool $translate, array $data, Game $game, string $entityClass, string $addMethod, EntityManagerInterface $entityManager, bool $translateAvailable): void
     {
-        // Filtrage des données pour ne garder que les valeurs de type string
-        $filteredData = array_filter($data, fn($item) => is_string($item));
+        if ($translate) {
+            foreach ($data as $item) {
+                // Vérification si l'élément existe (en utilisant 'name' pour les données traduites)
+                $relatedEntity = $entityManager->getRepository($entityClass)->findOneBy(['name' => $item['name']]);
 
-        foreach ($filteredData as $item) {
-            // Vérification si l'élément existe
-            $relatedEntity = $entityManager->getRepository($entityClass)->findOneBy(['name' => $item]);
+                // L'item n'existe pas
+                if (!$relatedEntity) {
+                    $relatedEntity = new $entityClass();
+                    $relatedEntity->setName($item['name']);
+                    $relatedEntity->setTranslatedName($item['translated-name']); // Enregistrer la traduction aussi
 
-            // L'item n'existe pas
-            if (!$relatedEntity) {
-                $relatedEntity = new $entityClass();
-
-                if ($translate) {
                     if ($translateAvailable) {
-                        $translatedName = $translatorService->translateOthers($item);
-                    } else {
-                        $translatedName = $item;
+                        $entityManager->persist($relatedEntity);
                     }
-                    $relatedEntity->setTranslatedName($translatedName);
                 }
 
-                $relatedEntity->setName($item);
-                if ($translateAvailable) {
-                    $entityManager->persist($relatedEntity);
-                }
+                // Ajout de l'entité au jeu pour chaque élément traduit
+                $game->{$addMethod}($relatedEntity);
             }
+        } else {
+            // Filtrage des données pour ne garder que les valeurs de type string
+            $filteredData = array_filter($data, fn($item) => is_string($item));
 
-            // Ajout de l'entité au jeu
-            $game->{$addMethod}($relatedEntity);
+            foreach ($filteredData as $item) {
+                // Vérification si l'élément existe (en utilisant 'name' pour les données non traduites)
+                $relatedEntity = $entityManager->getRepository($entityClass)->findOneBy(['name' => $item]);
+
+                // L'item n'existe pas
+                if (!$relatedEntity) {
+                    $relatedEntity = new $entityClass();
+                    $relatedEntity->setName($item);
+
+                    if ($translateAvailable) {
+                        $entityManager->persist($relatedEntity);
+                    }
+                }
+
+                // Ajout de l'entité au jeu pour chaque élément non traduit
+                $game->{$addMethod}($relatedEntity);
+            }
         }
     }
+
     private function handleRelateHonorData(array $data, Game $game, EntityManagerInterface $entityManager, bool $translateAvailable): void
     {
         // Filtrage des données pour ne garder que les valeurs de type string
