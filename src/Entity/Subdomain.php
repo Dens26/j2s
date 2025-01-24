@@ -24,6 +24,9 @@ class Subdomain
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $translatedName = null;
+
     public function __construct()
     {
         $this->game = new ArrayCollection();
@@ -66,6 +69,18 @@ class Subdomain
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getTranslatedName(): ?string
+    {
+        return $this->translatedName;
+    }
+
+    public function setTranslatedName(string $translatedName): static
+    {
+        $this->translatedName = $translatedName;
 
         return $this;
     }
