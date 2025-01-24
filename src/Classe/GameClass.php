@@ -103,7 +103,7 @@ class GameClass
             ->setMaxPlayers($results['maxPlayers'])
             ->setPlayingTime($results['playingTime'])
             ->setAge($results['age'])
-            ->setDescription($translatorService->translateToFrench($results['description']))
+            ->setDescription($translatorService->translateDescription($results['description']))
             ->setThumbnail($results['thumbnail'])
             ->setImage($results['image'])
         ;
@@ -268,9 +268,9 @@ class GameClass
 
                 if ($translate) {
                     if ($translateAvailable) {
-                        $translatedName = $translatorService->translateToFrench($item);
+                        $translatedName = $translatorService->translateOthers($item);
                     } else {
-                        $translatedName = "Traduction non disponible";
+                        $translatedName = $item;
                     }
                     $relatedEntity->setTranslatedName($translatedName);
                 }
