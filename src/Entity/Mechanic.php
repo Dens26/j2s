@@ -6,8 +6,10 @@ use App\Repository\MechanicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: MechanicRepository::class)]
+#[UniqueEntity('name')]
 class Mechanic
 {
     #[ORM\Id]
@@ -21,7 +23,7 @@ class Mechanic
     #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'mechanics')]
     private Collection $game;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]

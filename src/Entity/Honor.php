@@ -6,8 +6,10 @@ use App\Repository\HonorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: HonorRepository::class)]
+#[UniqueEntity('name')]
 class Honor
 {
     #[ORM\Id]
@@ -15,7 +17,7 @@ class Honor
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
     /**

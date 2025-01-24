@@ -39,12 +39,25 @@ class TranslatorService
      * 
      * @return string
      */
-    public function checkIfQuotaAvailable(string $description): string
+    public function checkIfQuotaAvailable(string $text): string
     {
         $currentUsage = $this->getUsageCount();
 
         // Return the original text if usage limit exceeded
-        if ($currentUsage >= $this->usageLimit && $currentUsage > strlen($description) + 500) {
+        if ($currentUsage >= $this->usageLimit && $currentUsage > strlen($text) + 1000) {
+            return false;
+        }
+
+        // Return the translated text
+        return true;
+    }
+
+    public function translateOK(string $text): string
+    {
+        $currentUsage = $this->getUsageCount();
+
+        // Return the original text if usage limit exceeded
+        if ($currentUsage >= $this->usageLimit && $currentUsage > strlen($text)) {
             return false;
         }
 
@@ -59,7 +72,7 @@ class TranslatorService
      * 
      * @return string
      */
-    public function translateToFrench(string $text): string
+    public function translateDescription(string $text): string
     {
         if ($this->checkIfQuotaAvailable($text)) {
             $response = $this->client->request('POST', 'https://api-free.deepl.com/v2/translate', [
@@ -74,6 +87,25 @@ class TranslatorService
 
             $data = $response->toArray();
             return $data['translations'][0]['text'] ?? $text;
+        }
+        return $text;
+    }
+
+    public function translateOthers(string $text): string
+    {
+        if ($this->translateOK($text)) {
+            $response = $this->client->request('POST', 'https://api-free.deepl.com/v2/translate', [
+                'headers' => [
+                    'Authorization' => 'DeepL-Auth-Key ' . $this->apiKey,
+                ],
+                'body' => [
+                    'text' => $text,
+                    'target_lang' => 'FR'
+                ],
+            ]);
+
+            $data = $response->toArray();
+            return $data['translations'][0]['text'] ?? 'Traduction non disponible';
         }
         return $text;
     }
