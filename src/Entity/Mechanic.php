@@ -20,7 +20,7 @@ class Mechanic
     /**
      * @var Collection<int, game>
      */
-    #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'mechanics')]
+    #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'mechanics')]
     private Collection $game;
 
     #[ORM\Column(length: 255, unique: true)]
@@ -47,7 +47,7 @@ class Mechanic
         return $this->game;
     }
 
-    public function addGame(game $game): static
+    public function addGame(Game $game): static
     {
         if (!$this->game->contains($game)) {
             $this->game->add($game);
@@ -56,7 +56,7 @@ class Mechanic
         return $this;
     }
 
-    public function removeGame(game $game): static
+    public function removeGame(Game $game): static
     {
         $this->game->removeElement($game);
 
@@ -85,5 +85,10 @@ class Mechanic
         $this->translatedName = $translatedName;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

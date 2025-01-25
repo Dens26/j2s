@@ -2,7 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Category;
+use App\Entity\Family;
 use App\Entity\Game;
+use App\Entity\Mechanic;
+use App\Entity\Subdomain;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -43,8 +47,13 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToRoute('Retourner sur le site', 'fa fa-home', 'app_home');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
-        yield MenuItem::linkToCrud('Jeux', 'fas fa-user', Game::class);
+        yield MenuItem::linkToRoute('Retourner sur le site', 'fas fa-arrow-left', 'app_home'); // Flèche pour revenir
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class); // Groupe d'utilisateurs
+        yield MenuItem::linkToCrud('Jeux', 'fas fa-dice', Game::class); // Icône représentant un dé pour les jeux
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class); // Liste pour les catégories
+        yield MenuItem::linkToCrud('Familles', 'fas fa-sitemap', Family::class); // Schéma pour les familles
+        yield MenuItem::linkToCrud('Styles de jeu', 'fas fa-gamepad', Mechanic::class); // Manette pour les styles de jeu
+        yield MenuItem::linkToCrud('Domaines', 'fas fa-globe', Subdomain::class); // Globe pour les domaines
+
     }
 }

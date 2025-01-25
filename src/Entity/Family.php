@@ -18,9 +18,9 @@ class Family
     private ?int $id = null;
 
     /**
-     * @var Collection<int, game>
+     * @var Collection<int, Game>
      */
-    #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'families')]
+    #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'families')]
     private Collection $game;
 
     #[ORM\Column(length: 255, unique: true)]
@@ -40,14 +40,14 @@ class Family
     }
 
     /**
-     * @return Collection<int, game>
+     * @return Collection<int, Game>
      */
     public function getGame(): Collection
     {
         return $this->game;
     }
 
-    public function addGame(game $game): static
+    public function addGame(Game $game): static
     {
         if (!$this->game->contains($game)) {
             $this->game->add($game);
@@ -56,7 +56,7 @@ class Family
         return $this;
     }
 
-    public function removeGame(game $game): static
+    public function removeGame(Game $game): static
     {
         $this->game->removeElement($game);
 
@@ -85,5 +85,10 @@ class Family
         $this->translatedName = $translatedName;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -65,7 +65,7 @@ class GameClass
         // Mapping Game data
         $results = [
             'name' => (string)$name,
-            'names' => $xml->boardgame->name ? json_encode($this->filterNames((array)$xml->boardgame->name)) : '[]',
+            'names' => $xml->boardgame->name ? json_encode(array_values($this->filterNames((array)$xml->boardgame->name))) : '[]',
             'yearPublished' => (string)$xml->boardgame->yearpublished ?? null,
             'minPlayers' => (string)$xml->boardgame->minplayers ?? null,
             'maxPlayers' => (string)$xml->boardgame->maxplayers ?? null,

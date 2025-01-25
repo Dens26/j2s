@@ -532,6 +532,20 @@ a:hover {
     border-color: var(--hovered-solid-background);
 }
 
+/* Transistion */
+.category-list {
+    height: 0; /* Hauteur initiale */
+    opacity: 0; /* Invisible */
+    overflow: hidden; /* Empêche le débordement */
+    transition: height 0.3s ease, opacity 0.3s ease; /* Transition fluide */
+}
+
+.category-list.show {
+    height: auto; /* Ajuste automatiquement à la hauteur du contenu */
+    opacity: 1; /* Rendre visible */
+}
+
+
 @media screen and (min-width: 390px) {
 
     /* Home */
