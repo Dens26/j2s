@@ -27,11 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Gestion des groupes de cases à cocher
     function handleCheckboxGroups() {
         const checkboxGroups = document.querySelectorAll('[data-controller="checkbox-group"]');
-    
+
         checkboxGroups.forEach(group => {
             const mainCheckbox = group.querySelector('input[type="checkbox"]');
             const dependentCheckboxes = group.querySelectorAll('input[type="checkbox"]:not([id="' + mainCheckbox.id + '"])');
-    
+
             if (mainCheckbox) {
                 updateDependentCheckboxes(mainCheckbox.checked, dependentCheckboxes);
                 mainCheckbox.addEventListener('change', () => {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    
+
     function updateDependentCheckboxes(isChecked, dependentCheckboxes) {
         dependentCheckboxes.forEach(checkbox => {
             checkbox.disabled = !isChecked;
@@ -50,10 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    
+
     // Appeler la fonction après le chargement du DOM
     document.addEventListener("DOMContentLoaded", handleCheckboxGroups);
-    
+
 
     // Gestion du toggle des descriptions
     function handleDescriptionToggle() {
@@ -111,6 +111,29 @@ document.addEventListener("DOMContentLoaded", () => {
         updateFooterShadow(); // Appel initial
     }
 
+    // Gestion du toggle des catégories
+    function handleCategoryToggle() {
+        const categoryContainers = document.querySelectorAll(".category-container");
+
+        categoryContainers.forEach(container => {
+            const placeholder = container.querySelector(".category-placeholder");
+            const list = container.querySelector(".category-list");
+
+            container.addEventListener("click", () => {
+                // Ajout ou suppression de la classe pour activer la transition
+                list.classList.toggle("show");
+
+                // Afficher ou masquer le placeholder
+                if (list.classList.contains("show")) {
+                    placeholder.style.display = "none";
+                } else {
+                    placeholder.style.display = "inline";
+                }
+            });
+        });
+    }
+
+
     // Initialisation
     function init() {
         handlePaginationLinks();
@@ -119,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
         handleDescriptionToggle();
         handleContentToggle();
         handleFooterShadow();
+        handleCategoryToggle();
     }
 
     init();
