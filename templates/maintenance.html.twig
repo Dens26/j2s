@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site en maintenance!
+{% endblock %}
+
+{% block body %}
+	<div class="home-container">
+		<div class="m-4">
+			<h1 class="title mb-4">Site en maintenance</h1>
+			<p class="text-center m-0 fs-5">Veuillez nous excuser pour la gêne occasionnée.</p>
+			<p class="text-center m-0 fs-5">Notre site est actuellement en cours de maintenance</p>
+			<p class="text-center m-0 fs-5">Merci pour votre compréhension</p>
+			<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+			<div class="d-flex justify-content-center">
+				<dotlottie-player src="https://lottie.host/6824ccfe-c1ae-40b4-aa87-4db2ad9a5a67/F3IaMTsnok.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+			</div>
+		</div>
+	</div>
+{% endblock %}

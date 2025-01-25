@@ -11,6 +11,8 @@ parameters:
     app.hosting_phone: "%env(APP_HOSTING_PHONE)%"
     app.hosting_email: "%env(APP_HOSTING_EMAIL)%"
 
+    maintenanceFilePath: '%kernel.project_dir%/public/.maintenance'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -28,3 +30,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\EventListener\MaintenanceListener:
+        arguments:
+            - '%maintenanceFilePath%'
+            - '@twig'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
