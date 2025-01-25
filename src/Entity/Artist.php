@@ -44,7 +44,7 @@ class Artist
         return $this->game;
     }
 
-    public function addGame(game $game): static
+    public function addGame(Game $game): static
     {
         if (!$this->game->contains($game)) {
             $this->game->add($game);
@@ -53,7 +53,7 @@ class Artist
         return $this;
     }
 
-    public function removeGame(game $game): static
+    public function removeGame(Game $game): static
     {
         $this->game->removeElement($game);
 
@@ -70,5 +70,10 @@ class Artist
         $this->name = $name;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

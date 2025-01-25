@@ -18,9 +18,9 @@ class Developer
     private ?int $id = null;
 
     /**
-     * @var Collection<int, game>
+     * @var Collection<int, Game>
      */
-    #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'developers')]
+    #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'developers')]
     private Collection $game;
 
     #[ORM\Column(length: 255, unique: true)]
@@ -37,14 +37,14 @@ class Developer
     }
 
     /**
-     * @return Collection<int, game>
+     * @return Collection<int, Game>
      */
     public function getGame(): Collection
     {
         return $this->game;
     }
 
-    public function addGame(game $game): static
+    public function addGame(Game $game): static
     {
         if (!$this->game->contains($game)) {
             $this->game->add($game);
@@ -53,7 +53,7 @@ class Developer
         return $this;
     }
 
-    public function removeGame(game $game): static
+    public function removeGame(Game $game): static
     {
         $this->game->removeElement($game);
 
@@ -70,5 +70,10 @@ class Developer
         $this->name = $name;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -14,31 +14,42 @@
 				</div>
 
 				<div class="admin-component row row-cols-1 row-cols-md-3 g-2 mb-4 align-items-center">
-					<div class="btn admin-btn d-flex align-items-center justify-content-center">
-						<img class="me-2" width="32" height="32" src="{{asset('logo/category.png')}}" alt="">
-						<div>
-							{% for category in data.categorys %}
-								<div>{{category}}</div>
-							{% endfor %}
-						</div>
-					</div>
 					<div>
-						<div class="btn admin-btn d-flex align-items-center justify-content-center">
-							<img class="me-2" width="32" height="32" src="{{asset('logo/subdomain.png')}}" alt="">
-							<div>
-								{% for subdomain in data.subdomains %}
-									<div>{{subdomain}}</div>
-								{% endfor %}
+						<div class="category-container btn admin-btn d-flex align-items-center justify-content-center">
+							<img class="me-2" width="32" height="32" src="{{ asset('logo/category.png') }}" alt="">
+							<div class="category-content">
+								<span class="category-placeholder"></span>
+								<div class="category-list">
+									{% for category in data.categorys %}
+										<div>{{ category }}</div>
+									{% endfor %}
+								</div>
 							</div>
 						</div>
 					</div>
 					<div>
-						<div class="btn admin-btn d-flex align-items-center justify-content-center">
-							<img class="me-2" width="32" height="32" src="{{asset('logo/mechanic.png')}}" alt="">
-							<div>
-								{% for mechanic in data.mechanics %}
-									<div>{{mechanic}}</div>
-								{% endfor %}
+						<div class="category-container btn admin-btn d-flex align-items-center justify-content-center">
+							<img class="me-2" width="32" height="32" src="{{ asset('logo/subdomain.png') }}" alt="">
+							<div class="category-content">
+								<span class="category-placeholder"></span>
+								<div class="category-list">
+									{% for subdomain in data.subdomains %}
+										<div>{{ subdomain }}</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="category-container btn admin-btn d-flex align-items-center justify-content-center">
+							<img class="me-2" width="32" height="32" src="{{ asset('logo/mechanic.png') }}" alt="">
+							<div class="category-content">
+								<span class="category-placeholder"></span>
+								<div class="category-list">
+									{% for mechanic in data.mechanics %}
+										<div>{{ mechanic }}</div>
+									{% endfor %}
+								</div>
 							</div>
 						</div>
 					</div>

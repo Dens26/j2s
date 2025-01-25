@@ -6,12 +6,10 @@ use App\Classe\GameClass;
 use App\Entity\Game;
 use App\Service\TranslatorService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GameController extends AbstractController
