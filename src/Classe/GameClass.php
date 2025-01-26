@@ -92,7 +92,6 @@ class GameClass
         // Si il n'y a pas assez de credit pour traduire la description
         $translateAvailable = $this->translateItems($results, $translatorService);
 
-        dd($results, ' ici ');
         // Création du jeu
         $game = new Game();
         $game
@@ -212,7 +211,7 @@ class GameClass
                         $results[$field] = array_map(function ($original) use (&$index, $translatedItemsArray) {
                             return [
                                 'name' => $original,
-                                'translated-name' => $translatedItemsArray[$index++] ?? 'Pas de traduction',
+                                'translated-name' => $translatedItemsArray[$index++] ?? $original,
                             ];
                         }, array_slice($results[$field], 1));
                     }
@@ -220,7 +219,7 @@ class GameClass
 
                 // Mettre à jour la description avec le texte traduit
                 if (isset($results['description'])) {
-                    $results['description'] = $translatedItemsArray[$index] ?? 'Pas de traduction';
+                    $results['description'] = $translatedItemsArray[$index] ?? $itemsToTranslate[$index];
                 }
                 return true;
             } else {
@@ -240,12 +239,12 @@ class GameClass
         // Si la traduction échoue ou n'est pas disponible, définir des traductions par défaut
         foreach ($fieldsToTranslate as $field) {
             if ($field === 'description' && isset($results['description'])) {
-                $results['description'] = 'Pas de traduction';  // Utilisation d'une valeur par défaut pour la description
+                $results['description'] =  $results['description'];  // Utilisation d'une valeur par défaut pour la description
             } elseif (isset($results[$field]) && is_array($results[$field]) && count($results[$field]) > 1) {
                 $results[$field] = array_map(function ($original) {
                     return [
                         'name' => $original,
-                        'translated-name' => 'Pas de traduction',
+                        'translated-name' => $original,
                     ];
                 }, array_slice($results[$field], 1));
             }
