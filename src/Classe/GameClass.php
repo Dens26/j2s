@@ -90,11 +90,9 @@ class GameClass
         ];
 
         // Si il n'y a pas assez de credit pour traduire la description
-        $translateAvailable = $translatorService->checkIfQuotaAvailable($results['description']);
+        $translateAvailable = $this->translateItems($results, $translatorService);
 
-        // Traduction des autres tables
-        $this->translateItems($results, $translateAvailable, $translatorService);
-
+        dd($results, ' ici ');
         // Création du jeu
         $game = new Game();
         $game
@@ -177,41 +175,44 @@ class GameClass
         return $results;
     }
 
-    private function translateItems(array &$results, bool $translateAvailable, TranslatorService $translatorService): void
+    private function translateItems(array &$results, TranslatorService $translatorService): bool
     {
         // Liste des champs à traduire (en plus de la description)
         $fieldsToTranslate = ['categories', 'subdomains', 'mechanics', 'families'];
 
         // Créer un tableau des valeurs à traduire (en incluant la description)
-        $itemsToTranslate = [];
+        $itemsToTranslate = "";
 
         // Ajout des catégories, sous-domaines, mécaniques, familles
         foreach ($fieldsToTranslate as $field) {
             if (isset($results[$field]) && is_array($results[$field]) && count($results[$field]) > 1) {
-                $itemsToTranslate = array_merge($itemsToTranslate, array_slice($results[$field], 1));
+                for($i=0; $i<count($results[$field])-1; $i++){
+                    $itemsToTranslate .= $results[$field][$i] . '|';
+                }
             }
         }
 
         // Ajouter la description dans le tableau à traduire
         if (isset($results['description'])) {
-            $itemsToTranslate[] = $results['description'];
+            $itemsToTranslate .=  $results['description'];
         }
 
+        $translateAvailable = $translatorService->checkIfQuotaAvailable(json_encode($itemsToTranslate));
         // Si la traduction est disponible et qu'il y a des éléments à traduire, procéder à la traduction
         if ($translateAvailable && !empty($itemsToTranslate)) {
-            $translatedItems = json_decode($translatorService->translate(json_encode($itemsToTranslate)), true);
 
-            if (is_array($translatedItems)) {
+            $translatedItems = $translatorService->translate(json_encode($itemsToTranslate));
+            $translatedItemsArray = explode('|', $translatedItems);
+            if ($translatedItemsArray) {
                 $index = 0;
-
                 // Réintégrer les traductions dans les résultats
                 foreach ($fieldsToTranslate as $field) {
                     if (isset($results[$field]) && is_array($results[$field]) && count($results[$field]) > 1) {
                         // Traduction des autres champs (categories, subdomains, etc.)
-                        $results[$field] = array_map(function ($original) use (&$index, $translatedItems) {
+                        $results[$field] = array_map(function ($original) use (&$index, $translatedItemsArray) {
                             return [
                                 'name' => $original,
-                                'translated-name' => $translatedItems[$index++] ?? 'Pas de traduction',
+                                'translated-name' => $translatedItemsArray[$index++] ?? 'Pas de traduction',
                             ];
                         }, array_slice($results[$field], 1));
                     }
@@ -219,15 +220,18 @@ class GameClass
 
                 // Mettre à jour la description avec le texte traduit
                 if (isset($results['description'])) {
-                    $results['description'] = $translatedItems[$index] ?? 'Pas de traduction';
+                    $results['description'] = $translatedItemsArray[$index] ?? 'Pas de traduction';
                 }
+                return true;
             } else {
                 // Si la traduction échoue, utiliser l'original ou une valeur par défaut
                 $this->setDefaultTranslations($results, $fieldsToTranslate);
+                return false;
             }
         } else {
             // Si la traduction n'est pas disponible, ajouter des traductions par défaut
             $this->setDefaultTranslations($results, $fieldsToTranslate);
+            return false;
         }
     }
 
