@@ -200,7 +200,7 @@ class GameClass
         // Si la traduction est disponible et qu'il y a des éléments à traduire, procéder à la traduction
         if ($translateAvailable && !empty($itemsToTranslate)) {
 
-            $translatedItems = $translatorService->translate(json_encode($itemsToTranslate));
+            $translatedItems = $translatorService->translate($itemsToTranslate);
             $translatedItemsArray = explode('|', $translatedItems);
             if ($translatedItemsArray) {
                 $index = 0;
