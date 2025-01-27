@@ -20,7 +20,7 @@ class Artist
     /**
      * @var Collection<int, game>
      */
-    #[ORM\ManyToMany(targetEntity: game::class, inversedBy: 'artists')]
+    #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'artists')]
     private Collection $game;
 
     #[ORM\Column(length: 255, unique: true)]

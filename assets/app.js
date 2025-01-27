@@ -122,13 +122,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (list.style.display === "block") {
                     list.style.display = "none";
                     placeholder.style.display = "inline";
+                    container.classList.remove("active");  // Enlever la classe 'active'
                 } else {
                     list.style.display = "block";
                     placeholder.style.display = "none";
+                    container.classList.add("active");  // Ajouter la classe 'active'
                 }
             });
         });
     }
+    
 
 
     // Initialisation

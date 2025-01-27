@@ -7,8 +7,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class SubdomainCrudController extends AbstractCrudController
@@ -22,7 +20,7 @@ class SubdomainCrudController extends AbstractCrudController
     {
         return $actions
         ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-        ->setPermission(Action::NEW, 'ROLE_SUPER_ADMIN')
+        ->setPermission(Action::NEW, 'ROLE_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_SUPER_ADMIN')
     ;
     }

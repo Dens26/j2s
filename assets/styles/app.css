@@ -535,6 +535,17 @@ a:hover {
     width: 100%;
 }
 
+/* Couleur de fond par défaut */
+.category-container {
+    background-color: var(--solid-background);
+    transition: background-color 0.3s ease;
+}
+
+/* Couleur de fond quand la liste est visible */
+.category-container.active {
+    background-color: transparent;
+}
+
 
 @media screen and (min-width: 390px) {
 
