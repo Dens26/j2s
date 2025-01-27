@@ -475,7 +475,7 @@ a:hover {
     background-color: var(--ui-element-background);
     border: 1px solid var(--ui-element-border);
     color: var(--low-contrast-text);
-    padding: 10px;
+    padding: 5px;
     border-radius: 25px;
     transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     text-align: center;
@@ -519,10 +519,8 @@ a:hover {
 .admin-btn {
     background-color: var(--solid-background);
     border-color: var(--solid-background);
-    padding: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
     border-radius: 45px;
+    padding: 5px;
     text-align: center;
     align-self: center;
 }
@@ -532,17 +530,9 @@ a:hover {
     border-color: var(--hovered-solid-background);
 }
 
-/* Transistion */
-.category-list {
-    height: 0; /* Hauteur initiale */
-    opacity: 0; /* Invisible */
-    overflow: hidden; /* Empêche le débordement */
-    transition: height 0.3s ease, opacity 0.3s ease; /* Transition fluide */
-}
-
-.category-list.show {
-    height: auto; /* Ajuste automatiquement à la hauteur du contenu */
-    opacity: 1; /* Rendre visible */
+.admin-btn-container {
+    margin-bottom: 0.5rem;
+    width: 100%;
 }
 
 
@@ -555,6 +545,7 @@ a:hover {
         margin-right: clamp(20px, 10vw, 80px);
     }
 }
+
 
 @media screen and (min-width: 768px) {
 
@@ -572,5 +563,9 @@ a:hover {
     .app-boardgame-show-illustration {
         height: 100%;
         width: 100%;
+    }
+
+    .admin-btn-container {
+        margin: 0;
     }
 }

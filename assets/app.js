@@ -111,23 +111,20 @@ document.addEventListener("DOMContentLoaded", () => {
         updateFooterShadow(); // Appel initial
     }
 
-    // Gestion du toggle des catégories
     function handleCategoryToggle() {
         const categoryContainers = document.querySelectorAll(".category-container");
-
+    
         categoryContainers.forEach(container => {
             const placeholder = container.querySelector(".category-placeholder");
             const list = container.querySelector(".category-list");
-
+    
             container.addEventListener("click", () => {
-                // Ajout ou suppression de la classe pour activer la transition
-                list.classList.toggle("show");
-
-                // Afficher ou masquer le placeholder
-                if (list.classList.contains("show")) {
-                    placeholder.style.display = "none";
-                } else {
+                if (list.style.display === "block") {
+                    list.style.display = "none";
                     placeholder.style.display = "inline";
+                } else {
+                    list.style.display = "block";
+                    placeholder.style.display = "none";
                 }
             });
         });
