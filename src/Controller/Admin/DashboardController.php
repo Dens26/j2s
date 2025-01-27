@@ -2,10 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Artist;
 use App\Entity\Category;
+use App\Entity\Designer;
+use App\Entity\Developer;
 use App\Entity\Family;
 use App\Entity\Game;
+use App\Entity\GraphicDesigner;
+use App\Entity\Honor;
 use App\Entity\Mechanic;
+use App\Entity\Publisher;
 use App\Entity\Subdomain;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -47,13 +53,18 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToRoute('Retourner sur le site', 'fas fa-arrow-left', 'app_home'); // Flèche pour revenir
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class); // Groupe d'utilisateurs
-        yield MenuItem::linkToCrud('Jeux', 'fas fa-dice', Game::class); // Icône représentant un dé pour les jeux
-        yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class); // Liste pour les catégories
-        yield MenuItem::linkToCrud('Familles', 'fas fa-sitemap', Family::class); // Schéma pour les familles
-        yield MenuItem::linkToCrud('Styles de jeu', 'fas fa-gamepad', Mechanic::class); // Manette pour les styles de jeu
-        yield MenuItem::linkToCrud('Domaines', 'fas fa-globe', Subdomain::class); // Globe pour les domaines
-
+        yield MenuItem::linkToRoute('Retourner sur le site', 'fas fa-arrow-left', 'app_home');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
+        yield MenuItem::linkToCrud('Jeux', 'fas fa-chess', Game::class);  // "fa-dice" -> "fa-chess" pour un style de jeu plus représentatif
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class);  // "fa-list" -> "fa-tags" pour des catégories
+        yield MenuItem::linkToCrud('Familles', 'fas fa-sitemap', Family::class);
+        yield MenuItem::linkToCrud('Styles de jeu', 'fas fa-gamepad', Mechanic::class);
+        yield MenuItem::linkToCrud('Domaines', 'fas fa-cogs', Subdomain::class);  // "fa-globe" -> "fa-cogs" pour un aspect plus technique
+        yield MenuItem::linkToCrud('Créateurs', 'fas fa-pencil-alt', Designer::class);  // "fa-globe" -> "fa-pencil-alt" pour un créateur
+        yield MenuItem::linkToCrud('Illustrateurs', 'fas fa-paint-brush', Artist::class);  // "fa-globe" -> "fa-paint-brush" pour un illustrateur
+        yield MenuItem::linkToCrud('Développeurs', 'fas fa-code', Developer::class);  // "fa-globe" -> "fa-code" pour un développeur
+        yield MenuItem::linkToCrud('Designers', 'fas fa-pen-square', GraphicDesigner::class);  // "fa-globe" -> "fa-pen-square" pour un designer graphique
+        yield MenuItem::linkToCrud('Récompenses', 'fas fa-trophy', Honor::class);  // "fa-globe" -> "fa-trophy" pour une récompense
+        yield MenuItem::linkToCrud('Editeurs', 'fas fa-book', Publisher::class);  // "fa-globe" -> "fa-book" pour un éditeur
     }
 }
