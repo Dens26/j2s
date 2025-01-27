@@ -39,9 +39,9 @@
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
 							<div class="text-dark fw-bold">Créateurs:</div>
-							{% if results.artists|length >0 %}
-								{% for i in 0..(results.artists|length -1) %}
-									<div class="text-dark">-{{ results.artists[i] }}</div>
+							{% if results.designers|length >0 %}
+								{% for i in 0..(results.designers|length -1) %}
+									<div class="text-dark">-{{ results.designers[i] }}</div>
 								{% endfor %}
 							{% endif %}
 						</div>
@@ -49,10 +49,10 @@
 
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark fw-bold">Designers:</div>
-							{% if results.designers|length >0 %}
-								{% for i in 0..(results.designers|length -1) %}
-									<div class="text-dark">-{{ results.designers[i] }}</div>
+							<div class="text-dark fw-bold">Illustrateurs:</div>
+							{% if results.artists|length >0 %}
+								{% for i in 0..(results.artists|length -1) %}
+									<div class="text-dark">-{{ results.artists[i] }}</div>
 								{% endfor %}
 							{% endif %}
 						</div>
