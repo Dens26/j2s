@@ -15,179 +15,217 @@
 
 				{# Premier pack d'indices #}
 				<div
-					class="row row-cols-1 row-cols-md-3 mb-5 align-items-center">
+					class="row row-cols-1 row-cols-md-{{(data.categorys|length > 0 ? 1 : 0) + (data.subdomains|length >0 ? 1 : 0) + (data.mechanics|length >0 ? 1 : 0)}} mb-5 align-items-center">
 					{# Catégories #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/category.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Catégories</span>
-									<div class="category-list" style="display: none;">
-										{% for category in data.categorys %}
-											<div>{{ category }}</div>
-										{% endfor %}
+					{% if data.categorys %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/category.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Catégories</span>
+										<div class="category-list" style="display: none;">
+											{% for category in data.categorys %}
+												<div>{{ category }}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 					{# Domaines #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/subdomain.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Domaines</span>
-									<div class="category-list" style="display: none;">
-										{% for subdomain in data.subdomains %}
-											<div>{{ subdomain }}</div>
-										{% endfor %}
+					{% if data.subdomains %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/subdomain.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Domaines</span>
+										<div class="category-list" style="display: none;">
+											{% for subdomain in data.subdomains %}
+												<div>{{ subdomain }}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 					{# Genres #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/mechanic.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Genres</span>
-									<div class="category-list" style="display: none;">
-										{% for mechanic in data.mechanics %}
-											<div>{{ mechanic }}</div>
-										{% endfor %}
+					{% if data.mechanics %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/mechanic.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Genres</span>
+										<div class="category-list" style="display: none;">
+											{% for mechanic in data.mechanics %}
+												<div>{{ mechanic }}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 				</div>
 
 				{# Deuxième pack d'indices #}
 				<div
-					class="row row-cols-2 row-cols-md-4 g-1 mb-5">
+					class="row row-cols-{{((data.age|length > 0 ? 1 : 0) + (data.players|length > 0 ? 1 : 0) + (data.playingTime|length > 0 ? 1 : 0) + (data.yearPublished|length > 0 ? 1 : 0)) / 2}} row-cols-md-{{(data.age|length > 0 ? 1 : 0) + (data.players|length > 0 ? 1 : 0) + (data.playingTime|length > 0 ? 1 : 0) + (data.yearPublished|length > 0 ? 1 : 0)}} mb-5 align-items-center">
 					{# Age #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/age.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Age</span>
-									<div class="category-list" style="display: none;">
-										{{data.age}}
-										ans
+					{% if data.age %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/age.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Age</span>
+										<div class="category-list" style="display: none;">
+											{{data.age}}
+											ans
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 					{# Joueurs #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/players.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
-									<div class="category-list" style="display: none;">
-										{{data.players}}
-										joueurs
+					{% if data.players %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/players.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
+										<div class="category-list" style="display: none;">
+											{{data.players}}
+											joueurs
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					
+					{% endif %}
 					{# Durée #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/playingTime.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Durée</span>
-									<div class="category-list" style="display: none;">
-										{{data.playingTime}}
-										minutes
+					{% if data.playingTime %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/playingTime.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Durée</span>
+										<div class="category-list" style="display: none;">
+											{{data.playingTime}}
+											minutes
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 					{# Sortie #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/date.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Sortie</span>
-									<div class="category-list" style="display: none;">
-										{{data.yearPublished}}
+					{% if data.yearPublished %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/date.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Sortie</span>
+										<div class="category-list" style="display: none;">
+											{{data.yearPublished}}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 				</div>
 
 				{# Troisième pack d'indices #}
 				<div
-					class="row row-cols-1 row-cols-md-3 mb-5 align-items-center">
+					class="row row-cols-1 row-cols-md-{{((data.designers|length > 0 ? 1 : 0) + (data.artists|length > 0 ? 1 : 0) + (data.graphicDesigners|length > 0 ? 1 : 0) + (data.developers|length > 0 ? 1 : 0)) / 2}} mb-5 align-items-center">
 					{# Créateurs #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/designer.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
-									<div class="category-list" style="display: none;">
-										{% for designer in data.designers %}
-											<div>{{designer}}</div>
-										{% endfor %}
+					{% if data.designers %}
+						<div class="spacing">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/designer.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
+										<div class="category-list" style="display: none;">
+											{% for designer in data.designers %}
+												<div>{{designer}}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 					{# Illustrateurs #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/artist.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
-									<div class="category-list" style="display: none;">
-										{% for artist in data.artists %}
-											<div>{{artist}}</div>
-										{% endfor %}
+					{% if data.artists %}
+						<div class="spacing">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/artist.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
+										<div class="category-list" style="display: none;">
+											{% for artist in data.artists %}
+												<div>{{artist}}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
 					{# Designers #}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/designer-graphique.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Designers</span>
-									<div class="category-list" style="display: none;">
-										{% for graphicDesigner in data.graphicDesigners %}
-											<div>{{graphicDesigner}}</div>
-										{% endfor %}
+					{% if data.graphicDesigners %}
+						<div class="spacing">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/designer-graphique.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Designers</span>
+										<div class="category-list" style="display: none;">
+											{% for graphicDesigner in data.graphicDesigners %}
+												<div>{{graphicDesigner}}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{% endif %}
+					{# Developers #}
+					{% if data.developers %}
+						<div class="spacing">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/developer.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Développeurs</span>
+										<div class="category-list" style="display: none;">
+											{% for developer in data.developers %}
+												<div>{{developer}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
 				</div>
 
 				{# Quatrième pack d'indices #}
 				<div
-					class="row row-cols-1 row-cols-md-2 mb-5 align-items-center">
+					class="row row-cols-1 row-cols-md-{{(data.honors|length > 0 ? 1 : 0) + (data.publishers|length > 0 ? 1 : 0)}} mb-5 align-items-center">
 					{# Récompense #}
+					{% if data.honors %}
 					<div>
 						<div class="category-container btn admin-btn admin-btn-container">
 							<div class="d-flex align-items-center justify-content-center">
@@ -203,7 +241,9 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 					{# Editeurs #}
+					{% if data.publishers %}
 					<div>
 						<div class="category-container btn admin-btn admin-btn-container">
 							<div class="d-flex align-items-center justify-content-center">
@@ -219,6 +259,7 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 				</div>
 
 				<div class="d-flex justify-content-center mt-4">

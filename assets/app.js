@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateFooterShadow(); // Appel initial
     }
 
+    // Gestion des bouton indices
     function handleCategoryToggle() {
         const categoryContainers = document.querySelectorAll(".category-container");
     
