@@ -69,6 +69,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    padding-top: 30px;
     display: flex;
     flex-direction: column;
 }
@@ -101,8 +102,10 @@ a:hover {
 
 /* Navbar */
 .main-navbar-container {
-    position: sticky;
+    position: fixed;
     top: 0;
+    width: 100%;
+    z-index: 1050;
 }
 
 .navbar-container {
@@ -546,6 +549,9 @@ a:hover {
     background-color: transparent;
 }
 
+.spacing {
+    padding: 0;
+}
 
 @media screen and (min-width: 390px) {
 
@@ -578,5 +584,11 @@ a:hover {
 
     .admin-btn-container {
         margin: 0;
+    }
+
+    .spacing {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 0.5rem;
     }
 }

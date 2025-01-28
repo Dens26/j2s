@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -43,7 +44,8 @@ class UserCrudController extends AbstractCrudController
             TextField::new('firstname')->setLabel('Prénom'),
             TextField::new('lastname')->setLabel('Nom'),
             TextField::new('username')->setLabel('Nom d\'utilisateur'),
-            EmailField::new('email')->setLabel('E-mail')->onlyOnIndex()
+            EmailField::new('email')->setLabel('E-mail')->onlyOnIndex(),
+            DateTimeField::new('createdAt')->setLabel('Créé le')
         ];
     }
 

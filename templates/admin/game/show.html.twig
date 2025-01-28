@@ -7,7 +7,6 @@
 	<div class="my-4 mx-3 admin-container">
 		<h1 class="text-center admin-section-title my-4 d-flex justify-content-center">Configuration du jeu pour le prochain stream</h1>
 
-
 		<p class="admin-section-subtitle fs-3">{{ results.name }}</p>
 
 		<p>Sélectionne les indices que tu veux comparer et faire apparaître:</p>
@@ -23,7 +22,7 @@
 			{# Year published #}
 			<div>
 				<input type="checkbox" id="yearPublished" name="yearPublished" value="{{ results.yearPublished }}" checked>
-				<label class="my-1" for="yearPublished">Année de publication:
+				<label class="my-1" for="yearPublished">Publication:
 					{{ results.yearPublished }}
 				</label>
 			</div>
@@ -31,7 +30,7 @@
 			{# Players number #}
 			<div>
 				<input type="checkbox" id="players" name="players" value="{{ results.minPlayers }} - {{ results.maxPlayers}}" checked>
-				<label class="my-1" for="players">Nombre de joueurs:
+				<label class="my-1" for="players">Joueurs:
 					{{ results.minPlayers }}-{{ results.maxPlayers }}
 					joueurs
 				</label>
@@ -40,9 +39,9 @@
 			{# Playing time #}
 			<div>
 				<input type="checkbox" id="playingTime" name="playingTime" value="{{ results.playingTime }}" checked>
-				<label class="my-1" for="playingTime">Temps de jeu:
+				<label class="my-1" for="playingTime">Durée:
 					{{ results.playingTime }}
-					minutes
+					mn
 				</label>
 			</div>
 

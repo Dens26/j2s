@@ -73,7 +73,7 @@ class GameClass
             // 'minPlayTime' => (string)$xml->boardgame->minplaytime ?? null,
             // 'maxPlayTime' => (string)$xml->boardgame->maxplaytime ?? null,
             'age' => (string)$xml->boardgame->age ?? null,
-            'description' => $purifier->purify((string)$xml->boardgame->description . "<script>alert('Test de script');</script>" ?? null),
+            'description' => $purifier->purify((string)$xml->boardgame->description ?? null),
             'thumbnail' => (string)$xml->boardgame->thumbnail ?? null,
             'image' => (string)$xml->boardgame->image ?? null,
             'publishers' => $xml->boardgame->boardgamepublisher ? (array)$xml->boardgame->boardgamepublisher : [],
@@ -139,6 +139,10 @@ class GameClass
 
     public function formatGame(Game $game): array
     {
+        $config = HTMLPurifier_Config::createDefault();
+        $config->set('HTML.Allowed', 'p,strong,em,br,ul,ol,li,a,code,pre,blockquote');
+        $purifier = new HTMLPurifier($config);
+
         $results = [
             'id' => $game->getGameId(),
             'name' => $game->getName(),
@@ -148,7 +152,7 @@ class GameClass
             'maxPlayers' => $game->getMaxPlayers(),
             'playingTime' => $game->getPlayingTime(),
             'age' => $game->getAge(),
-            'description' => $game->getDescription(),
+            'description' => $purifier->purify($game->getDescription()),
             'thumbnail' => $game->getThumbnail(),
             'image' => $game->getImage(),
             'publishers' => $game->getPublishers()->map(fn($publisher) => $publisher->getName())->toArray(),

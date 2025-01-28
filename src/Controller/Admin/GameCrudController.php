@@ -23,7 +23,7 @@ class GameCrudController extends AbstractCrudController
     {
         return $actions
             ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-            ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            ->setPermission(Action::NEW, 'ROLE_SUPER_ADMIN')
             ->setPermission(Action::DELETE, 'ROLE_SUPER_ADMIN')
         ;
     }
@@ -44,21 +44,21 @@ class GameCrudController extends AbstractCrudController
             NumberField::new('gameId')->setLabel('Id')->onlyOnIndex(),
             NumberField::new('yearPublished')->setLabel('Année de publication'),
             TextField::new('name')->setLabel('Nom'),
-            TextField::new('allNames')->setLabel('Liste des noms')->setDisabled(),
-            NumberField::new('minPlayers')->setLabel('Joueur min.'),
-            NumberField::new('maxPlayers')->setLabel('Joueur max.'),
-            NumberField::new('playingTime')->setLabel('Temps de jeu'),
-            NumberField::new('age')->setLabel('Age'),
+            TextField::new('allNames')->setLabel('Liste des noms')->setDisabled()->onlyOnForms(),
+            NumberField::new('minPlayers')->setLabel('Joueur min.')->onlyOnForms(),
+            NumberField::new('maxPlayers')->setLabel('Joueur max.')->onlyOnForms(),
+            NumberField::new('playingTime')->setLabel('Temps de jeu')->onlyOnForms(),
+            NumberField::new('age')->setLabel('Age')->onlyOnForms(),
             TextareaField::new('description')->setLabel('Description')->onlyOnForms(),
-            AssociationField::new('designers')->setLabel('Créateurs')->setFormTypeOption('by_reference', false),
-            AssociationField::new('artists')->setLabel('Artistes')->setFormTypeOption('by_reference', false),
-            AssociationField::new('developers')->setLabel('Développeurs')->setFormTypeOption('by_reference', false),
-            AssociationField::new('graphicDesigners')->setLabel('Designers graphique')->setFormTypeOption('by_reference', false),
-            AssociationField::new('categories')->setLabel('Catégories')->setFormTypeOption('by_reference', false),
-            AssociationField::new('families')->setLabel('Familles')->setFormTypeOption('by_reference', false),
-            AssociationField::new('mechanics')->setLabel('Style')->setFormTypeOption('by_reference', false),
-            AssociationField::new('subdomains')->setLabel('Domaine')->setFormTypeOption('by_reference', false),
-            AssociationField::new('publishers')->setLabel('Editeurs')->setFormTypeOption('by_reference', false),
+            AssociationField::new('designers')->setLabel('Créateurs')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('artists')->setLabel('Artistes')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('developers')->setLabel('Développeurs')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('graphicDesigners')->setLabel('Designers graphique')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('categories')->setLabel('Catégories')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('families')->setLabel('Familles')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('mechanics')->setLabel('Style')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('subdomains')->setLabel('Domaine')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('publishers')->setLabel('Editeurs')->setFormTypeOption('by_reference', false)->onlyOnForms()
         ];
     }
 }
