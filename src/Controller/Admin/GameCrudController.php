@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -41,6 +42,8 @@ class GameCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            BooleanField::new('checked')->setLabel('Vérifié')->onlyOnIndex()->setDisabled(),
+            BooleanField::new('checked')->setLabel('Vérifié')->onlyOnForms(),
             NumberField::new('gameId')->setLabel('Id')->onlyOnIndex(),
             NumberField::new('yearPublished')->setLabel('Année de publication'),
             TextField::new('name')->setLabel('Nom'),
