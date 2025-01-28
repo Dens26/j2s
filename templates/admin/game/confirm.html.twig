@@ -8,9 +8,10 @@
 		<div class="m-2">
 			<h1 class="admin-section-title mb-4 d-flex justify-content-center">Aperçu du jeu mystère</h1>
 
-			<form action="">
+			<form action="{{path('admin_mystery_game_show')}}" method="post">
 				<div class="w-100 mb-5">
 					<input class="form-control admin-searchbar-container text-center" type="text" value="{{ data.name }}" disabled>
+					<input type="hidden" name="name" value="{{ data.name }}">
 				</div>
 
 				{# Premier pack d'indices #}
@@ -26,6 +27,7 @@
 										<span class="category-placeholder fs-4 fw-bold">Catégories</span>
 										<div class="category-list" style="display: none;">
 											{% for category in data.categorys %}
+												<input type="hidden" name="categories[]" value="{{ category }}">
 												<div>{{ category }}</div>
 											{% endfor %}
 										</div>
@@ -44,6 +46,7 @@
 										<span class="category-placeholder fs-4 fw-bold">Domaines</span>
 										<div class="category-list" style="display: none;">
 											{% for subdomain in data.subdomains %}
+												<input type="hidden" name="subdomains[]" value="{{ subdomain }}">
 												<div>{{ subdomain }}</div>
 											{% endfor %}
 										</div>
@@ -62,6 +65,7 @@
 										<span class="category-placeholder fs-4 fw-bold">Genres</span>
 										<div class="category-list" style="display: none;">
 											{% for mechanic in data.mechanics %}
+												<input type="hidden" name="mechanics[]" value="{{ mechanic }}">
 												<div>{{ mechanic }}</div>
 											{% endfor %}
 										</div>
@@ -84,6 +88,7 @@
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Age</span>
 										<div class="category-list" style="display: none;">
+											<input type="hidden" name="age" value="{{ data.age }}">
 											{{data.age}}
 											ans
 										</div>
@@ -101,6 +106,7 @@
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
 										<div class="category-list" style="display: none;">
+											<input type="hidden" name="players" value="{{ data.players }}">
 											{{data.players}}
 											joueurs
 										</div>
@@ -118,6 +124,7 @@
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Durée</span>
 										<div class="category-list" style="display: none;">
+											<input type="hidden" name="playingTime" value="{{ data.playingTime }}">
 											{{data.playingTime}}
 											minutes
 										</div>
@@ -135,6 +142,7 @@
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Sortie</span>
 										<div class="category-list" style="display: none;">
+											<input type="hidden" name="yearPublished" value="{{ data.yearPublished }}">
 											{{data.yearPublished}}
 										</div>
 									</div>
@@ -157,6 +165,7 @@
 										<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
 										<div class="category-list" style="display: none;">
 											{% for designer in data.designers %}
+												<input type="hidden" name="designers[]" value="{{ designer }}">
 												<div>{{designer}}</div>
 											{% endfor %}
 										</div>
@@ -175,6 +184,7 @@
 										<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
 										<div class="category-list" style="display: none;">
 											{% for artist in data.artists %}
+												<input type="hidden" name="artists[]" value="{{ artist }}">
 												<div>{{artist}}</div>
 											{% endfor %}
 										</div>
@@ -193,6 +203,7 @@
 										<span class="category-placeholder fs-4 fw-bold">Designers</span>
 										<div class="category-list" style="display: none;">
 											{% for graphicDesigner in data.graphicDesigners %}
+												<input type="hidden" name="graphicDesigners[]" value="{{ graphicDesigner }}">
 												<div>{{graphicDesigner}}</div>
 											{% endfor %}
 										</div>
@@ -211,6 +222,7 @@
 										<span class="category-placeholder fs-4 fw-bold">Développeurs</span>
 										<div class="category-list" style="display: none;">
 											{% for developer in data.developers %}
+												<input type="hidden" name="developers[]" value="{{ developer }}">
 												<div>{{developer}}</div>
 											{% endfor %}
 										</div>
@@ -226,44 +238,46 @@
 					class="row row-cols-1 row-cols-md-{{(data.honors|length > 0 ? 1 : 0) + (data.publishers|length > 0 ? 1 : 0)}} mb-5 align-items-center">
 					{# Récompense #}
 					{% if data.honors %}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/honor.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Récompenses</span>
-									<div class="category-list" style="display: none;">
-										{% for honor in data.honors %}
-											<div>{{honor}}</div>
-										{% endfor %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/honor.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Récompenses</span>
+										<div class="category-list" style="display: none;">
+											{% for honor in data.honors %}
+												<input type="hidden" name="honors[]" value="{{ honor }}">
+												<div>{{honor}}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					{% endif %}
 					{# Editeurs #}
 					{% if data.publishers %}
-					<div>
-						<div class="category-container btn admin-btn admin-btn-container">
-							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/publisher.png')}}" alt="">
-								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Editeurs</span>
-									<div class="category-list" style="display: none;">
-										{% for publisher in data.publishers %}
-											<div>{{publisher}}</div>
-										{% endfor %}
+						<div>
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="32" height="32" src="{{asset('logo/publisher.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Editeurs</span>
+										<div class="category-list" style="display: none;">
+											{% for publisher in data.publishers %}
+												<input type="hidden" name="publishers[]" value="{{ publisher }}">
+												<div>{{publisher}}</div>
+											{% endfor %}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					{% endif %}
 				</div>
 
 				<div class="d-flex justify-content-center mt-4">
-					<button class="btn btn-primary" type="submit">Confirmer</button>
+					<button class="btn" type="submit">Confirmer</button>
 				</div>
 			</form>
 		</div>
