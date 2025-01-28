@@ -112,6 +112,9 @@ class Game
     #[ORM\OneToMany(targetEntity: HonorGame::class, mappedBy: 'game')]
     private Collection $honorGames;
 
+    #[ORM\Column]
+    private ?bool $checked = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -532,6 +535,18 @@ class Game
                 $honorGame->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isChecked(): ?bool
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(bool $checked): static
+    {
+        $this->checked = $checked;
 
         return $this;
     }

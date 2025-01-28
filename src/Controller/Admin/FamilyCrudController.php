@@ -38,7 +38,7 @@ class FamilyCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name')->setLabel('Nom')->setDisabled(),
+            TextField::new('name')->setLabel('Nom'),
             TextField::new('translatedName')->setLabel('Traduction')
         ];
     }
