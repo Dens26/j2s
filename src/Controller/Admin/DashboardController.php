@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Crud\GameCrudController;
 use App\Entity\Artist;
 use App\Entity\Category;
 use App\Entity\Designer;

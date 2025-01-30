@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Crud;
 
-use App\Entity\MysteryGame;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class MysteryGameCrudController extends AbstractCrudController
+class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return MysteryGame::class;
+        return User::class;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -29,18 +30,23 @@ class MysteryGameCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Jeu mystère')
-            ->setEntityLabelInPlural('Jeux mystères<br/>(Contacter super_admin via la partie contact du site pour modification)')
+            ->setEntityLabelInSingular('Utilisateur')
+            ->setEntityLabelInPlural('Utilisateurs')
             ->setDateFormat('...')
             // ...
         ;
     }
 
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            AssociationField::new('status')->setLabel('Statut'),
-            TextField::new('name')->setLabel('Nom')
+            TextField::new('firstname')->setLabel('Prénom'),
+            TextField::new('lastname')->setLabel('Nom'),
+            TextField::new('username')->setLabel('Nom d\'utilisateur'),
+            EmailField::new('email')->setLabel('E-mail')->onlyOnIndex(),
+            DateTimeField::new('createdAt')->setLabel('Créé le')
         ];
     }
+
 }

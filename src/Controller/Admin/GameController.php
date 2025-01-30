@@ -28,7 +28,7 @@ class GameController extends AbstractController
     {
         $mysteryGame = $entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => 1]);
 
-        return $this->render('admin/game/index.html.twig', [
+        return $this->render('admin/game/search.html.twig', [
             'mysteryGame' => $mysteryGame
         ]);
     }
@@ -70,7 +70,7 @@ class GameController extends AbstractController
             return [];
         }
 
-        return $this->render('admin/game/index.html.twig', [
+        return $this->render('admin/game/search.html.twig', [
             'adminSearchTerm' => $results['searchTerm'],
             'results' => $results['results'],
             'page' => $results['page'],

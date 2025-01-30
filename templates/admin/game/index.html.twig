@@ -1,37 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ADMIN - Création du jeu
+{% block title %}Stream du jeu mystère
 {% endblock %}
 
 {% block body %}
-	<div class="container mt-5">
-		<h1 class="title fw-bold mb-4">Création du jeu pour le prochain stream</h1>
-
-		{% if mysteryGame %}
-			<div class="component p-4">
-				<div class="component-alert text-center d-flex align-items-center justify-content-between">
-					<p class="m-0 fw-bold fs-5">⚠️ Un jeu est déjà en cours avec le statut
-						<span class="text-danger">"Stream"</span>
-						!
-					</p>
-					<a href="{{path('admin_push_auto')}}" class="btn">Pousser le jeu vers Auto</a>
-				</div>
-				<p class="mt-2 text-center text-danger fw-bold">
-					⚠️ ATTENTION : En poussant le jeu en mode autonome, l'ancien jeu autonome sera archivé.
-				</p>
-				<p>Liste des jeux mystère disponible via le tableau de bord ...</p>
-			</div>
-		{% else %}
-			<div class="text-center mt-3">
-				<form class="d-flex justify-content-center mt-3" role="search" method="GET" action="{{ path('admin_game_search') }}">
-					<input class="form-control w-50" type="search" name="search" placeholder="Recherchez un jeu..." aria-label="Search">
-					<button class="btn ms-2" type="submit">🔍 Rechercher</button>
-				</form>
-			</div>
-		{% endif %}
-
-		<div class="mt-4">
-			{% include 'components/admin/searchResult.html.twig' %}
+	<div class="home-container">
+		<div class="m-2">
+			<h1 class="title">Trouve le Jeu mystère avec Sorralli</h1>
+			<p>Page en cours de construction ...</p>
 		</div>
 	</div>
 {% endblock %}

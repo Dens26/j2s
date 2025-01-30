@@ -13,8 +13,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MysteryGameController extends AbstractController
 {
+    #[Route('/admin-mystery-game-index', name: 'admin_mystery_game_index')]
+    public function index()
+    {
+        return $this->render('admin/game/index.html.twig');
+    }
+
     #[Route('/admin-mystery-game-show', name: 'admin_mystery_game_show')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function show(Request $request, EntityManagerInterface $entityManager): Response
     {
         $streamStatus = $entityManager->getRepository(Status::class)->findOneBy(['name' => 'stream']);
         $data = $request->request->all();
@@ -28,7 +34,7 @@ class MysteryGameController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
-    #[Route('/admin-game-create', name: 'admin_mystery_game_create')]
+    #[Route('/admin-mystery-game-create', name: 'admin_mystery_game_create')]
     public function create(Request $request): Response
     {
         // Récupérer toutes les données du formulaire
