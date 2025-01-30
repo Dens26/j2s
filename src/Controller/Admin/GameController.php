@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Classe\GameClass;
 use App\Entity\Game;
+use App\Entity\MysteryGame;
+use App\Entity\Status;
 use App\Service\TranslatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,75 +24,24 @@ class GameController extends AbstractController
     }
 
     #[Route('/admin-game-index', name: 'admin_game_index')]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('admin/game/index.html.twig');
-    }
+        $mysteryGame = $entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => 1]);
 
-    #[Route('/admin-game-create', name: 'admin_game_create')]
-    public function create(Request $request): Response
-    {
-        // Récupérer toutes les données du formulaire
-        $data = $request->request->all();
-
-        // Définir les groupes à traiter
-        $groupPrefixes = [
-            'artist_',
-            'designer_',
-            'developer_',
-            'graphicDesigner_',
-            'category_',
-            'subdomain_',
-            'mechanic_',
-            'honor_',
-            'publisher_'
-        ];
-
-        // Initialiser le tableau final
-        $organizedData = [
-            'id' => $data['id'] ?? null,
-            'name' => $data['name'] ?? null,
-            'yearPublished' => $data['yearPublished'] ?? null,
-            'age' => $data['age'] ?? null,
-            'players' => $data['players'] ?? null,
-            'playingTime' => $data['playingTime'] ?? null,
-            'artists' => [],
-            'designers' => [],
-            'developers' => [],
-            'graphicDesigners' => [],
-        ];
-
-        // Parcourir les préfixes pour regrouper les données dynamiquement
-        foreach ($groupPrefixes as $prefix) {
-            // Déduire le nom du groupe à partir du préfixe
-            $groupName = rtrim($prefix, '_') . 's'; // e.g., "designer_" devient "designers"
-
-            // Filtrer les données pour ce groupe
-            $organizedData[$groupName] = [];
-            foreach ($data as $key => $value) {
-                if (str_starts_with($key, $prefix)) {
-                    $organizedData[$groupName][] = $value;
-                }
-            }
-        }
-
-        if ($request->request->count() < 7) {
-            $this->addFlash('danger', 'Il faut un minimum de 5 indices');
-            // Redirige vers une autre route
-            return $this->redirectToRoute('admin_game_show', [
-                'id' => $organizedData['id'],
-                'name' => $organizedData['name']
-            ]);
-        }
-
-        return $this->render('admin/game/confirm.html.twig', [
-            'data' => $organizedData
+        return $this->render('admin/game/index.html.twig', [
+            'mysteryGame' => $mysteryGame
         ]);
     }
 
     #[Route('/admin-game-show/{id}/{name}', name: 'admin_game_show')]
-    public function show(int $id, string $name, TranslatorService $translatorService, EntityManagerInterface $entityManager): Response
+    public function show(int $id, string $name, TranslatorService $translatorService, EntityManagerInterface $entityManager, Request $request): Response
     {
+        $mysteryGame = $entityManager->getRepository(MysteryGame::class)->findOneBy(['name' => $name]);
+
+        if ($mysteryGame) {
+            $this->addFlash('danger', 'Ce jeu à déjà été choisi comme jeu mystère. Merci d\'en sélectionner un autre !');
+            return $this->redirectToRoute('admin_game_index');
+        }
         // Check if the game exist in the database
         $gameClass = new GameClass($this->client);
         $game = $entityManager->getRepository(Game::class)->findOneBy(['gameId' => $id]);
@@ -108,8 +59,9 @@ class GameController extends AbstractController
     }
 
     #[Route('/admin-game-search', name: 'admin_game_search')]
-    public function search(Request $request): Response
+    public function search(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $mysteryGame = $entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => 'stream']);
         $games = new GameClass($this->client);
         try {
             $results = $games->SearchGames($request);
@@ -123,7 +75,8 @@ class GameController extends AbstractController
             'results' => $results['results'],
             'page' => $results['page'],
             'totalPages' => $results['totalPages'],
-            'totalResults' => $results['totalResults']
+            'totalResults' => $results['totalResults'],
+            'mysteryGame' => $mysteryGame
         ]);
     }
 }

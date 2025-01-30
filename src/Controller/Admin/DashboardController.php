@@ -11,6 +11,7 @@ use App\Entity\Game;
 use App\Entity\GraphicDesigner;
 use App\Entity\Honor;
 use App\Entity\Mechanic;
+use App\Entity\MysteryGame;
 use App\Entity\Publisher;
 use App\Entity\Subdomain;
 use App\Entity\User;
@@ -31,7 +32,7 @@ class DashboardController extends AbstractDashboardController
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
+        return $this->redirect($adminUrlGenerator->setController(GameCrudController::class)->generateUrl());
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -44,6 +45,13 @@ class DashboardController extends AbstractDashboardController
         //
         // return $this->render('some/path/my-dashboard.html.twig');
     }
+    #[Route('/admin/mystery-game', name: 'admin_mystery_game')]
+    public function mysteryGame(): Response
+    {
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        return $this->redirect($adminUrlGenerator->setController(MysteryGame::class)->generateUrl());
+
+    }
 
     public function configureDashboard(): Dashboard
     {
@@ -55,16 +63,17 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToRoute('Retourner sur le site', 'fas fa-arrow-left', 'app_home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
-        yield MenuItem::linkToCrud('Jeux', 'fas fa-chess', Game::class);  // "fa-dice" -> "fa-chess" pour un style de jeu plus représentatif
-        yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class);  // "fa-list" -> "fa-tags" pour des catégories
+        yield MenuItem::linkToCrud('Jeux', 'fas fa-chess', Game::class);
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class);
         yield MenuItem::linkToCrud('Familles', 'fas fa-sitemap', Family::class);
         yield MenuItem::linkToCrud('Styles de jeu', 'fas fa-gamepad', Mechanic::class);
-        yield MenuItem::linkToCrud('Domaines', 'fas fa-cogs', Subdomain::class);  // "fa-globe" -> "fa-cogs" pour un aspect plus technique
-        yield MenuItem::linkToCrud('Créateurs', 'fas fa-pencil-alt', Designer::class);  // "fa-globe" -> "fa-pencil-alt" pour un créateur
-        yield MenuItem::linkToCrud('Illustrateurs', 'fas fa-paint-brush', Artist::class);  // "fa-globe" -> "fa-paint-brush" pour un illustrateur
-        yield MenuItem::linkToCrud('Développeurs', 'fas fa-code', Developer::class);  // "fa-globe" -> "fa-code" pour un développeur
-        yield MenuItem::linkToCrud('Designers', 'fas fa-pen-square', GraphicDesigner::class);  // "fa-globe" -> "fa-pen-square" pour un designer graphique
-        yield MenuItem::linkToCrud('Récompenses', 'fas fa-trophy', Honor::class);  // "fa-globe" -> "fa-trophy" pour une récompense
-        yield MenuItem::linkToCrud('Editeurs', 'fas fa-book', Publisher::class);  // "fa-globe" -> "fa-book" pour un éditeur
+        yield MenuItem::linkToCrud('Domaines', 'fas fa-cogs', Subdomain::class);
+        yield MenuItem::linkToCrud('Créateurs', 'fas fa-pencil-alt', Designer::class);
+        yield MenuItem::linkToCrud('Illustrateurs', 'fas fa-paint-brush', Artist::class);
+        yield MenuItem::linkToCrud('Développeurs', 'fas fa-code', Developer::class);
+        yield MenuItem::linkToCrud('Designers', 'fas fa-pen-square', GraphicDesigner::class);
+        yield MenuItem::linkToCrud('Récompenses', 'fas fa-trophy', Honor::class);
+        yield MenuItem::linkToCrud('Editeurs', 'fas fa-book', Publisher::class);
+        yield MenuItem::linkToCrud('Jeu mystère', 'fas fa-book', MysteryGame::class);
     }
 }

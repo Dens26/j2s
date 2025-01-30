@@ -101,7 +101,7 @@
 				</div>
 				{% if results.categories|length > 5 %}
 					<div class="extra-content" style="display: none;">
-						{% for honor in results.categories|slice(5) %}
+						{% for category in results.categories|slice(5) %}
 							<div>
 								{{ category }}
 							</div>
@@ -124,7 +124,7 @@
 				</div>
 				{% if results.subdomains|length > 5 %}
 					<div class="extra-content" style="display: none;">
-						{% for honor in results.subdomains|slice(5) %}
+						{% for subdomain in results.subdomains|slice(5) %}
 							<div>
 								{{ subdomain }}
 							</div>
@@ -166,7 +166,7 @@
 			</div>
 			<button class="toggle-description-button app-boardgame-show-button-show">Afficher plus ...</button>
 		</div>
-
+		
 		<div class="app-boardgame-show-content">
 			<div class="text-high fw-bold">Récompenses:</div>
 			{% if results.honors|length > 0 %}
