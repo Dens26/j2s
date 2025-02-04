@@ -2,165 +2,116 @@
 
 namespace App\Entity;
 
-use App\Repository\MysteryGameRepository;
+use App\Repository\StreamMatchRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MysteryGameRepository::class)]
-class MysteryGame
+#[ORM\Entity(repositoryClass: StreamMatchRepository::class)]
+class StreamMatch
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column(length: 255)]
+    private ?string $yearPublished = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $minPlayers = null;
 
-    #[ORM\Column]
-    private ?int $yearPublished = null;
+    #[ORM\Column(length: 255)]
+    private ?string $maxPlayers = null;
 
-    #[ORM\Column]
-    private ?int $minPlayers = null;
+    #[ORM\Column(length: 255)]
+    private ?string $playingTime = null;
 
-    #[ORM\Column]
-    private ?int $maxPlayers = null;
+    #[ORM\Column(length: 255)]
+    private ?string $age = null;
 
-    #[ORM\Column]
-    private ?int $playingTime = null;
-
-    #[ORM\Column]
-    private ?int $age = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $categoriesIndices = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $subdomainsIndices = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $mechanicsIndices = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $designersIndices = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $artistsIndices = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $graphicDesignersIndices = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $honorsIndices = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $publishersIndices = null;
-
-    #[ORM\ManyToOne(inversedBy: 'mysteryGames')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Status $status = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getYearPublished(): ?int
+    public function getYearPublished(): ?string
     {
         return $this->yearPublished;
     }
 
-    public function setYearPublished(int $yearPublished): static
+    public function setYearPublished(string $yearPublished): static
     {
         $this->yearPublished = $yearPublished;
 
         return $this;
     }
 
-    public function getMinPlayers(): ?int
+    public function getMinPlayers(): ?string
     {
         return $this->minPlayers;
     }
 
-    public function setMinPlayers(int $minPlayers): static
+    public function setMinPlayers(string $minPlayers): static
     {
         $this->minPlayers = $minPlayers;
 
         return $this;
     }
 
-    public function getMaxPlayers(): ?int
+    public function getMaxPlayers(): ?string
     {
         return $this->maxPlayers;
     }
 
-    public function setMaxPlayers(int $maxPlayers): static
+    public function setMaxPlayers(string $maxPlayers): static
     {
         $this->maxPlayers = $maxPlayers;
 
         return $this;
     }
 
-    public function getPlayingTime(): ?int
+    public function getPlayingTime(): ?string
     {
         return $this->playingTime;
     }
 
-    public function setPlayingTime(int $playingTime): static
+    public function setPlayingTime(string $playingTime): static
     {
         $this->playingTime = $playingTime;
 
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getAge(): ?string
     {
         return $this->age;
     }
 
-    public function setAge(int $age): static
+    public function setAge(string $age): static
     {
         $this->age = $age;
 
@@ -259,18 +210,6 @@ class MysteryGame
     public function setPublishersIndices(string $publishersIndices): static
     {
         $this->publishersIndices = $publishersIndices;
-
-        return $this;
-    }
-
-    public function getStatus(): ?Status
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?Status $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }

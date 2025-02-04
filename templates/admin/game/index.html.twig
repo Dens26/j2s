@@ -1,19 +1,311 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ADMIN--Création du jeu!
+{% block title %}Stream du Jeu Mystère
 {% endblock %}
 
 {% block body %}
-	<div class="admin-container my-4 mx-3">
-		<div class="m-2">
-			<h1 class="admin-section-title mb-4 d-flex justify-content-center">Création du jeu pour le prochain stream</h1>
+	<div class="container text-center py-5">
 
-			<form class="d-flex gap-2 admin-searchbar-container" role="search" method="GET" action="{{ path('admin_game_search') }}">
-				<input class="form-control" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
-				<button class="btn" type="submit">Recherchez</button>
-			</form>
+		{% if not streamMatch %}
+			<h1 class="admin-title mb-4">🔍 Trouve le Jeu Mystère avec Sorralli</h1>
+			<div class="component p-4">
+				<p class="mb-3">Aucun jeu mystère n'est actuellement disponible pour le stream.</p>
+				<a href="{{ path('admin_game_index') }}" class="btn btn-primary">
+					🎲 Proposer un nouveau jeu mystère
+				</a>
+			</div>
+		{% elseif mysterySearchTerm is not defined %}
+			<h1 class="admin-title mb-4">🔍 Trouve le Jeu Mystère avec Sorralli</h1>
+			<div class="text-center my-5">
+				<form class="d-flex justify-content-center mt-3" role="search" method="get" action="{{ path('admin_mystery_game_search') }}">
+					<input class="form-control w-50" type="search" name="search" placeholder="Recherchez un jeu..." aria-label="Search">
+					<button class="btn ms-2" type="submit">🔍 Rechercher</button>
+				</form>
+			</div>
 
-			{% include 'components/admin/searchResult.html.twig' %}
-		</div>
+
+			{# Premier pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+					(streamMatch.categoriesIndices is defined and streamMatch.categoriesIndices|length > 0 ? 1 : 0) +
+					(streamMatch.subdomainsIndices is defined and streamMatch.subdomainsIndices|length >0 ? 1 : 0) +
+					(streamMatch.mechanicsIndices is defined and streamMatch.mechanicsIndices|length >0 ? 1 : 0)
+				}} mb-5 align-items-center">
+				{# Catégories #}
+				{% if streamMatch.categoriesIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/category.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Titre à définir</span>
+									<div class="category-list" style="display: none;">
+										{% for category in streamMatchFormated.categoriesIndices %}
+											<input type="hidden" name="categories[]" value="{{ category }}">
+											<div class="fs-5">{{ category }}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Domaines #}
+				{% if streamMatch.subdomainsIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/subdomain.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Catégories</span>
+									<div class="category-list" style="display: none;">
+										{% for subdomain in streamMatchFormated.subdomainsIndices %}
+											<input type="hidden" name="subdomains[]" value="{{ subdomain }}">
+											<div class="fs-5">{{ subdomain }}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Genres #}
+				{% if streamMatch.mechanicsIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/mechanic.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Mécanismes</span>
+									<div class="category-list" style="display: none;">
+										{% for mechanic in streamMatchFormated.mechanicsIndices %}
+											<input type="hidden" name="mechanics[]" value="{{ mechanic }}">
+											<div class="fs-5">{{ mechanic }}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Deuxième pack d'indices #}
+			<div
+				class="row row-cols-{{
+					((streamMatch.age is defined and streamMatch.age|length > 0 ? 1 : 0) +
+					(streamMatch.minPlayers is defined and streamMatch.minPlayers|length > 0 ? 1 : 0) +
+					(streamMatch.playingTime is defined and streamMatch.playingTime|length > 0 ? 1 : 0) +
+					(streamMatch.yearPublished is defined and streamMatch.yearPublished|length > 0 ? 1 : 0)) / 2
+				}} row-cols-md-{{
+					(streamMatch.age is defined and streamMatch.age|length > 0 ? 1 : 0) +
+					(streamMatch.minPlayers is defined and streamMatch.minPlayers|length > 0 ? 1 : 0) +
+				 	(streamMatch.playingTime is defined and streamMatch.playingTime|length > 0 ? 1 : 0) +
+				 	(streamMatch.yearPublished is defined and streamMatch.yearPublished|length > 0 ? 1 : 0)
+				 }} mb-5 align-items-center">
+				{# Age #}
+				{% if streamMatch.age is defined %}
+					<div class="my-1">
+						<div class="category-container btn {% if newHints['age'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/age.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Age</span>
+									<div class="category-list" style="display: none;">
+										<input type="hidden" name="age" value="{{ streamMatch.age }}">
+										<span class="fs-5">{{streamMatch.age}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Joueurs #}
+				{% if streamMatch.minPlayers is defined %}
+					<div class="my-1">
+						<div class="category-container btn {% if newHints['minPlayers'] is defined or newHints['maxPlayers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/players.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
+									<div class="category-list" style="display: none;">
+										<input type="hidden" name="players" value="{{ streamMatch.minPlayers }}">
+										<span class="fs-5">{{streamMatch.minPlayers}} / {{streamMatch.maxPlayers}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Durée #}
+				{% if streamMatch.playingTime is defined %}
+					<div class="my-1">
+						<div class="category-container btn {% if newHints['playingTime'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/playingTime.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Durée</span>
+									<div class="category-list" style="display: none;">
+										<input type="hidden" name="playingTime" value="{{ streamMatch.playingTime }}">
+										<span class="fs-5">{{streamMatch.playingTime}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Sortie #}
+				{% if streamMatch.yearPublished is defined %}
+					<div class="my-1">
+						<div class="category-container btn {% if newHints['yearPublished'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/date.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Sortie</span>
+									<div class="category-list" style="display: none;">
+										<input type="hidden" name="yearPublished" value="{{ streamMatch.yearPublished }}">
+										<span class="fs-5">{{streamMatch.yearPublished}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Troisième pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+					((streamMatch.designersIndices is defined and streamMatch.designersIndices|length > 0 ? 1 : 0) +
+					(streamMatch.artistsIndices is defined and streamMatch.artistsIndices|length > 0 ? 1 : 0) +
+					(streamMatch.graphicDesignersIndices is defined and streamMatch.graphicDesignersIndices|length > 0 ? 1 : 0) +
+					(streamMatch.developersIndices is defined and streamMatch.developersIndices|length > 0 ? 1 : 0)) / 2
+				}} mb-5 align-items-center">
+				{# Créateurs #}
+				{% if streamMatch.designersIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/designer.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
+									<div class="category-list" style="display: none;">
+										{% for designer in streamMatchFormated.designersIndices %}
+											<input type="hidden" name="designers[]" value="{{ designer }}">
+											<div class="fs-5">{{designer}}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Illustrateurs #}
+				{% if streamMatch.artistsIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/artist.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
+									<div class="category-list" style="display: none;">
+										{% for artist in streamMatchFormated.artistsIndices %}
+											<input type="hidden" name="artists[]" value="{{ artist }}">
+											<div class="fs-5">{{artist}}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Designers #}
+				{% if streamMatch.graphicDesignersIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/designer-graphique.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Designers</span>
+									<div class="category-list" style="display: none;">
+										{% for graphicDesigner in streamMatchFormated.graphicDesignersIndices %}
+											<input type="hidden" name="graphicDesigners[]" value="{{ graphicDesigner }}">
+											<div class="fs-5">{{graphicDesigner}}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Developers #}
+				{% if streamMatch.developersIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/developer.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Développeurs</span>
+									<div class="category-list" style="display: none;">
+										{% for developer in streamMatchFormated.developersIndices %}
+											<input type="hidden" name="developers[]" value="{{ developer }}">
+											<div class="fs-5">{{developer}}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Quatrième pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+					(streamMatch.honorsIndices is defined and streamMatch.honorsIndices|length > 0 ? 1 : 0) +
+					(streamMatch.publishersIndices is defined and streamMatch.publishersIndices|length > 0 ? 1 : 0)
+				}} mb-5 align-items-center">
+				{# Récompense #}
+				{% if streamMatch.honorsIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/honor.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Récompenses</span>
+									<div class="category-list" style="display: none;">
+										{% for honor in streamMatchFormated.honorsIndices %}
+											<input type="hidden" name="honors[]" value="{{ honor }}">
+											<div class="fs-5">{{honor}}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Editeurs #}
+				{% if streamMatch.publishersIndices is defined %}
+					<div class="my-1">
+						<div class="category-container btn admin-btn admin-btn-container">
+							<div class="d-flex align-items-center justify-content-center">
+								<img class="me-2" width="32" height="32" src="{{asset('logo/publisher.png')}}" alt="">
+								<div class="category-content">
+									<span class="category-placeholder fs-4 fw-bold">Editeurs</span>
+									<div class="category-list" style="display: none;">
+										{% for publisher in streamMatchFormated.publishersIndices %}
+											<input type="hidden" name="publishers[]" value="{{ publisher }}">
+											<div class="fs-5">{{publisher}}</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+
+		{% endif %}
 	</div>
 {% endblock %}

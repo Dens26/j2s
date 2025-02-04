@@ -33,6 +33,7 @@ class GameClass
     public function SearchGames(Request $request): array
     {
         $searchTerm = $request->query->get('search', '');
+        $mysterySearchTerm = $request->query->get('search', '');
         $page = (int)$request->query->get('page', 1);
         $resultsPerPage = 10;
 
@@ -43,6 +44,7 @@ class GameClass
 
         return [
             'searchTerm' => $searchTerm,
+            'mysterySearchTerm' => $mysterySearchTerm,
             'results' => $results,
             'page' => $page,
             'totalPages' => $totalPages,
@@ -106,6 +108,7 @@ class GameClass
             ->setDescription($results['description'])
             ->setThumbnail($results['thumbnail'])
             ->setImage($results['image'])
+            ->setChecked(false)
         ;
 
         if ($translateAvailable) {
@@ -123,7 +126,6 @@ class GameClass
         $this->handleRelateData(false, $results['developers'], $game, Developer::class, 'addDeveloper', $entityManager, $translateAvailable);
         $this->handleRelateHonorData($results['honors'], $game, $entityManager, $translateAvailable);
         $this->handleRelateData(true, $results['families'], $game, Family::class, 'addFamily', $entityManager, $translateAvailable);
-
         // Sauvegarde des données
         if ($translateAvailable) {
             $entityManager->flush();
@@ -202,8 +204,7 @@ class GameClass
 
         $translateAvailable = $translatorService->checkIfQuotaAvailable(json_encode($itemsToTranslate));
         // Si la traduction est disponible et qu'il y a des éléments à traduire, procéder à la traduction
-        if ($translateAvailable && !empty($itemsToTranslate)) {
-
+        if (/*$translateAvailable && */!empty($itemsToTranslate)) {
             $translatedItems = $translatorService->translate($itemsToTranslate);
             $translatedItemsArray = explode('|', $translatedItems);
             if ($translatedItemsArray) {
