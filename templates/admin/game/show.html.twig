@@ -1,0 +1,206 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN--Paramétrage du jeu
+{% endblock %}
+
+{% block body %}
+	<div class="my-4 mx-3 admin-container">
+		<h1 class="text-center admin-section-title my-4 d-flex justify-content-center">Configuration du jeu pour le prochain stream</h1>
+
+		<p class="admin-section-subtitle fs-3">{{ results.name }}</p>
+
+		<p>Sélectionne les indices que tu veux comparer et faire apparaître:</p>
+
+		{# Form #}
+		<form
+			class="mx-4" action="{{ path('admin_game_create') }}" method="post">
+			{# Hidden value #}
+			<div hidden>
+				<input type="text" name="id" value="{{results.id}}">
+				<input type="text" name="name" value="{{results.name}}">
+			</div>
+			{# Year published #}
+			<div>
+				<input type="checkbox" id="yearPublished" name="yearPublished" value="{{ results.yearPublished }}" checked>
+				<label class="my-1" for="yearPublished">Publication:
+					{{ results.yearPublished }}
+				</label>
+			</div>
+
+			{# Players number #}
+			<div>
+				<input type="checkbox" id="players" name="players" value="{{ results.minPlayers }}-{{ results.maxPlayers}}" checked>
+				<label class="my-1" for="players">Joueurs:
+					{{ results.minPlayers }}-{{ results.maxPlayers }}
+					joueurs
+				</label>
+			</div>
+
+			{# Playing time #}
+			<div>
+				<input type="checkbox" id="playingTime" name="playingTime" value="{{ results.playingTime }}" checked>
+				<label class="my-1" for="playingTime">Durée:
+					{{ results.playingTime }}
+					mn
+				</label>
+			</div>
+
+			{# Age #}
+			<div>
+				<input type="checkbox" id="age" name="age" value="{{ results.age }}" checked>
+				<label class="my-1" for="age">Age:
+					{{ results.age }}
+					ans
+				</label>
+			</div>
+
+			{# Designers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="designers" name="designers" value="" checked>
+				<label class="my-1" for="designers">Créateurs:</label>
+				{% if results.designers|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.designers|length - 1) %}
+							<div>
+								<input type="checkbox" id="designer_{{ i }}" name="designer_{{ i }}" value="{{ results.designers[i] }}" disabled>
+								<label for="designer_{{ i }}">{{ results.designers[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Artists #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="artists" name="artists" value="" checked>
+				<label class="my-1" for="artists">Illustrateurs:</label>
+				{% if results.artists|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.artists|length - 1) %}
+							<div>
+								<input type="checkbox" id="artist_{{ i }}" name="artist_{{ i }}" value="{{ results.artists[i] }}" disabled>
+								<label for="artist_{{ i }}">{{ results.artists[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Graphic designers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="graphicDesigners" name="graphicDesigners" value="" checked>
+				<label class="my-1" for="graphicDesigners">Designers:</label>
+				{% if results.graphicDesigners|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.graphicDesigners|length - 1) %}
+							<div>
+								<input type="checkbox" id="graphicDesigner_{{ i }}" name="graphicDesigner_{{ i }}" value="{{ results.graphicDesigners[i] }}" disabled>
+								<label for="graphicDesigner_{{ i }}">{{ results.graphicDesigners[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Developers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="developers" name="developers" value="" checked>
+				<label class="my-1" for="developers">Développeurs:</label>
+				{% if results.developers|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.developers|length - 1) %}
+							<div>
+								<input type="checkbox" id="developer_{{ i }}" name="developer_{{ i }}" value="{{ results.developers[i] }}" disabled>
+								<label for="developer_{{ i }}">{{ results.developers[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Categories #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="categories" name="categories" value="" checked>
+				<label class="my-1" for="categories">Catégories:</label>
+				{% if results.categories|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.categories|length - 1) %}
+							<div>
+								<input type="checkbox" id="category_{{ i }}" name="category_{{ i }}" value="{{ results.categories[i] }}" disabled>
+								<label for="category_{{ i }}">{{ results.categories[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Categories #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="subdomains" name="subdomains" value="" checked>
+				<label class="my-1" for="subdomains">Domaines:</label>
+				{% if results.subdomains|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.subdomains|length - 1) %}
+							<div>
+								<input type="checkbox" id="subdomain_{{ i }}" name="subdomain_{{ i }}" value="{{ results.subdomains[i] }}" disabled>
+								<label for="subdomain_{{ i }}">{{ results.subdomains[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Mechanics #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="mechanics" name="mechanics" value="" checked>
+				<label class="my-1" for="mechanics">Style de jeu:</label>
+				{% if results.mechanics|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.mechanics|length - 1) %}
+							<div>
+								<input type="checkbox" id="mechanic_{{ i }}" name="mechanic_{{ i }}" value="{{ results.mechanics[i] }}" disabled>
+								<label for="mechanic_{{ i }}">{{ results.mechanics[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Honors #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="honors" name="honors" value="" checked>
+				<label class="my-1" for="honors">Récompenses:</label>
+				{% if results.honors|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.honors|length - 1) %}
+							<div>
+								<input type="checkbox" id="honor_{{ i }}" name="honor_{{ i }}" value="{{ results.honors[i].name }}" disabled>
+								<label for="honor_{{ i }}">{{ results.honors[i].name }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{# Publishers #}
+			<div data-controller="checkbox-group">
+				<input type="checkbox" id="publishers" name="publishers" value="" checked>
+				<label class="my-1" for="publishers">Editeurs:</label>
+				{% if results.publishers|length > 0 %}
+					<div class="ms-4">
+						{% for i in 0..(results.publishers|length - 1) %}
+							<div>
+								<input type="checkbox" id="publisher_{{ i }}" name="publisher_{{ i }}" value="{{ results.publishers[i] }}" disabled>
+								<label for="publisher_{{ i }}">{{ results.publishers[i] }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+			<div class="d-flex justify-content-center mt-4">
+				<button class="btn" type="submit">Valider</button>
+			</div>
+		</form>
+
+	</div>
+{% endblock %}

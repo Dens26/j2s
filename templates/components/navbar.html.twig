@@ -1,73 +1,99 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-border">
-	<div class="container-fluid background-secondary">
+<div class="main-navbar-container">
+	<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-border">
+		<div class="container-fluid background-secondary">
 
-		<a class="navbar-brand" href="{{path('app_home')}}"><img width="48" src="{{asset('logo/J2S.png')}}" alt="logo J2S"></a>
 
-		<button class="navbar-toggler navbar-component" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+			<div class="d-flex align-items-center me-2">
+				<a class="navbar-brand" href="{{path('app_home')}}"><img width="48" src="{{asset('logo/sorralli.jpg')}}" alt="logo J2S"></a>
+				{% if app.user is not null and 'ROLE_ADMIN' in app.user.roles %}
+					<div>
+						<ul class="my-navbar-nav me-auto mb-0">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<span class="admin-section-title">ADMIN</span>
+								</a>
+								<ul class="dropdown-menu shadow">
+									<li>
+										<a class="nav-link m-2" href="{{path('admin')}}">🔧 <span class="admin-section-subtitle">Tableau de bord</span></a>
+									</li>
+									<li>
+										<a class="nav-link m-2" href="{{path('admin_game_index')}}">🎲  <span class="admin-section-subtitle">Proposer un jeu</span></a>
+									</li>
+									<li>
+										<a class="nav-link m-2" href="">🔴  <span class="admin-section-subtitle">Stream</span></a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				{% endif %}
+			</div>
+			<button class="navbar-toggler navbar-component" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-		<div class="my-navbar collapse navbar-collapse" id="navbarSupportedContent">
-			<ul
-				class="my-navbar-nav me-auto mb-2 mb-lg-0">
-				{# Dropdown link #}
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Défis & Classements
-					</a>
-					<ul class="dropdown-menu shadow">
-						<li>
-							<a class="dropdown-item" href="#">🎲 Trouve le jeu mystère</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">🏆 Les défis de Sorralli</a>
-						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li>
-							<a class="dropdown-item" href="#">📊 Classement</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">📈 Mes statistiques</a>
-						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li>
-							<a class="dropdown-item" href="#">❓ Aide</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-
-			<div class="me-2 my-2">
-				<ul class="my-navbar-nav me-auto mb-2 mb-lg-0">
+			<div class="my-navbar collapse navbar-collapse" id="navbarSupportedContent">
+				<ul
+					class="my-navbar-nav me-auto mb-2 mb-lg-0">
+					{# Dropdown link #}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Mon Compte
+							Défis & Classements
 						</a>
 						<ul class="dropdown-menu shadow">
-							{% if app.user %}
-								<li>
-									<a class="nav-link mx-2" href="#">Mon profil</a>
-								</li>
-								<li>
-									<a class="nav-link mx-2" href="#">Déconnexion</a>
-								</li>
-							{% else %}
-								<li>
-									<a class="nav-link mx-2" href="{{path('app_register')}}">Inscription</a>
-								</li>
-								<li>
-									<a class="nav-link mx-2" href="#">Connexion</a>
-								</li>
-							{% endif %}
+							<li>
+								<a class="dropdown-item" href="{{path('app_find_the_game')}}">🎲 Trouve le jeu mystère</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{path('app_old_challenges')}}">🏆 Les défis de Sorralli</a>
+							</li>
+							<li><hr class="dropdown-divider"></li>
+							<li>
+								<a class="dropdown-item" href="{{path('app_ranking')}}">📊 Classement</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{path('app_statistics')}}">📈 Mes statistiques</a>
+							</li>
+							<li><hr class="dropdown-divider"></li>
+							<li>
+								<a class="dropdown-item" href="{{path('app_help')}}">❓ Aide</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
+
+				<div class="me-2 my-2">
+					<ul class="my-navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Mon Compte
+							</a>
+							<ul class="dropdown-menu shadow">
+								{% if app.user %}
+									<li>
+										<a class="nav-link mx-2" href="{{path('app_account')}}">Mon profil</a>
+									</li>
+									<li>
+										<a class="nav-link mx-2" href="{{path('app_logout')}}">Déconnexion</a>
+									</li>
+								{% else %}
+									<li>
+										<a class="nav-link mx-2" href="{{path('app_register')}}">Inscription</a>
+									</li>
+									<li>
+										<a class="nav-link mx-2" href="{{path('app_login')}}">Connexion</a>
+									</li>
+								{% endif %}
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+				<form class="d-flex gap-1" role="search" method="GET" action="{{ path('app_boardgame_search') }}">
+					<input class="form-control mr-2" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
+					<button class="btn" type="submit">Recherchez</button>
+				</form>
 			</div>
-			
-			<form class="d-flex gap-1" role="search" method="GET" action="{{ path('app_search') }}">
-				<input class="text-input form-control mr-2" type="search" name="search" placeholder="Recherchez un jeu" aria-label="Search">
-				<button class="btn" type="submit">Recherchez</button>
-			</form>
 		</div>
-	</div>
-</nav>
+	</nav>
+</div>

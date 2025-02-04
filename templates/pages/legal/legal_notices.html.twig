@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions légales!
+{% endblock %}
+
+{% block body %}
+	<div class="my-4 mx-3">
+		<div class="m-2">
+			<h1 class="title">Mentions légales</h1>
+
+			<h2 class="subtitle">1. Editeur du site</h2>
+			<p>Le site J2S est édité par:</p>
+			<ul>
+				<li>Nom du site: J2S</li>
+				<li>Propriétaire: Sorralli</li>
+				<li>Nom du développeur: DBDev</li>
+				<li>Adresse: Adresse disponible sur demande auprès de l’hébergeur conformément à l’article 6, III-2 de la LCEN"</li>
+				<li>Contact:
+					{{contact_email}}</li>
+				<li>Le site est destiné à promouvoir la chaîne YouTube, Twitch, Instagram, TikTok, et Discord de Sorralli,
+																								 ainsi qu’à offrir des services permettant de découvrir des jeux de société et n’a pas vocation commerciale</li>
+			</ul>
+
+			<h2 class="subtitle">2. Hébergement du site</h2>
+			<ul>
+				<li>Hébergeur:
+					{{hosting_name}}</li>
+				<li>Adresse:
+					{{hosting_address}}</li>
+				<li>Téléphone:
+					{{hosting_phone}}</li>
+				<li>Email:
+					{{hosting_email}}</li>
+			</ul>
+
+			<h2 class="subtitle">3. Responsable de la publication</h2>
+			<ul>
+				<li>Responsable de la publication: Sorralli</li>
+				<li>Contact:
+					{{contact_email}}</li>
+			</ul>
+
+			<h2 class="subtitle">4. Protection des données personnelles</h2>
+			<p>Conformément à la réglementation sur la protection des données personnelles (RGPD), nous nous engageons à respecter la
+								confidentialité des données que vous nous fournissez. Les données collectées via le formulaire de contact ou l'inscription
+								à la newsletter sont utilisées uniquement dans le cadre de la gestion de ces services</p>
+			<ul>
+				<li>Données collectées: Adresse email, nom, prénom, nom d'utilisateur</li>
+				<li>Finalité de la collecte: Envoi de la newsletter, informations liées aux contenu du site, actualités concernant Sorralli</li>
+				<li>Base légale: Consentement explicite</li>
+				<li>Durée de conservation: Les données sont conservées aussi longtemps que l'utilisateur est abonné à la newsletter</li>
+			</ul>
+			<p>Mailjet est utilisé pour la gestion des envois d'emails (newsletter, etc.). Pour plus d'informations sur la gestion des
+								données personnelles par Mailjet, consultez leur politique de confidentialité
+				<a href="https://www.mailjet.com/fr/legal/politique-confidentialite/">ici</a>
+			</p>
+
+			<h2 class="subtitle">5. Cookies</h2>
+			<p>Le site utilise un cookie fonctionnel, "REMEMBERME", pour permettre à l'utilisateur de rester connecté à son compte lorsqu'il
+				coche l'option correspondante lors de la connexion. Ce cookie est nécessaire au bon fonctionnement de la fonctionnalité de connexion
+				persistante et permet à l'utilisateur de ne pas avoir à se reconnecter à chaque visite, tout en assurant la sécurité de la session.</p>
+				
+			<p>Aucun cookie n'est utilisé pour collecter des données personnelles. Si des cookies supplémentaires sont utilisés à l'avenir, vous en
+				serez informé, et vous aurez la possibilité de les accepter ou de les refuser via une bannière de gestion des cookies.
+			</p>
+
+			<h2 class="subtitle">6. Utilisation des services tiers</h2>
+			<ul>
+				<li>BoardGameGeek API : Nous utilisons l’API de BoardGameGeek pour rechercher et récupérer des données concernant les jeux de société.
+										Les informations collectées sont utilisées uniquement pour fournir des données sur les jeux aux utilisateurs de notre site. 
+										Pour plus d’informations, consultez la documentation de l’API :
+					<a href="https://boardgamegeek.com/wiki/page/BGG_XML_API&redirectedfrom=XML_API">BGG XML API</a>
+				</li>
+				<li>DeePl API : Nous utilisons l’API de DeePl pour traduire certains contenus du site. Ce service de traduction utilise des données
+										pour améliorer la précision des traductions. Pour plus d’informations sur le traitement des données par DeePl, consultez leur
+										politique de confidentialité
+					<a href="https://www.deepl.com/fr/privacy">ici</a>
+				</li>
+			</ul>
+
+			<h2 class="subtitle">7. Gestion des données personnelles pour la newsletter</h2>
+			<p>Le site propose une newsletter pour tenir ses utilisateurs informés des dernières actualités, des nouveaux jeux de société et
+								des contenus relatifs à Sorralli. Lors de l’inscription à la newsletter, vous consentez à recevoir des emails réguliers</p>
+			<ul>
+				<li>Inscription à la newsletter : Pour vous inscrire, vous devez fournir votre adresse email, et vous avez la possibilité de vous
+										désinscrire à tout moment en cliquant sur le lien de désinscription présent dans chaque email envoyé</li>
+				<li>Gestion des données : Les données collectées via la newsletter sont gérées par Mailjet, conformément à leur politique de
+										confidentialité</li>
+			</ul>
+
+			<h2 class="subtitle">8. Responsabilité</h2>
+			<p>Le site ne saurait être tenu responsable des éventuels dommages directs ou indirects liés à l'utilisation de ce site, ni des erreurs ou omissions
+								qui pourraient y figurer. Les liens hypertextes présents sur le site peuvent conduire l’utilisateur vers des sites externes, dont le contenu ne
+								relève pas de la responsabilité de l’éditeur
+			</p>
+
+			<h2 class="subtitle">9. Modification des mentions légales</h2>
+			<p>L’éditeur se réserve le droit de modifier à tout moment les présentes mentions légales, sans préavis. Il est donc conseillé de les consulter régulièrement
+			</p>
+		</div>
+	</div>
+{% endblock %}
