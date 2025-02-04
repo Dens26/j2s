@@ -196,7 +196,7 @@ a:hover {
     color: var(--hight-contrast-text);
 }
 
-.component-alert{
+.component-alert {
     background-color: var(--subtle-background);
     border: 1px solid var(--ui-element-border);
     color: var(--low-contrast-text);
@@ -525,7 +525,7 @@ a:hover {
 .admin-component-high:active {
     background-color: var(--hovered-solid-background);
     border-color: var(--high-contrast-text);
-    color: var(--hight-contrast-text);
+    color: var(--high-contrast-text);
 }
 
 .admin-btn {
@@ -535,6 +535,7 @@ a:hover {
     padding: 5px;
     text-align: center;
     align-self: center;
+    width: 100%;
 }
 
 .admin-btn:hover {
@@ -542,9 +543,16 @@ a:hover {
     border-color: var(--hovered-solid-background);
 }
 
-.admin-btn-container {
-    margin-bottom: 0.5rem;
+.admin-btn-highlight {
+    background-color: var(--solid-background);
+    border-color: var(--solid-background);
+    border-radius: 45px;
+    padding: 5px;
+    text-align: center;
+    align-self: center;
     width: 100%;
+    box-shadow: 0 0 15px 10px var(--high-contrast-text);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 /* Couleur de fond par défaut */

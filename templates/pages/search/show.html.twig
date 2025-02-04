@@ -90,7 +90,7 @@
 	<div class="m-4">
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Catégories:</div>
+			<div class="text-high fw-bold">Titre à définir:</div>
 			{% if results.categories|length > 0 %}
 				<div class="content-list">
 					{% for category in results.categories|slice(0, 5) %}
@@ -113,7 +113,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Domaines:</div>
+			<div class="text-high fw-bold">Cagégories:</div>
 			{% if results.subdomains|length > 0 %}
 				<div class="content-list">
 					{% for subdomain in results.subdomains|slice(0, 5) %}
@@ -136,7 +136,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Style de jeu:</div>
+			<div class="text-high fw-bold">Mécanismes:</div>
 			{% if results.mechanics|length > 0 %}
 				<div class="content-list">
 					{% for mechanic in results.mechanics|slice(0, 5) %}

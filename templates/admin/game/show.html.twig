@@ -121,7 +121,7 @@
 			{# Categories #}
 			<div data-controller="checkbox-group">
 				<input type="checkbox" id="categories" name="categories" value="" checked>
-				<label class="my-1" for="categories">Catégories:</label>
+				<label class="my-1" for="categories">Titre à définir:</label>
 				{% if results.categories|length > 0 %}
 					<div class="ms-4">
 						{% for i in 0..(results.categories|length - 1) %}
@@ -137,7 +137,7 @@
 			{# Categories #}
 			<div data-controller="checkbox-group">
 				<input type="checkbox" id="subdomains" name="subdomains" value="" checked>
-				<label class="my-1" for="subdomains">Domaines:</label>
+				<label class="my-1" for="subdomains">Catégories:</label>
 				{% if results.subdomains|length > 0 %}
 					<div class="ms-4">
 						{% for i in 0..(results.subdomains|length - 1) %}
@@ -153,7 +153,7 @@
 			{# Mechanics #}
 			<div data-controller="checkbox-group">
 				<input type="checkbox" id="mechanics" name="mechanics" value="" checked>
-				<label class="my-1" for="mechanics">Style de jeu:</label>
+				<label class="my-1" for="mechanics">Mécanismes:</label>
 				{% if results.mechanics|length > 0 %}
 					<div class="ms-4">
 						{% for i in 0..(results.mechanics|length - 1) %}

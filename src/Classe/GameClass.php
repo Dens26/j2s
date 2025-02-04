@@ -33,6 +33,7 @@ class GameClass
     public function SearchGames(Request $request): array
     {
         $searchTerm = $request->query->get('search', '');
+        $mysterySearchTerm = $request->query->get('search', '');
         $page = (int)$request->query->get('page', 1);
         $resultsPerPage = 10;
 
@@ -43,6 +44,7 @@ class GameClass
 
         return [
             'searchTerm' => $searchTerm,
+            'mysterySearchTerm' => $mysterySearchTerm,
             'results' => $results,
             'page' => $page,
             'totalPages' => $totalPages,
