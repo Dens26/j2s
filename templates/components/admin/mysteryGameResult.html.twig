@@ -1,0 +1,52 @@
+{% if mysterySearchTerm is defined and mysterySearchTerm is not empty %}
+	<div class="component m-4 text-center">
+		<h3 class="mb-4">Résultats pour : "{{ mysterySearchTerm | capitalize }}"</h3>
+
+		<!-- Spinner et overlay cachés au début -->
+		<div id="loading-overlay" class="loading-overlay" style="display: none;">
+			<div class="spinner-border text-light" role="status">
+				<span class="visually-hidden">Chargement...</span>
+			</div>
+		</div>
+
+		<p>Total de jeux trouvés :
+			{{ totalResults }}</p>
+
+		{% if results is defined and results is not empty %}
+			<div class="row row-cols-1 row-cols-md-2 mb-2">
+				{% for result in results %}
+					<div class="col mb-2 d-flex">
+						<a href="{{ path('admin_mystery_game_find', {id: result.id, name: result.name}) }}" class="btn w-100 d-flex align-items-center justify-content-start gap-1">
+							<div class="img-container">
+								{% if result.thumbnail %}
+									<img src="{{ result.thumbnail }}" alt="Thumbnail for {{ result.name }}" class="img" style="max-width: 80px;">
+								{% endif %}
+							</div>
+							<div class="text-high text-start">
+								{{ result.name }}
+							</div>
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+
+		{% else %}
+			<p>Aucun résultat trouvé.</p>
+		{% endif %}
+
+		<!-- Pagination avec désactivation conditionnelle et indicateur -->
+		<div
+			class="pagination mt-4 mx-1 d-flex justify-content-between align-items-center">
+			<!-- Bouton Page Précédente -->
+			<a class="btn pagination-link {% if page <= 1 %}disabled{% endif %}" {% if page > 1 %} href="{{ path('admin_mystery_game_search', { 'search': mysterySearchTerm, 'page': page - 1 }) }}" {% endif %}>
+				← Page précédente
+			</a>
+
+			<!-- Indicateur de pagination -->
+			<p class="mb-0">Page
+				{{ page }}
+				sur
+				{{ totalPages }}</p>
+
+			<!-- Bouton Page Suivante -->
+			<a class="btn pagination-link {% if page >= totalPages %}disabled{% endif %}" {% if page < totalPages %}href="{{ path('admin_mystery_game_search', { 'search': mysterySearchTerm, 'page': page + 1 }) }}"{% endif %}> Page suivante → </a> </div> </div> {% endif %}

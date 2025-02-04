@@ -55,7 +55,6 @@ class SearchController extends AbstractController
                 'results' => $gameClass->formatGame($game)
             ]);
         }
-
         $game = new GameClass($this->client);
         $result = $game->ShowGame($entityManager, $id, $name, $translatorService);
 

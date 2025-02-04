@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Crud;
 
-use App\Entity\Publisher;
+use App\Entity\Developer;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class PublisherCrudController extends AbstractCrudController
+class DeveloperCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Publisher::class;
+        return Developer::class;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -28,8 +28,8 @@ class PublisherCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Editeur')
-            ->setEntityLabelInPlural('Editeurs')
+            ->setEntityLabelInSingular('Développeur')
+            ->setEntityLabelInPlural('Développeurs')
             ->setDateFormat('...')
             // ...
         ;

@@ -18,77 +18,75 @@
 		{% endblock %}
 
 		{% block javascripts %}
-		<script src="{{ asset('tarteaucitron/tarteaucitron.js') }}"></script>
+			<script src="{{ asset('tarteaucitron/tarteaucitron.js') }}"></script>
 
-        <script type="text/javascript">
-		
-			// Initialisation de Tarteaucitron.js
-//			tarteaucitron.init({
-//				"privacyUrl": "", /* URL vers ta politique de confidentialité */
-//				"bodyPosition": "bottom", /* Position de la bannière (bottom/top) */
-//				"hashtag": "#tarteaucitron", /* Ancre pour ouvrir le panneau */
-//				"cookieName": "tarteaucitron", /* Nom du cookie */
-//				"orientation": "middle", /* Position de la bannière (top - bottom) */
-//				"groupServices": false, /* Ne pas grouper les services */
-//				"showDetailsOnClick": true, /* Cliquer pour développer la description */
-//				"serviceDefaultState": "wait", /* État par défaut du service */
-//				"showAlertSmall": false, /* Ne pas afficher la petite bannière en bas à droite */
-//				"cookieslist": false, /* Ne pas afficher la liste des cookies */
-//				"closePopup": false, /* Pas de bouton de fermeture sur la bannière */
-//				"showIcon": true, /* Afficher l'icône de gestion des cookies */
-//				"iconPosition": "BottomRight", /* Position de l'icône de gestion des cookies */
-//				"adblocker": false, /* Avertissement en cas de détection d'adblock */
-//				"DenyAllCta": true, /* Ajouter un bouton pour refuser tous les cookies */
-//				"AcceptAllCta": true, /* Ajouter un bouton pour accepter tous les cookies */
-//				"highPrivacy": true, /* Désactiver l'auto-consentement */
-//				"alwaysNeedConsent": false, /* Demander le consentement pour les services "Privacy by design" */
-//				"handleBrowserDNTRequest": false, /* Si Do Not Track == 1, refuser tous les cookies */
-//				"removeCredit": false, /* Ne pas supprimer le lien de crédit */
-//				"moreInfoLink": true, /* Afficher le lien "Plus d'infos" */
-//				"useExternalCss": false, /* Ne pas utiliser de CSS externe */
-//				"useExternalJs": false, /* Ne pas utiliser de JS externe */
-//				"readmoreLink": "", /* Lien personnalisé pour les informations supplémentaires */
-//				"mandatory": true, /* Afficher un message sur les cookies obligatoires */
-//				"mandatoryCta": true, /* Afficher un bouton de consentement désactivé pour les cookies obligatoires */
+			<script type="text/javascript">// Initialisation de Tarteaucitron.js
+// tarteaucitron.init({
+// "privacyUrl": "", /* URL vers ta politique de confidentialité */
+// "bodyPosition": "bottom", /* Position de la bannière (bottom/top) */
+// "hashtag": "#tarteaucitron", /* Ancre pour ouvrir le panneau */
+// "cookieName": "tarteaucitron", /* Nom du cookie */
+// "orientation": "middle", /* Position de la bannière (top - bottom) */
+// "groupServices": false, /* Ne pas grouper les services */
+// "showDetailsOnClick": true, /* Cliquer pour développer la description */
+// "serviceDefaultState": "wait", /* État par défaut du service */
+// "showAlertSmall": false, /* Ne pas afficher la petite bannière en bas à droite */
+// "cookieslist": false, /* Ne pas afficher la liste des cookies */
+// "closePopup": false, /* Pas de bouton de fermeture sur la bannière */
+// "showIcon": true, /* Afficher l'icône de gestion des cookies */
+// "iconPosition": "BottomRight", /* Position de l'icône de gestion des cookies */
+// "adblocker": false, /* Avertissement en cas de détection d'adblock */
+// "DenyAllCta": true, /* Ajouter un bouton pour refuser tous les cookies */
+// "AcceptAllCta": true, /* Ajouter un bouton pour accepter tous les cookies */
+// "highPrivacy": true, /* Désactiver l'auto-consentement */
+// "alwaysNeedConsent": false, /* Demander le consentement pour les services "Privacy by design" */
+// "handleBrowserDNTRequest": false, /* Si Do Not Track == 1, refuser tous les cookies */
+// "removeCredit": false, /* Ne pas supprimer le lien de crédit */
+// "moreInfoLink": true, /* Afficher le lien "Plus d'infos" */
+// "useExternalCss": false, /* Ne pas utiliser de CSS externe */
+// "useExternalJs": false, /* Ne pas utiliser de JS externe */
+// "readmoreLink": "", /* Lien personnalisé pour les informations supplémentaires */
+// "mandatory": true, /* Afficher un message sur les cookies obligatoires */
+// "mandatoryCta": true, /* Afficher un bouton de consentement désactivé pour les cookies obligatoires */
 //
-				// Configuration spécifique au cookie "remember me"
-//				"services": {
-//					"rememberme": {
-//						"key": "remember_me", // Nom du cookie
-//						"type": "functional", // Type de cookie (fonctionnel)
-//						"name": "Rester connecté", // Nom du service
-//						"uri": "", // Lien vers la politique de confidentialité (facultatif)
-//						"js": function () {
-//							console.log("Cookie 'remember me' accepté.");
-							// Code pour activer la fonctionnalité "remember me"
-//						}
-//					}
-//				}
-//			});
+// Configuration spécifique au cookie "remember me"
+// "services": {
+// "rememberme": {
+// "key": "remember_me", // Nom du cookie
+// "type": "functional", // Type de cookie (fonctionnel)
+// "name": "Rester connecté", // Nom du service
+// "uri": "", // Lien vers la politique de confidentialité (facultatif)
+// "js": function () {
+// console.log("Cookie 'remember me' accepté.");
+// Code pour activer la fonctionnalité "remember me"
+// }
+// }
+// }
+// });
 		</script>
-			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-			{% block importmap %}
-				{{ importmap('app') }}
-			{% endblock %}
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+		{% block importmap %}
+			{{ importmap('app') }}
 		{% endblock %}
-	</head>
-	<body class="pt-serif-regular text-high">
-		{% include 'components/navbar.html.twig' %}
-		<div class="main-container">
-			{% include 'components/searchResult.html.twig' %}
-			{% include 'components/flash.html.twig' %}
+	{% endblock %}
+</head>
+<body class="pt-serif-regular text-high">
+	{% include 'components/navbar.html.twig' %}
+	<div class="main-container">
+		{% include 'components/flash.html.twig' %}
+		{% include 'components/searchResult.html.twig' %}
+		{% include 'components/admin/mysteryGameResult.html.twig' %}
 
-			<!-- Overlay global -->
-			<div id="loading-overlay" class="loading-overlay" style="display: none;">
-				<div class="spinner-border text-light" role="status">
-					<span class="visually-hidden">Chargement...</span>
-				</div>
+		<!-- Overlay global -->
+		<div id="loading-overlay" class="loading-overlay" style="display: none;">
+			<div class="spinner-border text-light" role="status">
+				<span class="visually-hidden">Chargement...</span>
 			</div>
-			{% block body %}{% endblock %}
 		</div>
-		<!-- Footer -->
-		<footer class="footer-wrapper">
-			{% include 'components/footer.html.twig' %}
-		</footer>
-	</body>
-</html>
+		{% block body %}{% endblock %}
+	</div>
+	<!-- Footer -->
+	<footer class="footer-wrapper">
+		{% include 'components/footer.html.twig' %}
+	</footer>
+</body></html>

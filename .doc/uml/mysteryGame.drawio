@@ -1,14 +1,20 @@
 <mxfile host="65bd71144e">
     <diagram id="a15hz9-23WmVmtZylEJc" name="Page-1">
-        <mxGraphModel dx="318" dy="268" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="589" dy="665" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="MysteryGame" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                <mxCell id="2" value="MysteryGame" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
                     <mxGeometry x="280" y="220" width="200" height="270" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="+ createdAt : datetime&#10;+ updatedAt : datetime &#10;+ name : string (255), Not null&#10;+ year_published : int&#10;+ min_players : int&#10;+ max_players : int&#10;+ playing_time : int&#10;+ age : int&#10;+ categoriesIndices : text&#10;+ subdomainsIndices : text&#10;+ mechanicsIndices : text&#10;+ designersIndices : text&#10;+ artistsIndices : text&#10;+ graphicDesignersIndices : text&#10;+ honorsIndices : text&#10;+ publishersIndices : text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="2">
+                <mxCell id="3" value="+ createdAt : datetime&#10;+ updatedAt : datetime &#10;+ name : string (255), Not null&#10;+ year_published : int&#10;+ min_players : int&#10;+ max_players : int&#10;+ playing_time : int&#10;+ age : int&#10;+ categoriesIndices : text&#10;+ subdomainsIndices : text&#10;+ mechanicsIndices : text&#10;+ designersIndices : text&#10;+ artistsIndices : text&#10;+ graphicDesignersIndices : text&#10;+ honorsIndices : text&#10;+ publishersIndices : text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="2" vertex="1">
                     <mxGeometry y="26" width="200" height="244" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Status" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="530" y="220" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="+ name : string (255), Not null" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="4">
+                    <mxGeometry y="26" width="200" height="34" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
