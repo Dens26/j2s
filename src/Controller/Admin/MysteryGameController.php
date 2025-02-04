@@ -34,10 +34,13 @@ class MysteryGameController extends AbstractController
     #[Route('/admin-mystery-game-index', name: 'admin_mystery_game_index')]
     public function index()
     {
+        $mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->streamStatus]);
+
         $streamMatch = $this->entityManager->getRepository(StreamMatch::class)->findOneBy(["id" => 1]);
         $streamMatchFormated = $this->formatGame($streamMatch);
 
         return $this->render('admin/game/index.html.twig', [
+            'mysteryGame' => $mysteryGame,
             'streamMatch' => $streamMatch,
             'streamMatchFormated' => $streamMatchFormated,
             'newHints' => []
@@ -60,6 +63,7 @@ class MysteryGameController extends AbstractController
         }
 
         return $this->render('admin/game/index.html.twig', [
+            'mysteryGame' => true,
             'streamMatch' => $streamMatch,
             'streamMatchFormated' => $streamMatchFormated,
             'mysterySearchTerm' => $results['mysterySearchTerm'],
@@ -93,6 +97,7 @@ class MysteryGameController extends AbstractController
         $this->entityManager->flush();
 
         return $this->render('admin/game/index.html.twig', [
+            'mysteryGame' => $mysteryGame,
             'streamMatch' => $result['streamMatch'],
             'streamMatchFormated' => $streamMatchFormated,
             'newHints' => $result['newHints']
