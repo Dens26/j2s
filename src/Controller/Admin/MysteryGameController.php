@@ -9,6 +9,7 @@ use App\Entity\Status;
 use App\Entity\StreamMatch;
 use App\Service\TranslatorService;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,9 +87,9 @@ class MysteryGameController extends AbstractController
             $game = $gameClass->ShowGame($entityManager, $id, $name, $translatorService);
         }
 
-        if ($game->getName() == $mysteryGame->getName()) {
-            dd('win');
-        }
+        // if ($game->getName() == $mysteryGame->getName()) {
+        //     dd('win');
+        // }
 
         $result = $this->compareGame($mysteryGame, $game);
         $streamMatchFormated = $this->formatGame($result['streamMatch']);
@@ -233,6 +234,7 @@ class MysteryGameController extends AbstractController
             'graphicDesigners' => 'setGraphicDesignersIndices',
             'honors' => 'setHonorsIndices',
             'publishers' => 'setPublishersIndices',
+            'developers' => 'setDevelopersIndices'
         ];
 
         // Récupérer le StreamMatch existant ou en créer un nouveau
@@ -271,6 +273,7 @@ class MysteryGameController extends AbstractController
             'graphicDesigners' => 'setGraphicDesignersIndices',
             'honors' => 'setHonorsIndices',
             'publishers' => 'setPublishersIndices',
+            'developers' => 'setDevelopersIndices'
         ];
 
         foreach ($fields as $key => $method) {
@@ -293,8 +296,9 @@ class MysteryGameController extends AbstractController
         $gameFormatted['mechanicsIndices'] = json_decode($game->getMechanicsIndices(), true);
         $gameFormatted['designersIndices'] = json_decode($game->getDesignersIndices(), true);
         $gameFormatted['artistsIndices'] = json_decode($game->getArtistsIndices(), true);
-        $gameFormatted['graphicDesignersIndices'] = json_decode($game->getDesignersIndices(), true);
-        $gameFormatted['honorsIndices'] = json_decode($game->getGraphicDesignersIndices(), true);
+        $gameFormatted['developersIndices'] = json_decode($game->getDevelopersIndices(), true);
+        $gameFormatted['graphicDesignersIndices'] = json_decode($game->getGraphicDesignersIndices(), true);
+        $gameFormatted['honorsIndices'] = json_decode($game->getHonorsIndices(), true);
         $gameFormatted['publishersIndices'] = json_decode($game->getPublishersIndices(), true);
 
         return $gameFormatted;
@@ -315,7 +319,7 @@ class MysteryGameController extends AbstractController
         $proposedAge = $game->getAge();
 
         if ($mysteryAge != $currentAgeHint) {
-            $newHint = $this->generateHint($currentAgeHint, $mysteryAge, $proposedAge);
+            $newHint = $this->generateSimpleHint($currentAgeHint, $mysteryAge, $proposedAge);
             if ($currentAgeHint !== $newHint) {
                 $streamMatch->setAge($newHint);
                 $newHints['age'] = $newHint;
@@ -328,7 +332,7 @@ class MysteryGameController extends AbstractController
         $proposedPlayingTime = $game->getPlayingTime();
 
         if ($mysteryPlayingTime != $currentPlayingTimeHint) {
-            $newHint = $this->generateHint($currentPlayingTimeHint, $mysteryPlayingTime, $proposedPlayingTime);
+            $newHint = $this->generateSimpleHint($currentPlayingTimeHint, $mysteryPlayingTime, $proposedPlayingTime);
             if ($currentPlayingTimeHint !== $newHint) {
                 $streamMatch->setPlayingTime($newHint);
                 $newHints['playingTime'] = $newHint;
@@ -341,7 +345,7 @@ class MysteryGameController extends AbstractController
         $proposedYearPublished = $game->getYearPublished();
 
         if ($mysteryYearPublished != $currentYearPublishedHint) {
-            $newHint = $this->generateHint($currentYearPublishedHint, $mysteryYearPublished, $proposedYearPublished);
+            $newHint = $this->generateSimpleHint($currentYearPublishedHint, $mysteryYearPublished, $proposedYearPublished);
             if ($currentYearPublishedHint !== $newHint) {
                 $streamMatch->setYearPublished($newHint);
                 $newHints['yearPublished'] = $newHint;
@@ -354,7 +358,7 @@ class MysteryGameController extends AbstractController
         $proposedMinPlayers = $game->getMinPlayers();
 
         if ($mysteryMinPlayers != $currentMinPlayers) {
-            $newHint = $this->generateHint($currentMinPlayers, $mysteryMinPlayers, $proposedMinPlayers);
+            $newHint = $this->generateSimpleHint($currentMinPlayers, $mysteryMinPlayers, $proposedMinPlayers);
             if ($currentMinPlayers !== $newHint) {
                 $streamMatch->setMinPlayers($newHint);
                 $newHints['minPlayers'] = $newHint;
@@ -367,11 +371,143 @@ class MysteryGameController extends AbstractController
         $proposedMaxPlayers = $game->getMaxPlayers();
 
         if ($mysteryMaxPlayers != $currentMaxPlayers) {
-            $newHint = $this->generateHint($currentMaxPlayers, $mysteryMaxPlayers, $proposedMaxPlayers);
+            $newHint = $this->generateSimpleHint($currentMaxPlayers, $mysteryMaxPlayers, $proposedMaxPlayers);
             if ($currentMaxPlayers !== $newHint) {
                 $streamMatch->setMaxPlayers($newHint);
                 $newHints['maxPlayers'] = $newHint;
             }
+        }
+
+        // 🔹 Gestion des Thèmes (categories)
+        $currentCategories = json_decode($streamMatch->getCategoriesIndices(), true);
+        $mysteryCategories = json_decode($mysteryGame->getCategoriesIndices(), true);
+        $proposedCategories = $game->getCategories();
+
+        if ($mysteryCategories != $currentCategories) {
+            foreach ($proposedCategories as $proposedCategory) {
+                $translatedName = $proposedCategory->getTranslatedName();
+
+                foreach ($mysteryCategories as $index => $mysteryCategory) {
+                    if ($mysteryCategory !== $currentCategories[$index]) {
+                        if ($mysteryCategory === $translatedName) {
+                            $currentCategories[$index] = $mysteryCategory;
+                            $newHints['categories'] = $mysteryCategory;
+                        }
+                    }
+                }
+            }
+            $streamMatch->setCategoriesIndices(json_encode($currentCategories));
+        }
+
+        // 🔹 Gestion des catégories (subdomains)
+        $currentSubdomains = json_decode($streamMatch->getSubdomainsIndices(), true);
+        $mysterySubdomains = json_decode($mysteryGame->getSubdomainsIndices(), true);
+        $proposedSubdomains = $game->getSubdomains();
+
+        if ($mysterySubdomains != $currentSubdomains) {
+            foreach ($proposedSubdomains as $proposedSubdomain) {
+                $translatedName = $proposedSubdomain->getTranslatedName();
+
+                foreach ($mysterySubdomains as $index => $mysterySubdomain) {
+                    if ($mysterySubdomain !== $currentSubdomains[$index]) {
+                        if ($mysterySubdomain === $translatedName) {
+                            $currentSubdomains[$index] = $mysterySubdomain;
+                            $newHints['subdomains'] = $newHint;
+                        }
+                    }
+                }
+            }
+            $streamMatch->setSubdomainsIndices(json_encode($currentSubdomains));
+        }
+
+        // 🔹 Gestion des mécanisme (mechanics)
+        $currentMechanics = json_decode($streamMatch->getMechanicsIndices(), true);
+        $mysteryMechanics = json_decode($mysteryGame->getMechanicsIndices(), true);
+        $proposedMechanics = $game->getMechanics();
+
+        if ($mysteryMechanics != $currentMechanics) {
+            foreach ($proposedMechanics as $proposedMechanic) {
+                $translatedName = $proposedMechanic->getTranslatedName();
+
+                foreach ($mysteryMechanics as $index => $mysteryMechanic) {
+                    if ($mysteryMechanic !== $currentMechanics[$index]) {
+                        if ($mysteryMechanic === $translatedName) {
+                            $currentMechanics[$index] = $mysteryMechanic;
+                            $newHints['mechanics'] = $newHint;
+                        }
+                    }
+                }
+            }
+            $streamMatch->setMechanicsIndices(json_encode($currentMechanics));
+        }
+
+        // 🔹 Gestion des créateurs (designers)
+        $currentDesigners = json_decode($streamMatch->getDesignersIndices(), true);
+        $mysteryDesigners = json_decode($mysteryGame->getDesignersIndices(), true);
+        $proposedDesigners = $game->getDesigners();
+
+        if ($mysteryDesigners != $currentDesigners) {
+            $streamMatch->setDesignersIndices(json_encode($this->generateComplexHint($currentDesigners, $mysteryDesigners, $proposedDesigners)));
+            $newHints['designers'] = "";
+        }
+
+        // 🔹 Gestion des Illustrateurs (artists)
+        $currentArtists = json_decode($streamMatch->getArtistsIndices(), true);
+        $mysteryArtists = json_decode($mysteryGame->getArtistsIndices(), true);
+        $proposedArtists = $game->getArtists();
+
+        if ($mysteryArtists != $currentArtists) {
+            $streamMatch->setArtistsIndices(json_encode($this->generateComplexHint($currentArtists, $mysteryArtists, $proposedArtists)));
+            $newHints['artists'] = "";
+        }
+
+        // 🔹 Gestion des Développeurs (developers)
+        $currentDevelopers = json_decode($streamMatch->getDevelopersIndices(), true);
+        $mysteryDevelopers = json_decode($mysteryGame->getDevelopersIndices(), true);
+        $proposedDevelopers = $game->getDevelopers();
+
+        if ($mysteryDevelopers != $currentDevelopers) {
+            $streamMatch->setDevelopersIndices(json_encode($this->generateComplexHint($currentDevelopers, $mysteryDevelopers, $proposedDevelopers)));
+            $newHints['developers'] = "";
+        }
+
+        // 🔹 Gestion des Designers (graphicDesigners)
+        $currentGraphicDesigners = json_decode($streamMatch->getGraphicDesignersIndices(), true);
+        $mysteryGraphicDesigners = json_decode($mysteryGame->getGraphicDesignersIndices(), true);
+        $proposedGraphicDesigners = $game->getGraphicDesigners();
+
+        if ($mysteryGraphicDesigners != $currentGraphicDesigners) {
+            $streamMatch->setGraphicDesignersIndices(json_encode($this->generateComplexHint($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners)));
+            $newHints['graphicDesigners'] = "";
+        }
+
+        // 🔹 Gestion des Editeurs (publishers)
+        $currentPublishers = json_decode($streamMatch->getPublishersIndices(), true);
+        $mysteryPublishers = json_decode($mysteryGame->getPublishersIndices(), true);
+        $proposedPublishers = $game->getPublishers();
+
+        if ($mysteryPublishers != $currentPublishers) {
+            $streamMatch->setPublishersIndices(json_encode($this->generateComplexHint($currentPublishers, $mysteryPublishers, $proposedPublishers)));
+            $newHints['publishers'] = "";
+        }
+
+        // 🔹 Gestion des Récompenses (honors)
+        $currentHonors = json_decode($streamMatch->getHonorsIndices(), true);
+        $mysteryHonors = json_decode($mysteryGame->getHonorsIndices(), true);
+        $proposedHonors = $game->getHonorGames();
+
+        if ($mysteryHonors != $currentHonors) {
+            foreach ($proposedHonors as $proposedHonor) {
+                foreach ($mysteryHonors as $index => $mysteryHonor) {
+                    if ($mysteryHonor !== $currentHonors[$index]) {
+                        if ($mysteryHonor === $proposedHonor->getHonor()->getName()) {
+                            $currentHonors[$index] = $mysteryHonor;
+                            $newHints['honors'] = "";
+                        }
+                    }
+                }
+            }
+            $streamMatch->setHonorsIndices(json_encode($currentHonors));
         }
 
         return compact('streamMatch', 'newHints');
@@ -381,7 +517,7 @@ class MysteryGameController extends AbstractController
     /**
      * Génère un indice basé sur une valeur mystère et une proposition utilisateur.
      */
-    private function generateHint(string $currentHint, int $mysteryValue, int $proposedValue): string
+    private function generateSimpleHint(string $currentHint, int $mysteryValue, int $proposedValue): string
     {
         // ✅ Si la bonne réponse est trouvée, on efface les autres indices
         if ($mysteryValue == $proposedValue) {
@@ -402,5 +538,20 @@ class MysteryGameController extends AbstractController
         // ✅ Construction du nouvel indice avec priorité à ">" puis "<"
         return ($currentMin !== null ? "> $currentMin" : "") .
             ($currentMax !== null ? ($currentMin !== null ? " et " : "") . "< $currentMax" : "");
+    }
+
+    private function generateComplexHint(array $currentHints, array $mysteryHints, Collection $proposeHints): array
+    {
+        foreach ($proposeHints as $proposeHint) {
+            foreach ($mysteryHints as $index => $mysteryHint) {
+                if ($mysteryHint !== $currentHints[$index]) {
+                    if ($mysteryHint === $proposeHint->getName()) {
+                        $currentHints[$index] = $mysteryHint;
+                    }
+                }
+            }
+        }
+
+        return $currentHints;
     }
 }

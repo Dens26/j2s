@@ -66,6 +66,9 @@ class MysteryGame
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $DevelopersIndices = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -271,6 +274,18 @@ class MysteryGame
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDevelopersIndices(): ?string
+    {
+        return $this->DevelopersIndices;
+    }
+
+    public function setDevelopersIndices(?string $DevelopersIndices): static
+    {
+        $this->DevelopersIndices = $DevelopersIndices;
 
         return $this;
     }

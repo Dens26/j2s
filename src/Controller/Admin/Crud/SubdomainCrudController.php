@@ -28,8 +28,8 @@ class SubdomainCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Domaine')
-            ->setEntityLabelInPlural('Domaines')
+            ->setEntityLabelInSingular('Catégorie')
+            ->setEntityLabelInPlural('Catéfories')
             ->setDateFormat('...')
             // ...
         ;

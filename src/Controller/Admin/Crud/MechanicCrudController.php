@@ -28,8 +28,8 @@ class MechanicCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Style de jeu')
-            ->setEntityLabelInPlural('Styles de jeu')
+            ->setEntityLabelInSingular('Mécanisme')
+            ->setEntityLabelInPlural('Mécanismes')
             ->setDateFormat('...')
             // ...
         ;
