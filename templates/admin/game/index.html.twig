@@ -23,7 +23,6 @@
 				</form>
 			</div>
 
-
 			{# Premier pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
@@ -34,11 +33,11 @@
 				{# Catégories #}
 				{% if streamMatch.categoriesIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['categories'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/category.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
 								<div class="category-content">
-									<span class="category-placeholder fs-4 fw-bold">Titre à définir</span>
+									<span class="category-placeholder fs-4 fw-bold">Thèmes</span>
 									<div class="category-list" style="display: none;">
 										{% for category in streamMatchFormated.categoriesIndices %}
 											<input type="hidden" name="categories[]" value="{{ category }}">
@@ -53,9 +52,9 @@
 				{# Domaines #}
 				{% if streamMatch.subdomainsIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['subdomains'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/subdomain.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/subdomain.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Catégories</span>
 									<div class="category-list" style="display: none;">
@@ -72,9 +71,9 @@
 				{# Genres #}
 				{% if streamMatch.mechanicsIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['mechanics'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/mechanic.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/mechanic.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Mécanismes</span>
 									<div class="category-list" style="display: none;">
@@ -108,7 +107,7 @@
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['age'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/age.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/age.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Age</span>
 									<div class="category-list" style="display: none;">
@@ -125,7 +124,7 @@
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['minPlayers'] is defined or newHints['maxPlayers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/players.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/players.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
 									<div class="category-list" style="display: none;">
@@ -142,7 +141,7 @@
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['playingTime'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/playingTime.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/playingTime.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Durée</span>
 									<div class="category-list" style="display: none;">
@@ -159,7 +158,7 @@
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['yearPublished'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/date.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/date.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Sortie</span>
 									<div class="category-list" style="display: none;">
@@ -184,9 +183,9 @@
 				{# Créateurs #}
 				{% if streamMatch.designersIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['designers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/designer.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/designer.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
 									<div class="category-list" style="display: none;">
@@ -203,9 +202,9 @@
 				{# Illustrateurs #}
 				{% if streamMatch.artistsIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['artists'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/artist.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/artist.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
 									<div class="category-list" style="display: none;">
@@ -222,9 +221,9 @@
 				{# Designers #}
 				{% if streamMatch.graphicDesignersIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['graphicDesigners'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/designer-graphique.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/designer-graphique.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Designers</span>
 									<div class="category-list" style="display: none;">
@@ -241,9 +240,9 @@
 				{# Developers #}
 				{% if streamMatch.developersIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['developers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/developer.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/developer.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Développeurs</span>
 									<div class="category-list" style="display: none;">
@@ -268,9 +267,9 @@
 				{# Récompense #}
 				{% if streamMatch.honorsIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['honors'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/honor.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/honor.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Récompenses</span>
 									<div class="category-list" style="display: none;">
@@ -287,9 +286,9 @@
 				{# Editeurs #}
 				{% if streamMatch.publishersIndices is defined %}
 					<div class="my-1">
-						<div class="category-container btn admin-btn admin-btn-container">
+						<div class="category-container btn {% if newHints['publishers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
-								<img class="me-2" width="32" height="32" src="{{asset('logo/publisher.png')}}" alt="">
+								<img class="me-2" width="24" height="24" src="{{asset('logo/publisher.png')}}" alt="">
 								<div class="category-content">
 									<span class="category-placeholder fs-4 fw-bold">Editeurs</span>
 									<div class="category-list" style="display: none;">

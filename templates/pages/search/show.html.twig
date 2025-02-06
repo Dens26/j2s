@@ -73,7 +73,7 @@
 
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark fw-bold">Designers graphique :</div>
+							<div class="text-dark fw-bold">Designers:</div>
 							{% if results.graphicDesigners|length >0 %}
 								{% for i in 0..(results.graphicDesigners|length -1) %}
 									<div class="text-dark">-{{ results.graphicDesigners[i] }}</div>
@@ -90,7 +90,7 @@
 	<div class="m-4">
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Titre à définir:</div>
+			<div class="text-high fw-bold">Thèmes:</div>
 			{% if results.categories|length > 0 %}
 				<div class="content-list">
 					{% for category in results.categories|slice(0, 5) %}

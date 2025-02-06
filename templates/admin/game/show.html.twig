@@ -118,10 +118,10 @@
 				{% endif %}
 			</div>
 
-			{# Categories #}
+			{# Thèmes #}
 			<div data-controller="checkbox-group">
 				<input type="checkbox" id="categories" name="categories" value="" checked>
-				<label class="my-1" for="categories">Titre à définir:</label>
+				<label class="my-1" for="categories">Thèmes:</label>
 				{% if results.categories|length > 0 %}
 					<div class="ms-4">
 						{% for i in 0..(results.categories|length - 1) %}

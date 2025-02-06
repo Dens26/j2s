@@ -27,8 +27,8 @@ class CategoryCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Catégorie')
-            ->setEntityLabelInPlural('Catégories')
+            ->setEntityLabelInSingular('Thème')
+            ->setEntityLabelInPlural('Thèmes')
             ->setDateFormat('...')
             // ...
         ;
