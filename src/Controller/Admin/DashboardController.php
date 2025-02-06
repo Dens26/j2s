@@ -65,10 +65,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Retourner sur le site', 'fas fa-arrow-left', 'app_home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Jeux', 'fas fa-chess', Game::class);
-        yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class);
+        yield MenuItem::linkToCrud('Thèmes', 'fas fa-tags', Category::class);
         yield MenuItem::linkToCrud('Familles', 'fas fa-sitemap', Family::class);
-        yield MenuItem::linkToCrud('Styles de jeu', 'fas fa-gamepad', Mechanic::class);
-        yield MenuItem::linkToCrud('Domaines', 'fas fa-cogs', Subdomain::class);
+        yield MenuItem::linkToCrud('Mécanismes', 'fas fa-gamepad', Mechanic::class);
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-cogs', Subdomain::class);
         yield MenuItem::linkToCrud('Créateurs', 'fas fa-pencil-alt', Designer::class);
         yield MenuItem::linkToCrud('Illustrateurs', 'fas fa-paint-brush', Artist::class);
         yield MenuItem::linkToCrud('Développeurs', 'fas fa-code', Developer::class);

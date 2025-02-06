@@ -53,6 +53,9 @@ class StreamMatch
     #[ORM\Column(type: Types::TEXT)]
     private ?string $publishersIndices = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $DevelopersIndices = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -210,6 +213,18 @@ class StreamMatch
     public function setPublishersIndices(string $publishersIndices): static
     {
         $this->publishersIndices = $publishersIndices;
+
+        return $this;
+    }
+
+    public function getDevelopersIndices(): ?string
+    {
+        return $this->DevelopersIndices;
+    }
+
+    public function setDevelopersIndices(?string $DevelopersIndices): static
+    {
+        $this->DevelopersIndices = $DevelopersIndices;
 
         return $this;
     }
