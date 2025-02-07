@@ -112,7 +112,7 @@
 									<span class="category-placeholder fs-4 fw-bold">Age</span>
 									<div class="category-list" style="display: none;">
 										<input type="hidden" name="age" value="{{ streamMatch.age }}">
-										<span class="fs-5">{{streamMatch.age}}</span>
+										<span class="fs-5">{{streamMatch.age}} ans</span>
 									</div>
 								</div>
 							</div>
@@ -129,7 +129,7 @@
 									<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
 									<div class="category-list" style="display: none;">
 										<input type="hidden" name="players" value="{{ streamMatch.minPlayers }}">
-										<span class="fs-5">{{streamMatch.minPlayers}} / {{streamMatch.maxPlayers}}</span>
+										<span class="fs-5">de {{streamMatch.minPlayers}} à {{streamMatch.maxPlayers}} j</span>
 									</div>
 								</div>
 							</div>
@@ -146,7 +146,7 @@
 									<span class="category-placeholder fs-4 fw-bold">Durée</span>
 									<div class="category-list" style="display: none;">
 										<input type="hidden" name="playingTime" value="{{ streamMatch.playingTime }}">
-										<span class="fs-5">{{streamMatch.playingTime}}</span>
+										<span class="fs-5">{{streamMatch.playingTime}} mn</span>
 									</div>
 								</div>
 							</div>
@@ -303,7 +303,17 @@
 					</div>
 				{% endif %}
 			</div>
-
+			<div>
+				<div class="title">Liste des jeux recherchés</div>
+				{% for history in searchHistory %}
+					<div class="component my-2">
+						<div class="fw-bold fs-5">{{history.name}}</div>
+						{% for hint in history.hintMatch %}
+							<div class="btn m-1">{{hint}}</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
 
 		{% endif %}
 	</div>
