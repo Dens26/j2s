@@ -447,8 +447,11 @@ class MysteryGameController extends AbstractController
         $proposedDesigners = $game->getDesigners();
 
         if ($mysteryDesigners != $currentDesigners) {
-            $streamMatch->setDesignersIndices(json_encode($this->generateComplexHint($currentDesigners, $mysteryDesigners, $proposedDesigners)));
-            $newHints['designers'] = "";
+            $result = $this->generateComplexHint2($currentDesigners, $mysteryDesigners, $proposedDesigners);
+            $streamMatch->setDesignersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['designers'] = "";
+            }
         }
 
         // 🔹 Gestion des Illustrateurs (artists)
@@ -457,8 +460,11 @@ class MysteryGameController extends AbstractController
         $proposedArtists = $game->getArtists();
 
         if ($mysteryArtists != $currentArtists) {
-            $streamMatch->setArtistsIndices(json_encode($this->generateComplexHint($currentArtists, $mysteryArtists, $proposedArtists)));
-            $newHints['artists'] = "";
+            $result = $this->generateComplexHint2($currentArtists, $mysteryArtists, $proposedArtists);
+            $streamMatch->setArtistsIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['artists'] = "";
+            }
         }
 
         // 🔹 Gestion des Développeurs (developers)
@@ -467,8 +473,11 @@ class MysteryGameController extends AbstractController
         $proposedDevelopers = $game->getDevelopers();
 
         if ($mysteryDevelopers != $currentDevelopers) {
-            $streamMatch->setDevelopersIndices(json_encode($this->generateComplexHint($currentDevelopers, $mysteryDevelopers, $proposedDevelopers)));
-            $newHints['developers'] = "";
+            $result = $this->generateComplexHint2($currentDevelopers, $mysteryDevelopers, $proposedDevelopers);
+            $streamMatch->setDevelopersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['developers'] = "";
+            }
         }
 
         // 🔹 Gestion des Designers (graphicDesigners)
@@ -477,8 +486,11 @@ class MysteryGameController extends AbstractController
         $proposedGraphicDesigners = $game->getGraphicDesigners();
 
         if ($mysteryGraphicDesigners != $currentGraphicDesigners) {
-            $streamMatch->setGraphicDesignersIndices(json_encode($this->generateComplexHint($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners)));
-            $newHints['graphicDesigners'] = "";
+            $result = $this->generateComplexHint2($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners);
+            $streamMatch->setGraphicDesignersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['graphicDesigners'] = "";
+            }
         }
 
         // 🔹 Gestion des Editeurs (publishers)
@@ -487,8 +499,11 @@ class MysteryGameController extends AbstractController
         $proposedPublishers = $game->getPublishers();
 
         if ($mysteryPublishers != $currentPublishers) {
-            $streamMatch->setPublishersIndices(json_encode($this->generateComplexHint($currentPublishers, $mysteryPublishers, $proposedPublishers)));
-            $newHints['publishers'] = "";
+            $result = $this->generateComplexHint2($currentPublishers, $mysteryPublishers, $proposedPublishers);
+            $streamMatch->setPublishersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['publishers'] = "";
+            }
         }
 
         // 🔹 Gestion des Récompenses (honors)
@@ -553,5 +568,24 @@ class MysteryGameController extends AbstractController
         }
 
         return $currentHints;
+    }
+    private function generateComplexHint2(array $currentHints, array $mysteryHints, Collection $proposeHints): array
+    {
+        $find = false;
+        foreach ($proposeHints as $proposeHint) {
+            foreach ($mysteryHints as $index => $mysteryHint) {
+                if ($mysteryHint !== $currentHints[$index]) {
+                    if ($mysteryHint === $proposeHint->getName()) {
+                        $currentHints[$index] = $mysteryHint;
+                        $find = true;
+                    }
+                }
+            }
+        }
+
+        return [
+            'currentHints' => $currentHints,
+            'find' => $find
+        ];
     }
 }
