@@ -26,12 +26,12 @@
 			{# Premier pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-					(streamMatch.categoriesIndices is defined and streamMatch.categoriesIndices|length > 0 ? 1 : 0) +
-					(streamMatch.subdomainsIndices is defined and streamMatch.subdomainsIndices|length >0 ? 1 : 0) +
-					(streamMatch.mechanicsIndices is defined and streamMatch.mechanicsIndices|length >0 ? 1 : 0)
+					(mysteryGame.categoriesIndices and mysteryGame.categoriesIndices|length > 0 ? 1 : 0) +
+					(streamMatch.subdomainsIndices and mysteryGame.subdomainsIndices|length >0 ? 1 : 0) +
+					(mysteryGame.mechanicsIndices and mysteryGame.mechanicsIndices|length >0 ? 1 : 0)
 				}} mb-5 align-items-center">
 				{# Catégories #}
-				{% if streamMatch.categoriesIndices is defined %}
+				{% if mysteryGame.categoriesIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['categories'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -50,7 +50,7 @@
 					</div>
 				{% endif %}
 				{# Domaines #}
-				{% if streamMatch.subdomainsIndices is defined %}
+				{% if mysteryGame.subdomainsIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['subdomains'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -69,7 +69,7 @@
 					</div>
 				{% endif %}
 				{# Genres #}
-				{% if streamMatch.mechanicsIndices is defined %}
+				{% if mysteryGame.mechanicsIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['mechanics'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -92,18 +92,18 @@
 			{# Deuxième pack d'indices #}
 			<div
 				class="row row-cols-{{
-					((streamMatch.age is defined and streamMatch.age|length > 0 ? 1 : 0) +
-					(streamMatch.minPlayers is defined and streamMatch.minPlayers|length > 0 ? 1 : 0) +
-					(streamMatch.playingTime is defined and streamMatch.playingTime|length > 0 ? 1 : 0) +
-					(streamMatch.yearPublished is defined and streamMatch.yearPublished|length > 0 ? 1 : 0)) / 2
+					((mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+					(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+					(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)) / 2
 				}} row-cols-md-{{
-					(streamMatch.age is defined and streamMatch.age|length > 0 ? 1 : 0) +
-					(streamMatch.minPlayers is defined and streamMatch.minPlayers|length > 0 ? 1 : 0) +
-				 	(streamMatch.playingTime is defined and streamMatch.playingTime|length > 0 ? 1 : 0) +
-				 	(streamMatch.yearPublished is defined and streamMatch.yearPublished|length > 0 ? 1 : 0)
+					(mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+				 	(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+				 	(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)
 				 }} mb-5 align-items-center">
 				{# Age #}
-				{% if streamMatch.age is defined %}
+				{% if mysteryGame.age %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['age'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -120,7 +120,7 @@
 					</div>
 				{% endif %}
 				{# Joueurs #}
-				{% if streamMatch.minPlayers is defined %}
+				{% if mysteryGame.minPlayers %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['minPlayers'] is defined or newHints['maxPlayers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -137,7 +137,7 @@
 					</div>
 				{% endif %}
 				{# Durée #}
-				{% if streamMatch.playingTime is defined %}
+				{% if mysteryGame.playingTime %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['playingTime'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -154,7 +154,7 @@
 					</div>
 				{% endif %}
 				{# Sortie #}
-				{% if streamMatch.yearPublished is defined %}
+				{% if mysteryGame.yearPublished %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['yearPublished'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -175,13 +175,13 @@
 			{# Troisième pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-					((streamMatch.designersIndices is defined and streamMatch.designersIndices|length > 0 ? 1 : 0) +
-					(streamMatch.artistsIndices is defined and streamMatch.artistsIndices|length > 0 ? 1 : 0) +
-					(streamMatch.graphicDesignersIndices is defined and streamMatch.graphicDesignersIndices|length > 0 ? 1 : 0) +
-					(streamMatch.developersIndices is defined and streamMatch.developersIndices|length > 0 ? 1 : 0)) / 2
+					((mysteryGame.designersIndices and mysteryGame.designersIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.artistsIndices and mysteryGame.artistsIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.graphicDesignersIndices and mysteryGame.graphicDesignersIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.developersIndices and mysteryGame.developersIndices|length > 0 ? 1 : 0)) / 2
 				}} mb-5 align-items-center">
 				{# Créateurs #}
-				{% if streamMatch.designersIndices is defined %}
+				{% if mysteryGame.designersIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['designers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -200,7 +200,7 @@
 					</div>
 				{% endif %}
 				{# Illustrateurs #}
-				{% if streamMatch.artistsIndices is defined %}
+				{% if mysteryGame.artistsIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['artists'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -219,7 +219,7 @@
 					</div>
 				{% endif %}
 				{# Designers #}
-				{% if streamMatch.graphicDesignersIndices is defined %}
+				{% if mysteryGame.graphicDesignersIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['graphicDesigners'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -238,7 +238,7 @@
 					</div>
 				{% endif %}
 				{# Developers #}
-				{% if streamMatch.developersIndices is defined %}
+				{% if mysteryGame.developersIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['developers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -261,11 +261,11 @@
 			{# Quatrième pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-					(streamMatch.honorsIndices is defined and streamMatch.honorsIndices|length > 0 ? 1 : 0) +
-					(streamMatch.publishersIndices is defined and streamMatch.publishersIndices|length > 0 ? 1 : 0)
+					(mysteryGame.honorsIndices and mysteryGame.honorsIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.publishersIndices and mysteryGame.publishersIndices|length > 0 ? 1 : 0)
 				}} mb-5 align-items-center">
 				{# Récompense #}
-				{% if streamMatch.honorsIndices is defined %}
+				{% if mysteryGame.honorsIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['honors'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
@@ -284,7 +284,7 @@
 					</div>
 				{% endif %}
 				{# Editeurs #}
-				{% if streamMatch.publishersIndices is defined %}
+				{% if mysteryGame.publishersIndices %}
 					<div class="my-1">
 						<div class="category-container btn {% if newHints['publishers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 							<div class="d-flex align-items-center justify-content-center">
