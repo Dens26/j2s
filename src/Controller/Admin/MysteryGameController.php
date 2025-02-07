@@ -378,10 +378,10 @@ class MysteryGameController extends AbstractController
             if ($currentMinPlayers !== $newHint) {
                 $streamMatch->setMinPlayers($newHint);
                 $newHints['minPlayers'] = $newHint;
-                $hintMatch['minPlayers'] = 'Joueurs min: ' .  $newHint . 'j';
+                $hintMatch['minPlayers'] = 'Min: ' .  $newHint . 'j';
             }
         } else {
-            $hintMatch['minPlayers'] = 'Joueurs min: ' . $mysteryMinPlayers . 'j';
+            $hintMatch['minPlayers'] = 'Min: ' . $mysteryMinPlayers . 'j';
         }
 
         // 🔹 Gestion du joueur minimum (minPlayers)
@@ -394,10 +394,10 @@ class MysteryGameController extends AbstractController
             if ($currentMaxPlayers !== $newHint) {
                 $streamMatch->setMaxPlayers($newHint);
                 $newHints['maxPlayers'] = $newHint;
-                $hintMatch['maxPlayers'] = 'Joueurs max: ' . $newHint . 'j';
+                $hintMatch['maxPlayers'] = 'Max: ' . $newHint . 'j';
             }
         } else {
-            $hintMatch['maxPlayers'] = 'Joueurs max: ' . $mysteryMaxPlayers . 'j';
+            $hintMatch['maxPlayers'] = 'Max: ' . $mysteryMaxPlayers . 'j';
         }
 
         // 🔹 Gestion des Thèmes (categories)
