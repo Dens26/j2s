@@ -56,6 +56,9 @@ class StreamMatch
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $DevelopersIndices = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $searchHistory = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -225,6 +228,18 @@ class StreamMatch
     public function setDevelopersIndices(?string $DevelopersIndices): static
     {
         $this->DevelopersIndices = $DevelopersIndices;
+
+        return $this;
+    }
+
+    public function getSearchHistory(): ?string
+    {
+        return $this->searchHistory;
+    }
+
+    public function setSearchHistory(?string $searchHistory): static
+    {
+        $this->searchHistory = $searchHistory;
 
         return $this;
     }
