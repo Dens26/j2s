@@ -322,254 +322,281 @@ class MysteryGameController extends AbstractController
         $newHints = [];
 
         // 🔹 Gestion de l'âge
-        $currentAgeHint = $streamMatch->getAge();
-        $mysteryAge = $mysteryGame->getAge();
-        $proposedAge = $game->getAge();
+        if ($mysteryAge = $mysteryGame->getAge()) {
+            $currentAgeHint = $streamMatch->getAge();
+            $mysteryAge = $mysteryGame->getAge();
+            $proposedAge = $game->getAge();
 
-        if ($mysteryAge != $currentAgeHint) {
-            $newHint = $this->generateSimpleHint($currentAgeHint, $mysteryAge, $proposedAge);
-            if ($currentAgeHint !== $newHint) {
-                $streamMatch->setAge($newHint);
-               $newHints['age'] = $newHint;
-               $hintMatch['age'] = 'Age: ' .  $newHint . " ans";
+            if ($mysteryAge != $currentAgeHint) {
+                $newHint = $this->generateSimpleHint($currentAgeHint, $mysteryAge, $proposedAge);
+                if ($currentAgeHint !== $newHint) {
+                    $streamMatch->setAge($newHint);
+                    $newHints['age'] = $newHint;
+                    $hintMatch['age'] = 'Age: ' .  $newHint . " ans";
+                }
+            } else {
+                $hintMatch['age'] = 'Age: ' . $mysteryAge . " ans";
             }
-        } else {
-            $hintMatch['age'] = 'Age: ' . $mysteryAge . " ans";
         }
 
         // 🔹 Gestion du temps de jeu (playingTime)
-        $currentPlayingTimeHint = $streamMatch->getPlayingTime();
-        $mysteryPlayingTime = $mysteryGame->getPlayingTime();
-        $proposedPlayingTime = $game->getPlayingTime();
+        if ($mysteryGame->getPlayingTime()) {
+            $currentPlayingTimeHint = $streamMatch->getPlayingTime();
+            $mysteryPlayingTime = $mysteryGame->getPlayingTime();
+            $proposedPlayingTime = $game->getPlayingTime();
 
-        if ($mysteryPlayingTime != $currentPlayingTimeHint) {
-            $newHint = $this->generateSimpleHint($currentPlayingTimeHint, $mysteryPlayingTime, $proposedPlayingTime);
-            if ($currentPlayingTimeHint !== $newHint) {
-                $streamMatch->setPlayingTime($newHint);
-                $newHints['playingTime'] = $newHint;
-                $hintMatch['playingTime'] = 'Durée: ' .  $newHint . " mn";
+            if ($mysteryPlayingTime != $currentPlayingTimeHint) {
+                $newHint = $this->generateSimpleHint($currentPlayingTimeHint, $mysteryPlayingTime, $proposedPlayingTime);
+                if ($currentPlayingTimeHint !== $newHint) {
+                    $streamMatch->setPlayingTime($newHint);
+                    $newHints['playingTime'] = $newHint;
+                    $hintMatch['playingTime'] = 'Durée: ' .  $newHint . " mn";
+                }
+            } else {
+                $hintMatch['playingTime'] = 'Durée: ' . $mysteryPlayingTime . " mn";
             }
-        } else {
-            $hintMatch['playingTime'] = 'Durée: ' . $mysteryPlayingTime . " mn";
         }
 
         // 🔹 Gestion de la date de sortie (yearPublished)
-        $currentYearPublishedHint = $streamMatch->getYearPublished();
-        $mysteryYearPublished = $mysteryGame->getYearPublished();
-        $proposedYearPublished = $game->getYearPublished();
+        if ($mysteryGame->getYearPublished()) {
+            $currentYearPublishedHint = $streamMatch->getYearPublished();
+            $mysteryYearPublished = $mysteryGame->getYearPublished();
+            $proposedYearPublished = $game->getYearPublished();
 
-        if ($mysteryYearPublished != $currentYearPublishedHint) {
-            $newHint = $this->generateSimpleHint($currentYearPublishedHint, $mysteryYearPublished, $proposedYearPublished);
-            if ($currentYearPublishedHint !== $newHint) {
-                $streamMatch->setYearPublished($newHint);
-                $hintMatch['yearPublished'] = 'Sortie: ' .  $newHints['yearPublished'] = $newHint;
+            if ($mysteryYearPublished != $currentYearPublishedHint) {
+                $newHint = $this->generateSimpleHint($currentYearPublishedHint, $mysteryYearPublished, $proposedYearPublished);
+                if ($currentYearPublishedHint !== $newHint) {
+                    $streamMatch->setYearPublished($newHint);
+                    $hintMatch['yearPublished'] = 'Sortie: ' .  $newHints['yearPublished'] = $newHint;
+                }
+            } else {
+                $hintMatch['yearPublished'] = $mysteryYearPublished;
             }
-        } else {
-            $hintMatch['yearPublished'] = $mysteryYearPublished;
         }
 
         // 🔹 Gestion du joueur minimum (minPlayers)
-        $currentMinPlayers = $streamMatch->getMinPlayers();
-        $mysteryMinPlayers = $mysteryGame->getMinPlayers();
-        $proposedMinPlayers = $game->getMinPlayers();
+        if ($mysteryGame->getMinPlayers()) {
+            $currentMinPlayers = $streamMatch->getMinPlayers();
+            $mysteryMinPlayers = $mysteryGame->getMinPlayers();
+            $proposedMinPlayers = $game->getMinPlayers();
 
-        if ($mysteryMinPlayers != $currentMinPlayers) {
-            $newHint = $this->generateSimpleHint($currentMinPlayers, $mysteryMinPlayers, $proposedMinPlayers);
-            if ($currentMinPlayers !== $newHint) {
-                $streamMatch->setMinPlayers($newHint);
-                $newHints['minPlayers'] = $newHint;
-                $hintMatch['minPlayers'] = 'Min: ' .  $newHint . 'j';
+            if ($mysteryMinPlayers != $currentMinPlayers) {
+                $newHint = $this->generateSimpleHint($currentMinPlayers, $mysteryMinPlayers, $proposedMinPlayers);
+                if ($currentMinPlayers !== $newHint) {
+                    $streamMatch->setMinPlayers($newHint);
+                    $newHints['minPlayers'] = $newHint;
+                    $hintMatch['minPlayers'] = 'Min: ' .  $newHint . 'j';
+                }
+            } else {
+                $hintMatch['minPlayers'] = 'Min: ' . $mysteryMinPlayers . 'j';
             }
-        } else {
-            $hintMatch['minPlayers'] = 'Min: ' . $mysteryMinPlayers . 'j';
         }
 
         // 🔹 Gestion du joueur minimum (minPlayers)
-        $currentMaxPlayers = $streamMatch->getMaxPlayers();
-        $mysteryMaxPlayers = $mysteryGame->getMaxPlayers();
-        $proposedMaxPlayers = $game->getMaxPlayers();
+        if ($mysteryGame->getMaxPlayers()) {
+            $currentMaxPlayers = $streamMatch->getMaxPlayers();
+            $mysteryMaxPlayers = $mysteryGame->getMaxPlayers();
+            $proposedMaxPlayers = $game->getMaxPlayers();
 
-        if ($mysteryMaxPlayers != $currentMaxPlayers) {
-            $newHint = $this->generateSimpleHint($currentMaxPlayers, $mysteryMaxPlayers, $proposedMaxPlayers);
-            if ($currentMaxPlayers !== $newHint) {
-                $streamMatch->setMaxPlayers($newHint);
-                $newHints['maxPlayers'] = $newHint;
-                $hintMatch['maxPlayers'] = 'Max: ' . $newHint . 'j';
+            if ($mysteryMaxPlayers != $currentMaxPlayers) {
+                $newHint = $this->generateSimpleHint($currentMaxPlayers, $mysteryMaxPlayers, $proposedMaxPlayers);
+                if ($currentMaxPlayers !== $newHint) {
+                    $streamMatch->setMaxPlayers($newHint);
+                    $newHints['maxPlayers'] = $newHint;
+                    $hintMatch['maxPlayers'] = 'Max: ' . $newHint . 'j';
+                }
+            } else {
+                $hintMatch['maxPlayers'] = 'Max: ' . $mysteryMaxPlayers . 'j';
             }
-        } else {
-            $hintMatch['maxPlayers'] = 'Max: ' . $mysteryMaxPlayers . 'j';
         }
 
         // 🔹 Gestion des Thèmes (categories)
-        $currentCategories = json_decode($streamMatch->getCategoriesIndices(), true);
-        $mysteryCategories = json_decode($mysteryGame->getCategoriesIndices(), true);
-        $proposedCategories = $game->getCategories();
+        if ($mysteryGame->getCategoriesIndices()) {
+            $currentCategories = json_decode($streamMatch->getCategoriesIndices(), true);
+            $mysteryCategories = json_decode($mysteryGame->getCategoriesIndices(), true);
+            $proposedCategories = $game->getCategories();
 
-        if ($mysteryCategories != $currentCategories) {
-            foreach ($proposedCategories as $proposedCategory) {
-                $translatedName = $proposedCategory->getTranslatedName();
+            if ($mysteryCategories != $currentCategories) {
+                foreach ($proposedCategories as $proposedCategory) {
+                    $translatedName = $proposedCategory->getTranslatedName();
 
-                foreach ($mysteryCategories as $index => $mysteryCategory) {
-                    if ($mysteryCategory !== $currentCategories[$index]) {
-                        if ($mysteryCategory === $translatedName) {
-                            $currentCategories[$index] = $mysteryCategory;
-                            $hintMatch['categories'] = 'Thèmes: ' . $newHints['categories'] = $mysteryCategory;
+                    foreach ($mysteryCategories as $index => $mysteryCategory) {
+                        if ($mysteryCategory !== $currentCategories[$index]) {
+                            if ($mysteryCategory === $translatedName) {
+                                $currentCategories[$index] = $mysteryCategory;
+                                $hintMatch['categories'] = 'Thèmes: ' . $newHints['categories'] = $mysteryCategory;
+                            }
                         }
                     }
                 }
+                $streamMatch->setCategoriesIndices(json_encode($currentCategories));
+            } else {
+                $hintMatch['categories'] = 'Thèmes: ' . implode(', ', $mysteryCategories);
             }
-            $streamMatch->setCategoriesIndices(json_encode($currentCategories));
-        } else {
-            $hintMatch['categories'] = 'Thèmes: ' . implode(', ', $mysteryCategories);
         }
 
         // 🔹 Gestion des catégories (subdomains)
-        $currentSubdomains = json_decode($streamMatch->getSubdomainsIndices(), true);
-        $mysterySubdomains = json_decode($mysteryGame->getSubdomainsIndices(), true);
-        $proposedSubdomains = $game->getSubdomains();
+        if ($mysteryGame->getSubdomainsIndices()) {
+            $currentSubdomains = json_decode($streamMatch->getSubdomainsIndices(), true);
+            $mysterySubdomains = json_decode($mysteryGame->getSubdomainsIndices(), true);
+            $proposedSubdomains = $game->getSubdomains();
 
-        if ($mysterySubdomains != $currentSubdomains) {
-            foreach ($proposedSubdomains as $proposedSubdomain) {
-                $translatedName = $proposedSubdomain->getTranslatedName();
+            if ($mysterySubdomains != $currentSubdomains) {
+                foreach ($proposedSubdomains as $proposedSubdomain) {
+                    $translatedName = $proposedSubdomain->getTranslatedName();
 
-                foreach ($mysterySubdomains as $index => $mysterySubdomain) {
-                    if ($mysterySubdomain !== $currentSubdomains[$index]) {
-                        if ($mysterySubdomain === $translatedName) {
-                            $currentSubdomains[$index] = $mysterySubdomain;
-                            $hintMatch['subdomains'] = 'Catégories: ' . $newHints['subdomains'] = $mysterySubdomain;
+                    foreach ($mysterySubdomains as $index => $mysterySubdomain) {
+                        if ($mysterySubdomain !== $currentSubdomains[$index]) {
+                            if ($mysterySubdomain === $translatedName) {
+                                $currentSubdomains[$index] = $mysterySubdomain;
+                                $hintMatch['subdomains'] = 'Catégories: ' . $newHints['subdomains'] = $mysterySubdomain;
+                            }
                         }
                     }
                 }
+                $streamMatch->setSubdomainsIndices(json_encode($currentSubdomains));
+            } else {
+                $hintMatch['subdomains'] = 'Catégories: ' . implode(', ', $mysterySubdomains);
             }
-            $streamMatch->setSubdomainsIndices(json_encode($currentSubdomains));
-        } else {
-            $hintMatch['subdomains'] = 'Catégories: ' . implode(', ', $mysterySubdomains);
         }
 
         // 🔹 Gestion des mécanisme (mechanics)
-        $currentMechanics = json_decode($streamMatch->getMechanicsIndices(), true);
-        $mysteryMechanics = json_decode($mysteryGame->getMechanicsIndices(), true);
-        $proposedMechanics = $game->getMechanics();
+        if ($mysteryGame->getMechanicsIndices()) {
+            $currentMechanics = json_decode($streamMatch->getMechanicsIndices(), true);
+            $mysteryMechanics = json_decode($mysteryGame->getMechanicsIndices(), true);
+            $proposedMechanics = $game->getMechanics();
 
-        if ($mysteryMechanics != $currentMechanics) {
-            foreach ($proposedMechanics as $proposedMechanic) {
-                $translatedName = $proposedMechanic->getTranslatedName();
+            if ($mysteryMechanics != $currentMechanics) {
+                foreach ($proposedMechanics as $proposedMechanic) {
+                    $translatedName = $proposedMechanic->getTranslatedName();
 
-                foreach ($mysteryMechanics as $index => $mysteryMechanic) {
-                    if ($mysteryMechanic !== $currentMechanics[$index]) {
-                        if ($mysteryMechanic === $translatedName) {
-                            $currentMechanics[$index] = $mysteryMechanic;
-                            $hintMatch['mechanics'] = 'Mécanismes: ' . $newHints['mechanics'] = $mysteryMechanic;
+                    foreach ($mysteryMechanics as $index => $mysteryMechanic) {
+                        if ($mysteryMechanic !== $currentMechanics[$index]) {
+                            if ($mysteryMechanic === $translatedName) {
+                                $currentMechanics[$index] = $mysteryMechanic;
+                                $hintMatch['mechanics'] = 'Mécanismes: ' . $newHints['mechanics'] = $mysteryMechanic;
+                            }
                         }
                     }
                 }
+                $streamMatch->setMechanicsIndices(json_encode($currentMechanics));
+            } else {
+                $hintMatch['mechanics'] = 'Mécanismes: ' . implode(', ', $mysteryMechanics);
             }
-            $streamMatch->setMechanicsIndices(json_encode($currentMechanics));
-        } else {
-            $hintMatch['mechanics'] = 'Mécanismes: ' . implode(', ', $mysteryMechanics);
         }
 
         // 🔹 Gestion des créateurs (designers)
-        $currentDesigners = json_decode($streamMatch->getDesignersIndices(), true);
-        $mysteryDesigners = json_decode($mysteryGame->getDesignersIndices(), true);
-        $proposedDesigners = $game->getDesigners();
+        if ($mysteryGame->getDesignersIndices()) {
+            $currentDesigners = json_decode($streamMatch->getDesignersIndices(), true);
+            $mysteryDesigners = json_decode($mysteryGame->getDesignersIndices(), true);
+            $proposedDesigners = $game->getDesigners();
 
-        if ($mysteryDesigners != $currentDesigners) {
-            $result = $this->generateComplexHint($currentDesigners, $mysteryDesigners, $proposedDesigners);
-            $streamMatch->setDesignersIndices(json_encode($result['currentHints']));
-            if ($result['find']) {
-               $newHints['designers'] = $result['currentHints'];
-                $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $result['currentHints']);
+            if ($mysteryDesigners != $currentDesigners) {
+                $result = $this->generateComplexHint($currentDesigners, $mysteryDesigners, $proposedDesigners);
+                $streamMatch->setDesignersIndices(json_encode($result['currentHints']));
+                if ($result['find']) {
+                    $newHints['designers'] = $result['currentHints'];
+                    $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $result['currentHints']);
+                }
+            } else {
+                $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $mysteryDesigners);
             }
-        } else {
-            $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $mysteryDesigners);
         }
 
         // 🔹 Gestion des Illustrateurs (artists)
-        $currentArtists = json_decode($streamMatch->getArtistsIndices(), true);
-        $mysteryArtists = json_decode($mysteryGame->getArtistsIndices(), true);
-        $proposedArtists = $game->getArtists();
+        if ($mysteryGame->getArtistsIndices()) {
+            $currentArtists = json_decode($streamMatch->getArtistsIndices(), true);
+            $mysteryArtists = json_decode($mysteryGame->getArtistsIndices(), true);
+            $proposedArtists = $game->getArtists();
 
-        if ($mysteryArtists != $currentArtists) {
-            $result = $this->generateComplexHint($currentArtists, $mysteryArtists, $proposedArtists);
-            $streamMatch->setArtistsIndices(json_encode($result['currentHints']));
-            if ($result['find']) {
-                $newHints['artists'] = $result['currentHints'];
-                $hintMatch['artists'] = 'Illustrateurs: ' . implode(', ', $result['currentHints']);
+            if ($mysteryArtists != $currentArtists) {
+                $result = $this->generateComplexHint($currentArtists, $mysteryArtists, $proposedArtists);
+                $streamMatch->setArtistsIndices(json_encode($result['currentHints']));
+                if ($result['find']) {
+                    $newHints['artists'] = $result['currentHints'];
+                    $hintMatch['artists'] = 'Illustrateurs: ' . implode(', ', $result['currentHints']);
+                }
+            } else {
+                $hintMatch['artists'] = 'Illustrateurs' . implode(', ', $mysteryArtists);
             }
-        } else {
-            $hintMatch['artists'] = 'Illustrateurs' . implode(', ', $mysteryArtists);
         }
 
         // 🔹 Gestion des Développeurs (developers)
-        $currentDevelopers = json_decode($streamMatch->getDevelopersIndices(), true);
-        $mysteryDevelopers = json_decode($mysteryGame->getDevelopersIndices(), true);
-        $proposedDevelopers = $game->getDevelopers();
+        if ($mysteryGame->getDevelopersIndices()) {
+            $currentDevelopers = json_decode($streamMatch->getDevelopersIndices(), true);
+            $mysteryDevelopers = json_decode($mysteryGame->getDevelopersIndices(), true);
+            $proposedDevelopers = $game->getDevelopers();
 
-        if ($mysteryDevelopers != $currentDevelopers) {
-            $result = $this->generateComplexHint($currentDevelopers, $mysteryDevelopers, $proposedDevelopers);
-            $streamMatch->setDevelopersIndices(json_encode($result['currentHints']));
-            if ($result['find']) {
-                $newHints['developers'] = $result['currentHints'];
-                $hintMatch['developers'] = 'Développeurs: ' . implode(', ', $result['currentHints']);
+            if ($mysteryDevelopers != $currentDevelopers) {
+                $result = $this->generateComplexHint($currentDevelopers, $mysteryDevelopers, $proposedDevelopers);
+                $streamMatch->setDevelopersIndices(json_encode($result['currentHints']));
+                if ($result['find']) {
+                    $newHints['developers'] = $result['currentHints'];
+                    $hintMatch['developers'] = 'Développeurs: ' . implode(', ', $result['currentHints']);
+                }
+            } else {
+                $hintMatch['developers'] = 'Développeurs' . implode(', ', $mysteryDevelopers);
             }
-        } else {
-            $hintMatch['developers'] = 'Développeurs' . implode(', ', $mysteryDevelopers);
         }
 
         // 🔹 Gestion des Designers (graphicDesigners)
-        $currentGraphicDesigners = json_decode($streamMatch->getGraphicDesignersIndices(), true);
-        $mysteryGraphicDesigners = json_decode($mysteryGame->getGraphicDesignersIndices(), true);
-        $proposedGraphicDesigners = $game->getGraphicDesigners();
+        if ($mysteryGame->getGraphicDesignersIndices()) {
+            $currentGraphicDesigners = json_decode($streamMatch->getGraphicDesignersIndices(), true);
+            $mysteryGraphicDesigners = json_decode($mysteryGame->getGraphicDesignersIndices(), true);
+            $proposedGraphicDesigners = $game->getGraphicDesigners();
 
-        if ($mysteryGraphicDesigners != $currentGraphicDesigners) {
-            $result = $this->generateComplexHint($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners);
-            $streamMatch->setGraphicDesignersIndices(json_encode($result['currentHints']));
-            if ($result['find']) {
-                $newHints['graphicDesigners'] = $result['currentHints'];
-                $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $result['currentHints']);
+            if ($mysteryGraphicDesigners != $currentGraphicDesigners) {
+                $result = $this->generateComplexHint($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners);
+                $streamMatch->setGraphicDesignersIndices(json_encode($result['currentHints']));
+                if ($result['find']) {
+                    $newHints['graphicDesigners'] = $result['currentHints'];
+                    $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $result['currentHints']);
+                }
+            } else {
+                $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $mysteryGraphicDesigners);
             }
-        } else {
-            $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $mysteryGraphicDesigners);
         }
 
         // 🔹 Gestion des Editeurs (publishers)
-        $currentPublishers = json_decode($streamMatch->getPublishersIndices(), true);
-        $mysteryPublishers = json_decode($mysteryGame->getPublishersIndices(), true);
-        $proposedPublishers = $game->getPublishers();
+        if ($mysteryGame->getPublishersIndices()) {
+            $currentPublishers = json_decode($streamMatch->getPublishersIndices(), true);
+            $mysteryPublishers = json_decode($mysteryGame->getPublishersIndices(), true);
+            $proposedPublishers = $game->getPublishers();
 
-        if ($mysteryPublishers != $currentPublishers) {
-            $result = $this->generateComplexHint($currentPublishers, $mysteryPublishers, $proposedPublishers);
-            $streamMatch->setPublishersIndices(json_encode($result['currentHints']));
-            if ($result['find']) {
-                $newHints['publishers'] = $result['currentHints'];
-                $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $result['currentHints']);
+            if ($mysteryPublishers != $currentPublishers) {
+                $result = $this->generateComplexHint($currentPublishers, $mysteryPublishers, $proposedPublishers);
+                $streamMatch->setPublishersIndices(json_encode($result['currentHints']));
+                if ($result['find']) {
+                    $newHints['publishers'] = $result['currentHints'];
+                    $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $result['currentHints']);
+                }
+            } else {
+                $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $mysteryPublishers);
             }
-        } else {
-            $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $mysteryPublishers);
         }
 
         // 🔹 Gestion des Récompenses (honors)
-        $currentHonors = json_decode($streamMatch->getHonorsIndices(), true);
-        $mysteryHonors = json_decode($mysteryGame->getHonorsIndices(), true);
-        $proposedHonors = $game->getHonorGames();
+        if ($mysteryGame->getHonorsIndices()) {
+            $currentHonors = json_decode($streamMatch->getHonorsIndices(), true);
+            $mysteryHonors = json_decode($mysteryGame->getHonorsIndices(), true);
+            $proposedHonors = $game->getHonorGames();
 
-        if ($mysteryHonors != $currentHonors) {
-            foreach ($proposedHonors as $proposedHonor) {
-                foreach ($mysteryHonors as $index => $mysteryHonor) {
-                    if ($mysteryHonor !== $currentHonors[$index]) {
-                        if ($mysteryHonor === $proposedHonor->getHonor()->getName()) {
-                            $currentHonors[$index] = $mysteryHonor;
-                            $hintMatch['honors'] = 'Récompenses: ' . $newHints['honors'] = $mysteryHonor;
+            if ($mysteryHonors != $currentHonors) {
+                foreach ($proposedHonors as $proposedHonor) {
+                    foreach ($mysteryHonors as $index => $mysteryHonor) {
+                        if ($mysteryHonor !== $currentHonors[$index]) {
+                            if ($mysteryHonor === $proposedHonor->getHonor()->getName()) {
+                                $currentHonors[$index] = $mysteryHonor;
+                                $hintMatch['honors'] = 'Récompenses: ' . $newHints['honors'] = $mysteryHonor;
+                            }
                         }
                     }
                 }
+                $streamMatch->setHonorsIndices(json_encode($currentHonors));
+            } else {
+                $hintMatch['honors'] = 'Récompenses: ' . implode(', ', $mysteryHonors);
             }
-            $streamMatch->setHonorsIndices(json_encode($currentHonors));
-        } else {
-            $hintMatch['honors'] = 'Récompenses: ' . implode(', ', $mysteryHonors);
         }
-
         $searchHistory = $streamMatch->getSearchHistory();
 
         $searchHistory = $searchHistory ? json_decode($searchHistory, true) : [];
