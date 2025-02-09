@@ -114,26 +114,34 @@ document.addEventListener("DOMContentLoaded", () => {
     // Gestion des bouton indices
     function handleCategoryToggle() {
         const categoryContainers = document.querySelectorAll(".category-container");
-    
+
         categoryContainers.forEach(container => {
             const placeholder = container.querySelector(".category-placeholder");
             const list = container.querySelector(".category-list");
-    
+            const categoryName = container.dataset.category; // Identifiant unique
+
+            // Restauration de l'état au chargement
+            if (localStorage.getItem(`category_${categoryName}`) === "open") {
+                list.style.display = "block";
+                placeholder.style.display = "none";
+                container.classList.add("active");
+            }
+
             container.addEventListener("click", () => {
-                if (list.style.display === "block") {
-                    list.style.display = "none";
-                    placeholder.style.display = "inline";
-                    container.classList.remove("active");  // Enlever la classe 'active'
-                } else {
+                const isActive = container.classList.toggle("active");
+
+                if (isActive) {
                     list.style.display = "block";
                     placeholder.style.display = "none";
-                    container.classList.add("active");  // Ajouter la classe 'active'
+                    localStorage.setItem(`category_${categoryName}`, "open");
+                } else {
+                    list.style.display = "none";
+                    placeholder.style.display = "inline";
+                    localStorage.setItem(`category_${categoryName}`, "closed");
                 }
             });
         });
     }
-    
-
 
     // Initialisation
     function init() {

@@ -258,6 +258,18 @@ a:hover {
     border-color: var(--hovered-solid-background);
 }
 
+.btn-hint{
+    max-height: 36px;
+    max-width: 36px;
+    background-color: transparent;
+    border: none;
+    border-radius: 20px;
+}
+.btn-hint:hover{
+    background-color: var(--high-contrast-text);
+    border: none;
+}
+
 /* Title */
 .title {
     font-size: 2rem;
