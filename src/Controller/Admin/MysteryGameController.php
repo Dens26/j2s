@@ -254,7 +254,8 @@ class MysteryGameController extends AbstractController
             ->setMinPlayers("--")
             ->setMaxPlayers("--")
             ->setPlayingTime("--")
-            ->setAge("--");
+            ->setAge("--")
+            ->setSearchHistory("");
 
         // Boucle sur les champs dynamiques
         foreach ($fields as $property => $setter) {
@@ -322,55 +323,62 @@ class MysteryGameController extends AbstractController
         $newHints = [];
 
         // 🔹 Gestion de l'âge
-        if ($mysteryAge = $mysteryGame->getAge()) {
-            $currentAgeHint = $streamMatch->getAge();
+        if ($mysteryGame->getAge()) {
+            $currentAge = $streamMatch->getAge();
             $mysteryAge = $mysteryGame->getAge();
             $proposedAge = $game->getAge();
 
-            if ($mysteryAge != $currentAgeHint) {
-                $newHint = $this->generateSimpleHint($currentAgeHint, $mysteryAge, $proposedAge);
-                if ($currentAgeHint !== $newHint) {
+            if ($mysteryAge != $currentAge) {
+                $newHint = $this->generateSimpleHint($currentAge, $mysteryAge, $proposedAge);
+                if ($currentAge !== $newHint) {
                     $streamMatch->setAge($newHint);
                     $newHints['age'] = $newHint;
-                    $hintMatch['age'] = 'Age: ' .  $newHint . " ans";
+                    if ($mysteryAge == $newHint) {
+                        $hintMatch['age'] = 'Age: ' .  $newHint . " ans";
+                    }
                 }
-            } else {
-                $hintMatch['age'] = 'Age: ' . $mysteryAge . " ans";
+            } else if ($mysteryAge == $proposedAge) {
+                $hintMatch['age'] = 'Age: ' .  $proposedAge . " ans";
             }
         }
 
         // 🔹 Gestion du temps de jeu (playingTime)
         if ($mysteryGame->getPlayingTime()) {
-            $currentPlayingTimeHint = $streamMatch->getPlayingTime();
+            $currentPlayingTime = $streamMatch->getPlayingTime();
             $mysteryPlayingTime = $mysteryGame->getPlayingTime();
             $proposedPlayingTime = $game->getPlayingTime();
 
-            if ($mysteryPlayingTime != $currentPlayingTimeHint) {
-                $newHint = $this->generateSimpleHint($currentPlayingTimeHint, $mysteryPlayingTime, $proposedPlayingTime);
-                if ($currentPlayingTimeHint !== $newHint) {
+            if ($mysteryPlayingTime != $currentPlayingTime) {
+                $newHint = $this->generateSimpleHint($currentPlayingTime, $mysteryPlayingTime, $proposedPlayingTime);
+                if ($currentPlayingTime !== $newHint) {
                     $streamMatch->setPlayingTime($newHint);
                     $newHints['playingTime'] = $newHint;
-                    $hintMatch['playingTime'] = 'Durée: ' .  $newHint . " mn";
+                    if ($mysteryPlayingTime == $newHint) {
+                        $hintMatch['playingTime'] = 'Durée: ' .  $newHint . " mn";
+                    }
                 }
-            } else {
-                $hintMatch['playingTime'] = 'Durée: ' . $mysteryPlayingTime . " mn";
+            } else if ($mysteryPlayingTime == $proposedPlayingTime) {
+                $hintMatch['playingTime'] = 'Durée: ' .  $proposedPlayingTime . " mn";
             }
         }
 
         // 🔹 Gestion de la date de sortie (yearPublished)
         if ($mysteryGame->getYearPublished()) {
-            $currentYearPublishedHint = $streamMatch->getYearPublished();
+            $currentYearPublished = $streamMatch->getYearPublished();
             $mysteryYearPublished = $mysteryGame->getYearPublished();
             $proposedYearPublished = $game->getYearPublished();
 
-            if ($mysteryYearPublished != $currentYearPublishedHint) {
-                $newHint = $this->generateSimpleHint($currentYearPublishedHint, $mysteryYearPublished, $proposedYearPublished);
-                if ($currentYearPublishedHint !== $newHint) {
+            if ($mysteryYearPublished != $currentYearPublished) {
+                $newHint = $this->generateSimpleHint($currentYearPublished, $mysteryYearPublished, $proposedYearPublished);
+                if ($currentYearPublished !== $newHint) {
                     $streamMatch->setYearPublished($newHint);
-                    $hintMatch['yearPublished'] = 'Sortie: ' .  $newHints['yearPublished'] = $newHint;
+                    $newHints['yearPublished'] = $newHint;
+                    if ($mysteryYearPublished == $newHint) {
+                        $hintMatch['yearPublished'] = 'Sortie: ' .  $newHint;
+                    }
                 }
-            } else {
-                $hintMatch['yearPublished'] = $mysteryYearPublished;
+            } else if ($mysteryYearPublished == $proposedYearPublished) {
+                $hintMatch['yearPublished'] = 'Sortie: ' .  $proposedYearPublished;
             }
         }
 
@@ -385,10 +393,12 @@ class MysteryGameController extends AbstractController
                 if ($currentMinPlayers !== $newHint) {
                     $streamMatch->setMinPlayers($newHint);
                     $newHints['minPlayers'] = $newHint;
-                    $hintMatch['minPlayers'] = 'Min: ' .  $newHint . 'j';
+                    if ($mysteryMinPlayers == $newHint) {
+                        $hintMatch['minPlayers'] = 'Min: ' .  $newHint . 'j';
+                    }
                 }
-            } else {
-                $hintMatch['minPlayers'] = 'Min: ' . $mysteryMinPlayers . 'j';
+            } else if ($mysteryMinPlayers == $proposedMinPlayers) {
+                $hintMatch['minPlayers'] = 'Min: ' .  $proposedMinPlayers . 'j';
             }
         }
 
@@ -403,10 +413,12 @@ class MysteryGameController extends AbstractController
                 if ($currentMaxPlayers !== $newHint) {
                     $streamMatch->setMaxPlayers($newHint);
                     $newHints['maxPlayers'] = $newHint;
-                    $hintMatch['maxPlayers'] = 'Max: ' . $newHint . 'j';
+                    if ($mysteryMaxPlayers == $newHint) {
+                        $hintMatch['maxPlayers'] = 'Max: ' . $newHint . 'j';
+                    }
                 }
-            } else {
-                $hintMatch['maxPlayers'] = 'Max: ' . $mysteryMaxPlayers . 'j';
+            } else if ($mysteryMaxPlayers == $proposedMaxPlayers) {
+                $hintMatch['maxPlayers'] = 'Max: ' .  $proposedMaxPlayers . 'j';
             }
         }
 
@@ -416,48 +428,56 @@ class MysteryGameController extends AbstractController
             $mysteryCategories = json_decode($mysteryGame->getCategoriesIndices(), true);
             $proposedCategories = $game->getCategories();
 
-            if ($mysteryCategories != $currentCategories) {
-                foreach ($proposedCategories as $proposedCategory) {
-                    $translatedName = $proposedCategory->getTranslatedName();
+            $categories = [];
 
-                    foreach ($mysteryCategories as $index => $mysteryCategory) {
-                        if ($mysteryCategory !== $currentCategories[$index]) {
-                            if ($mysteryCategory === $translatedName) {
-                                $currentCategories[$index] = $mysteryCategory;
-                                $hintMatch['categories'] = 'Thèmes: ' . $newHints['categories'] = $mysteryCategory;
-                            }
+            foreach ($proposedCategories as $proposedCategory) {
+                $translatedName = $proposedCategory->getTranslatedName();
+
+                foreach ($mysteryCategories as $index => $mysteryCategory) {
+                    if ($mysteryCategory !== $currentCategories[$index]) {
+                        if ($mysteryCategory === $translatedName) {
+                            $currentCategories[$index] = $mysteryCategory;
+                            $newHints['categories'] = $mysteryCategory;
+                            $categories[] = $translatedName;
                         }
+                    } else if ($mysteryCategory == $translatedName) {
+                        $categories[] = $translatedName;
                     }
                 }
-                $streamMatch->setCategoriesIndices(json_encode($currentCategories));
-            } else {
-                $hintMatch['categories'] = 'Thèmes: ' . implode(', ', $mysteryCategories);
             }
+            if (!empty($categories)) {
+                $hintMatch['categories'] = 'Thèmes: ' . implode(', ', array_unique($categories));
+            }
+            $streamMatch->setCategoriesIndices(json_encode($currentCategories));
         }
 
         // 🔹 Gestion des catégories (subdomains)
         if ($mysteryGame->getSubdomainsIndices()) {
-            $currentSubdomains = json_decode($streamMatch->getSubdomainsIndices(), true);
-            $mysterySubdomains = json_decode($mysteryGame->getSubdomainsIndices(), true);
+            $currentSubdomains = json_decode($streamMatch->getSubdomainsIndices(), true) ?? [];
+            $mysterySubdomains = json_decode($mysteryGame->getSubdomainsIndices(), true) ?? [];
             $proposedSubdomains = $game->getSubdomains();
 
-            if ($mysterySubdomains != $currentSubdomains) {
-                foreach ($proposedSubdomains as $proposedSubdomain) {
-                    $translatedName = $proposedSubdomain->getTranslatedName();
+            $subdomains = [];
 
-                    foreach ($mysterySubdomains as $index => $mysterySubdomain) {
-                        if ($mysterySubdomain !== $currentSubdomains[$index]) {
-                            if ($mysterySubdomain === $translatedName) {
-                                $currentSubdomains[$index] = $mysterySubdomain;
-                                $hintMatch['subdomains'] = 'Catégories: ' . $newHints['subdomains'] = $mysterySubdomain;
-                            }
+            foreach ($proposedSubdomains as $proposedSubdomain) {
+                $translatedName = $proposedSubdomain->getTranslatedName();
+
+                foreach ($mysterySubdomains as $index => $mysterySubdomain) {
+                    if ($mysterySubdomain !== $currentSubdomains[$index]) {
+                        if ($mysterySubdomain === $translatedName) {
+                            $currentSubdomains[$index] = $mysterySubdomain;
+                            $newHints['subdomains'][] = $mysterySubdomain;
+                            $subdomains[] = $translatedName;
                         }
+                    } else if ($mysterySubdomain === $translatedName) {
+                        $subdomains[] = $translatedName;
                     }
                 }
-                $streamMatch->setSubdomainsIndices(json_encode($currentSubdomains));
-            } else {
-                $hintMatch['subdomains'] = 'Catégories: ' . implode(', ', $mysterySubdomains);
             }
+            if (!empty($subdomains)) {
+                $hintMatch['subdomains'] = 'Catégories: ' . implode(', ', array_unique($subdomains));
+            }
+            $streamMatch->setSubdomainsIndices(json_encode($currentSubdomains));
         }
 
         // 🔹 Gestion des mécanisme (mechanics)
@@ -466,23 +486,27 @@ class MysteryGameController extends AbstractController
             $mysteryMechanics = json_decode($mysteryGame->getMechanicsIndices(), true);
             $proposedMechanics = $game->getMechanics();
 
-            if ($mysteryMechanics != $currentMechanics) {
-                foreach ($proposedMechanics as $proposedMechanic) {
-                    $translatedName = $proposedMechanic->getTranslatedName();
+            $mechanics = [];
 
-                    foreach ($mysteryMechanics as $index => $mysteryMechanic) {
-                        if ($mysteryMechanic !== $currentMechanics[$index]) {
-                            if ($mysteryMechanic === $translatedName) {
-                                $currentMechanics[$index] = $mysteryMechanic;
-                                $hintMatch['mechanics'] = 'Mécanismes: ' . $newHints['mechanics'] = $mysteryMechanic;
-                            }
+            foreach ($proposedMechanics as $proposedMechanic) {
+                $translatedName = $proposedMechanic->getTranslatedName();
+
+                foreach ($mysteryMechanics as $index => $mysteryMechanic) {
+                    if ($mysteryMechanic !== $currentMechanics[$index]) {
+                        if ($mysteryMechanic === $translatedName) {
+                            $currentMechanics[$index] = $mysteryMechanic;
+                            $newHints['mechanics'] = $mysteryMechanic;
+                            $mechanics[] =  $translatedName;
                         }
+                    } else if ($mysteryMechanic == $translatedName) {
+                        $mechanics[] =  $translatedName;
                     }
                 }
-                $streamMatch->setMechanicsIndices(json_encode($currentMechanics));
-            } else {
-                $hintMatch['mechanics'] = 'Mécanismes: ' . implode(', ', $mysteryMechanics);
             }
+            if (!empty($mechanics)) {
+                $hintMatch['mechanics'] = 'Mécanismes: ' . implode(', ', array_unique($mechanics));
+            }
+            $streamMatch->setMechanicsIndices(json_encode($currentMechanics));
         }
 
         // 🔹 Gestion des créateurs (designers)
@@ -491,15 +515,13 @@ class MysteryGameController extends AbstractController
             $mysteryDesigners = json_decode($mysteryGame->getDesignersIndices(), true);
             $proposedDesigners = $game->getDesigners();
 
-            if ($mysteryDesigners != $currentDesigners) {
-                $result = $this->generateComplexHint($currentDesigners, $mysteryDesigners, $proposedDesigners);
-                $streamMatch->setDesignersIndices(json_encode($result['currentHints']));
-                if ($result['find']) {
-                    $newHints['designers'] = $result['currentHints'];
-                    $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $result['currentHints']);
-                }
-            } else {
-                $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $mysteryDesigners);
+            $result = $this->generateComplexHint($currentDesigners, $mysteryDesigners, $proposedDesigners);
+            $streamMatch->setDesignersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['designers'] = $result['currentHints'];
+                $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $result['currentHints']);
+            } else if ($result['match']) {
+                $hintMatch['designers'] = 'Créateurs: ' . implode(', ', $result['currentHints']);
             }
         }
 
@@ -509,15 +531,13 @@ class MysteryGameController extends AbstractController
             $mysteryArtists = json_decode($mysteryGame->getArtistsIndices(), true);
             $proposedArtists = $game->getArtists();
 
-            if ($mysteryArtists != $currentArtists) {
-                $result = $this->generateComplexHint($currentArtists, $mysteryArtists, $proposedArtists);
-                $streamMatch->setArtistsIndices(json_encode($result['currentHints']));
-                if ($result['find']) {
-                    $newHints['artists'] = $result['currentHints'];
-                    $hintMatch['artists'] = 'Illustrateurs: ' . implode(', ', $result['currentHints']);
-                }
-            } else {
-                $hintMatch['artists'] = 'Illustrateurs' . implode(', ', $mysteryArtists);
+            $result = $this->generateComplexHint($currentArtists, $mysteryArtists, $proposedArtists);
+            $streamMatch->setArtistsIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['artists'] = $result['currentHints'];
+                $hintMatch['artists'] = 'Illustrateurs: ' . implode(', ', $result['currentHints']);
+            } else if ($result['match']) {
+                $hintMatch['artists'] = 'Illustrateurs: ' . implode(', ', $result['currentHints']);
             }
         }
 
@@ -527,15 +547,13 @@ class MysteryGameController extends AbstractController
             $mysteryDevelopers = json_decode($mysteryGame->getDevelopersIndices(), true);
             $proposedDevelopers = $game->getDevelopers();
 
-            if ($mysteryDevelopers != $currentDevelopers) {
-                $result = $this->generateComplexHint($currentDevelopers, $mysteryDevelopers, $proposedDevelopers);
-                $streamMatch->setDevelopersIndices(json_encode($result['currentHints']));
-                if ($result['find']) {
-                    $newHints['developers'] = $result['currentHints'];
-                    $hintMatch['developers'] = 'Développeurs: ' . implode(', ', $result['currentHints']);
-                }
-            } else {
-                $hintMatch['developers'] = 'Développeurs' . implode(', ', $mysteryDevelopers);
+            $result = $this->generateComplexHint($currentDevelopers, $mysteryDevelopers, $proposedDevelopers);
+            $streamMatch->setDevelopersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['developers'] = $result['currentHints'];
+                $hintMatch['developers'] = 'Développeurs: ' . implode(', ', $result['currentHints']);
+            } else if ($result['match']) {
+                $hintMatch['developers'] = 'Développeurs: ' . implode(', ', $result['currentHints']);
             }
         }
 
@@ -545,15 +563,13 @@ class MysteryGameController extends AbstractController
             $mysteryGraphicDesigners = json_decode($mysteryGame->getGraphicDesignersIndices(), true);
             $proposedGraphicDesigners = $game->getGraphicDesigners();
 
-            if ($mysteryGraphicDesigners != $currentGraphicDesigners) {
-                $result = $this->generateComplexHint($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners);
-                $streamMatch->setGraphicDesignersIndices(json_encode($result['currentHints']));
-                if ($result['find']) {
-                    $newHints['graphicDesigners'] = $result['currentHints'];
-                    $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $result['currentHints']);
-                }
-            } else {
-                $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $mysteryGraphicDesigners);
+            $result = $this->generateComplexHint($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners);
+            $streamMatch->setGraphicDesignersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['graphicDesigners'] = $result['currentHints'];
+                $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $result['currentHints']);
+            } else if ($result['match']) {
+                $hintMatch['graphicDesigners'] = 'Designers: ' . implode(', ', $result['currentHints']);
             }
         }
 
@@ -563,15 +579,13 @@ class MysteryGameController extends AbstractController
             $mysteryPublishers = json_decode($mysteryGame->getPublishersIndices(), true);
             $proposedPublishers = $game->getPublishers();
 
-            if ($mysteryPublishers != $currentPublishers) {
-                $result = $this->generateComplexHint($currentPublishers, $mysteryPublishers, $proposedPublishers);
-                $streamMatch->setPublishersIndices(json_encode($result['currentHints']));
-                if ($result['find']) {
-                    $newHints['publishers'] = $result['currentHints'];
-                    $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $result['currentHints']);
-                }
-            } else {
-                $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $mysteryPublishers);
+            $result = $this->generateComplexHint($currentPublishers, $mysteryPublishers, $proposedPublishers);
+            $streamMatch->setPublishersIndices(json_encode($result['currentHints']));
+            if ($result['find']) {
+                $newHints['publishers'] = $result['currentHints'];
+                $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $result['currentHints']);
+            } else if ($result['match']) {
+                $hintMatch['publishers'] = 'Editeurs: ' . implode(', ', $result['currentHints']);
             }
         }
 
@@ -581,21 +595,19 @@ class MysteryGameController extends AbstractController
             $mysteryHonors = json_decode($mysteryGame->getHonorsIndices(), true);
             $proposedHonors = $game->getHonorGames();
 
-            if ($mysteryHonors != $currentHonors) {
-                foreach ($proposedHonors as $proposedHonor) {
-                    foreach ($mysteryHonors as $index => $mysteryHonor) {
-                        if ($mysteryHonor !== $currentHonors[$index]) {
-                            if ($mysteryHonor === $proposedHonor->getHonor()->getName()) {
-                                $currentHonors[$index] = $mysteryHonor;
-                                $hintMatch['honors'] = 'Récompenses: ' . $newHints['honors'] = $mysteryHonor;
-                            }
+            foreach ($proposedHonors as $proposedHonor) {
+                foreach ($mysteryHonors as $index => $mysteryHonor) {
+                    if ($mysteryHonor !== $currentHonors[$index]) {
+                        if ($mysteryHonor === $proposedHonor->getHonor()->getName()) {
+                            $currentHonors[$index] = $mysteryHonor;
+                            $hintMatch['honors'] = 'Récompenses: ' . $newHints['honors'] = $mysteryHonor;
                         }
+                    } else if ($mysteryHonor == $proposedHonor) {
+                        $hintMatch['honors'] = 'Récompenses: ' . $newHints['honors'] = $mysteryHonor;
                     }
                 }
-                $streamMatch->setHonorsIndices(json_encode($currentHonors));
-            } else {
-                $hintMatch['honors'] = 'Récompenses: ' . implode(', ', $mysteryHonors);
             }
+            $streamMatch->setHonorsIndices(json_encode($currentHonors));
         }
         $searchHistory = $streamMatch->getSearchHistory();
 
@@ -653,6 +665,7 @@ class MysteryGameController extends AbstractController
     private function generateComplexHint(array $currentHints, array $mysteryHints, Collection $proposeHints): array
     {
         $find = false;
+        $match = false;
         foreach ($proposeHints as $proposeHint) {
             foreach ($mysteryHints as $index => $mysteryHint) {
                 if ($mysteryHint !== $currentHints[$index]) {
@@ -660,13 +673,16 @@ class MysteryGameController extends AbstractController
                         $currentHints[$index] = $mysteryHint;
                         $find = true;
                     }
+                } else if ($mysteryHint == $proposeHint) {
+                    $match = true;
                 }
             }
         }
 
         return [
             'currentHints' => $currentHints,
-            'find' => $find
+            'find' => $find,
+            'match' => $match
         ];
     }
 }
