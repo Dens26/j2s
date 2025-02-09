@@ -73,7 +73,7 @@
 
 					<div class="component-high d-flex w-50">
 						<div class="app-boardgame-show-content">
-							<div class="text-dark fw-bold">Designers graphique :</div>
+							<div class="text-dark fw-bold">Designers:</div>
 							{% if results.graphicDesigners|length >0 %}
 								{% for i in 0..(results.graphicDesigners|length -1) %}
 									<div class="text-dark">-{{ results.graphicDesigners[i] }}</div>
@@ -90,7 +90,7 @@
 	<div class="m-4">
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Catégories:</div>
+			<div class="text-high fw-bold">Thèmes:</div>
 			{% if results.categories|length > 0 %}
 				<div class="content-list">
 					{% for category in results.categories|slice(0, 5) %}
@@ -101,7 +101,7 @@
 				</div>
 				{% if results.categories|length > 5 %}
 					<div class="extra-content" style="display: none;">
-						{% for honor in results.categories|slice(5) %}
+						{% for category in results.categories|slice(5) %}
 							<div>
 								{{ category }}
 							</div>
@@ -113,7 +113,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Domaines:</div>
+			<div class="text-high fw-bold">Cagégories:</div>
 			{% if results.subdomains|length > 0 %}
 				<div class="content-list">
 					{% for subdomain in results.subdomains|slice(0, 5) %}
@@ -124,7 +124,7 @@
 				</div>
 				{% if results.subdomains|length > 5 %}
 					<div class="extra-content" style="display: none;">
-						{% for honor in results.subdomains|slice(5) %}
+						{% for subdomain in results.subdomains|slice(5) %}
 							<div>
 								{{ subdomain }}
 							</div>
@@ -136,7 +136,7 @@
 		</div>
 
 		<div class="app-boardgame-show-content">
-			<div class="text-high fw-bold">Style de jeu:</div>
+			<div class="text-high fw-bold">Mécanismes:</div>
 			{% if results.mechanics|length > 0 %}
 				<div class="content-list">
 					{% for mechanic in results.mechanics|slice(0, 5) %}
@@ -166,7 +166,7 @@
 			</div>
 			<button class="toggle-description-button app-boardgame-show-button-show">Afficher plus ...</button>
 		</div>
-
+		
 		<div class="app-boardgame-show-content">
 			<div class="text-high fw-bold">Récompenses:</div>
 			{% if results.honors|length > 0 %}

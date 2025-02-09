@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Crud;
 
-use App\Entity\Honor;
+use App\Entity\Family;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class HonorCrudController extends AbstractCrudController
+class FamilyCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Honor::class;
+        return Family::class;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -28,8 +28,8 @@ class HonorCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Récompense')
-            ->setEntityLabelInPlural('Récompenses')
+            ->setEntityLabelInSingular('Famille')
+            ->setEntityLabelInPlural('Familles')
             ->setDateFormat('...')
             // ...
         ;
@@ -39,6 +39,7 @@ class HonorCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name')->setLabel('Nom'),
+            TextField::new('translatedName')->setLabel('Traduction')
         ];
     }
 }

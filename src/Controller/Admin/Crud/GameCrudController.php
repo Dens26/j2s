@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Crud;
 
 use App\Entity\Game;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -56,11 +56,11 @@ class GameCrudController extends AbstractCrudController
             AssociationField::new('designers')->setLabel('Créateurs')->setFormTypeOption('by_reference', false)->onlyOnForms(),
             AssociationField::new('artists')->setLabel('Artistes')->setFormTypeOption('by_reference', false)->onlyOnForms(),
             AssociationField::new('developers')->setLabel('Développeurs')->setFormTypeOption('by_reference', false)->onlyOnForms(),
-            AssociationField::new('graphicDesigners')->setLabel('Designers graphique')->setFormTypeOption('by_reference', false)->onlyOnForms(),
-            AssociationField::new('categories')->setLabel('Catégories')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('graphicDesigners')->setLabel('Designers')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('categories')->setLabel('Thèmes')->setFormTypeOption('by_reference', false)->onlyOnForms(),
             AssociationField::new('families')->setLabel('Familles')->setFormTypeOption('by_reference', false)->onlyOnForms(),
-            AssociationField::new('mechanics')->setLabel('Style')->setFormTypeOption('by_reference', false)->onlyOnForms(),
-            AssociationField::new('subdomains')->setLabel('Domaine')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('mechanics')->setLabel('Mécanisme')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('subdomains')->setLabel('Catégories')->setFormTypeOption('by_reference', false)->onlyOnForms(),
             AssociationField::new('publishers')->setLabel('Editeurs')->setFormTypeOption('by_reference', false)->onlyOnForms()
         ];
     }

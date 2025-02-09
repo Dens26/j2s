@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Crud;
 
-use App\Entity\Family;
+use App\Entity\Artist;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class FamilyCrudController extends AbstractCrudController
+class ArtistCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Family::class;
+        return Artist::class;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -28,8 +28,8 @@ class FamilyCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Famille')
-            ->setEntityLabelInPlural('Familles')
+            ->setEntityLabelInSingular('Illustrateur')
+            ->setEntityLabelInPlural('Illustrateurs')
             ->setDateFormat('...')
             // ...
         ;
@@ -39,7 +39,6 @@ class FamilyCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name')->setLabel('Nom'),
-            TextField::new('translatedName')->setLabel('Traduction')
         ];
     }
 }

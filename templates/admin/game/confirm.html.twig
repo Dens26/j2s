@@ -19,12 +19,12 @@
 					class="row row-cols-1 row-cols-md-{{(data.categorys|length > 0 ? 1 : 0) + (data.subdomains|length >0 ? 1 : 0) + (data.mechanics|length >0 ? 1 : 0)}} mb-5 align-items-center">
 					{# Catégories #}
 					{% if data.categorys %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/category.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
 									<div class="category-content">
-										<span class="category-placeholder fs-4 fw-bold">Catégories</span>
+										<span class="category-placeholder fs-4 fw-bold">Thèmes</span>
 										<div class="category-list" style="display: none;">
 											{% for category in data.categorys %}
 												<input type="hidden" name="categories[]" value="{{ category }}">
@@ -38,12 +38,12 @@
 					{% endif %}
 					{# Domaines #}
 					{% if data.subdomains %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/subdomain.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/subdomain.png')}}" alt="">
 									<div class="category-content">
-										<span class="category-placeholder fs-4 fw-bold">Domaines</span>
+										<span class="category-placeholder fs-4 fw-bold">Catégories</span>
 										<div class="category-list" style="display: none;">
 											{% for subdomain in data.subdomains %}
 												<input type="hidden" name="subdomains[]" value="{{ subdomain }}">
@@ -57,12 +57,12 @@
 					{% endif %}
 					{# Genres #}
 					{% if data.mechanics %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/mechanic.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/mechanic.png')}}" alt="">
 									<div class="category-content">
-										<span class="category-placeholder fs-4 fw-bold">Genres</span>
+										<span class="category-placeholder fs-4 fw-bold">Mécanismes</span>
 										<div class="category-list" style="display: none;">
 											{% for mechanic in data.mechanics %}
 												<input type="hidden" name="mechanics[]" value="{{ mechanic }}">
@@ -81,10 +81,10 @@
 					class="row row-cols-{{((data.age|length > 0 ? 1 : 0) + (data.players|length > 0 ? 1 : 0) + (data.playingTime|length > 0 ? 1 : 0) + (data.yearPublished|length > 0 ? 1 : 0)) / 2}} row-cols-md-{{(data.age|length > 0 ? 1 : 0) + (data.players|length > 0 ? 1 : 0) + (data.playingTime|length > 0 ? 1 : 0) + (data.yearPublished|length > 0 ? 1 : 0)}} mb-5 align-items-center">
 					{# Age #}
 					{% if data.age %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/age.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/age.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Age</span>
 										<div class="category-list" style="display: none;">
@@ -99,10 +99,10 @@
 					{% endif %}
 					{# Joueurs #}
 					{% if data.players %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/players.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/players.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
 										<div class="category-list" style="display: none;">
@@ -117,10 +117,10 @@
 					{% endif %}
 					{# Durée #}
 					{% if data.playingTime %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/playingTime.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/playingTime.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Durée</span>
 										<div class="category-list" style="display: none;">
@@ -135,10 +135,10 @@
 					{% endif %}
 					{# Sortie #}
 					{% if data.yearPublished %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/date.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/date.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Sortie</span>
 										<div class="category-list" style="display: none;">
@@ -157,10 +157,10 @@
 					class="row row-cols-1 row-cols-md-{{((data.designers|length > 0 ? 1 : 0) + (data.artists|length > 0 ? 1 : 0) + (data.graphicDesigners|length > 0 ? 1 : 0) + (data.developers|length > 0 ? 1 : 0)) / 2}} mb-5 align-items-center">
 					{# Créateurs #}
 					{% if data.designers %}
-						<div class="spacing">
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/designer.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/designer.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
 										<div class="category-list" style="display: none;">
@@ -176,10 +176,10 @@
 					{% endif %}
 					{# Illustrateurs #}
 					{% if data.artists %}
-						<div class="spacing">
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/artist.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/artist.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
 										<div class="category-list" style="display: none;">
@@ -195,10 +195,10 @@
 					{% endif %}
 					{# Designers #}
 					{% if data.graphicDesigners %}
-						<div class="spacing">
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/designer-graphique.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/designer-graphique.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Designers</span>
 										<div class="category-list" style="display: none;">
@@ -214,10 +214,10 @@
 					{% endif %}
 					{# Developers #}
 					{% if data.developers %}
-						<div class="spacing">
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/developer.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/developer.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Développeurs</span>
 										<div class="category-list" style="display: none;">
@@ -238,10 +238,10 @@
 					class="row row-cols-1 row-cols-md-{{(data.honors|length > 0 ? 1 : 0) + (data.publishers|length > 0 ? 1 : 0)}} mb-5 align-items-center">
 					{# Récompense #}
 					{% if data.honors %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/honor.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/honor.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Récompenses</span>
 										<div class="category-list" style="display: none;">
@@ -257,10 +257,10 @@
 					{% endif %}
 					{# Editeurs #}
 					{% if data.publishers %}
-						<div>
+						<div class="my-1">
 							<div class="category-container btn admin-btn admin-btn-container">
 								<div class="d-flex align-items-center justify-content-center">
-									<img class="me-2" width="32" height="32" src="{{asset('logo/publisher.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/publisher.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Editeurs</span>
 										<div class="category-list" style="display: none;">

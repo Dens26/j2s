@@ -1,26 +1,28 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Crud;
 
-use App\Entity\Artist;
+use App\Entity\Status;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class ArtistCrudController extends AbstractCrudController
+class StatusCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Artist::class;
+        return Status::class;
     }
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-        ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-        ->setPermission(Action::NEW, 'ROLE_ADMIN')
+        ->setPermission(Action::EDIT, 'ROLE_SUPER_ADMIN')
+        ->setPermission(Action::NEW, 'ROLE_SUPER_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_SUPER_ADMIN')
     ;
     }
@@ -28,8 +30,8 @@ class ArtistCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Illustrateur')
-            ->setEntityLabelInPlural('Illustrateurs')
+            ->setEntityLabelInSingular('Statut')
+            ->setEntityLabelInPlural('Statuts')
             ->setDateFormat('...')
             // ...
         ;

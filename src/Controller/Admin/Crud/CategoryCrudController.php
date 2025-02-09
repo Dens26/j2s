@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Crud;
 
-use App\Entity\Publisher;
+use App\Entity\Category;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class PublisherCrudController extends AbstractCrudController
+class CategoryCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Publisher::class;
+        return Category::class;
     }
-
     public function configureActions(Actions $actions): Actions
     {
         return $actions
@@ -28,8 +27,8 @@ class PublisherCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Editeur')
-            ->setEntityLabelInPlural('Editeurs')
+            ->setEntityLabelInSingular('Thème')
+            ->setEntityLabelInPlural('Thèmes')
             ->setDateFormat('...')
             // ...
         ;
@@ -39,6 +38,7 @@ class PublisherCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name')->setLabel('Nom'),
+            TextField::new('translatedName')->setLabel('Traduction')
         ];
     }
 }
