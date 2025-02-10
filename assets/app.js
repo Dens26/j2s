@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Nouvelle partie détectée : suppression du localStorage.");
         localStorage.clear(); // Efface tout le localStorage
     }
+    
     const overlay = document.getElementById("loading-overlay");
 
     // Gestion de la pagination
