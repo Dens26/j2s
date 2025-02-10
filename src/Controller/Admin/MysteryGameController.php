@@ -11,10 +11,12 @@ use App\Service\TranslatorService;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MysteryGameController extends AbstractController
@@ -202,6 +204,55 @@ class MysteryGameController extends AbstractController
         }
         $this->entityManager->flush();
         return $this->redirectToRoute('admin_game_index');
+    }
+
+    #[Route('/admin-mystery-game-show-hint', name: 'admin_mystery_game_show_hint', methods: ['POST'])]
+    public function showHint(Request $request)
+    {
+        $mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->streamStatus]);
+
+        $streamMatch = $this->entityManager->getRepository(StreamMatch::class)->findOneBy(["id" => 1]);
+        $streamMatchFormated = $this->formatGame($streamMatch);
+
+        $searchHistory = $streamMatch->getSearchHistory();
+        $searchHistory = $searchHistory ? json_decode($searchHistory, true) : [];
+
+        $category = $request->request->get('category');
+
+        match ($category) {
+            'categoriesIndices' => $streamMatch->setCategoriesIndices($mysteryGame->getCategoriesIndices()),
+            'subdomainsIndices' => $streamMatch->setSubdomainsIndices($mysteryGame->getSubdomainsIndices()),
+            'mechanicsIndices' => $streamMatch->setMechanicsIndices($mysteryGame->getMechanicsIndices()),
+            'age' => $streamMatch->setAge($mysteryGame->getAge()),
+            'players' => [
+                $streamMatch->setMinPlayers($mysteryGame->getMinPlayers()),
+                $streamMatch->setMaxPlayers($mysteryGame->getMaxPlayers())
+            ],
+            'playingTime' => $streamMatch->setPlayingTime($mysteryGame->getPlayingTime()),
+            'yearPublished' => $streamMatch->setYearPublished($mysteryGame->getYearPublished()),
+            'designersIndices' => $streamMatch->setDesignersIndices($mysteryGame->getDesignersIndices()),
+            'artistsIndices' => $streamMatch->setArtistsIndices($mysteryGame->getArtistsIndices()),
+            'graphicDesignersIndices' => $streamMatch->setGraphicDesignersIndices($mysteryGame->getGraphicDesignersIndices()),
+            'developersIndices' => $streamMatch->setDevelopersIndices($mysteryGame->getDevelopersIndices()),
+            'honorsIndices' => $streamMatch->setHonorsIndices($mysteryGame->getHonorsIndices()),
+            'publishersIndices' => $streamMatch->setPublishersIndices($mysteryGame->getPublishersIndices()),
+        };
+
+
+        $this->entityManager->persist($streamMatch);
+        $this->entityManager->flush();
+
+        if (in_array($category, ['age', 'players', 'playingTime', 'yearPublished'])) {
+            return $this->render('admin/game/index.html.twig', [
+                'mysteryGame' => $mysteryGame,
+                'streamMatch' => $streamMatch,
+                'streamMatchFormated' => $streamMatchFormated,
+                'newHints' => [],
+                'searchHistory' => $searchHistory
+            ]);
+        } else {
+            return $this->redirectToRoute('admin_mystery_game_index');
+        }
     }
 
     private function setMysteryGame(array $data, Status $status): MysteryGame
