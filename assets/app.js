@@ -2,6 +2,12 @@ import './bootstrap.js';
 import './styles/app.css';
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Suppression du localStorage lors de la création d'un nouveau jeu mystère
+    if (window.location.pathname.includes("/admin-mystery-game-create")) {
+        console.log("Nouvelle partie détectée : suppression du localStorage.");
+        localStorage.clear(); // Efface tout le localStorage
+    }
+    
     const overlay = document.getElementById("loading-overlay");
 
     // Gestion de la pagination
