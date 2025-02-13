@@ -26,10 +26,15 @@ class GameController extends AbstractController
     #[Route('/admin-game-index', name: 'admin_game_index')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $mysteryGame = $entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => 1]);
+        $mysteryGames = $entityManager->getRepository(MysteryGame::class)
+            ->createQueryBuilder('m')
+            ->where('m.status IN (:statuses)')
+            ->setParameter('statuses', [1, 4])
+            ->getQuery()
+            ->getResult();
 
         return $this->render('admin/game/search.html.twig', [
-            'mysteryGame' => $mysteryGame
+            'mysteryGames' => $mysteryGames
         ]);
     }
 
