@@ -52,7 +52,8 @@ class MysteryGameController extends AbstractController
             'streamMatch' => $streamMatch,
             'streamMatchFormated' => $streamMatchFormated,
             'newHints' => [],
-            'searchHistory' => $searchHistory
+            'searchHistory' => $searchHistory,
+            'isWin' => false
         ]);
     }
 
@@ -79,7 +80,8 @@ class MysteryGameController extends AbstractController
             'results' => $results['results'],
             'page' => $results['page'],
             'totalPages' => $results['totalPages'],
-            'totalResults' => $results['totalResults']
+            'totalResults' => $results['totalResults'],
+            'isWin' => false
         ]);
     }
 
@@ -95,9 +97,10 @@ class MysteryGameController extends AbstractController
             $game = $gameClass->ShowGame($this->entityManager, $id, $name, $translatorService);
         }
 
-        // if ($game->getName() == $mysteryGame->getName()) {
-        //     dd('win');
-        // }
+        $isWin = false;
+        if ($game->getName() == $mysteryGame->getName()) {
+            $isWin = true;
+        }
 
         $result = $this->compareGame($mysteryGame, $game);
         $streamMatchFormated = $this->formatGame($result['streamMatch']);
@@ -110,7 +113,8 @@ class MysteryGameController extends AbstractController
             'streamMatch' => $result['streamMatch'],
             'streamMatchFormated' => $streamMatchFormated,
             'newHints' => $result['newHints'],
-            'searchHistory' => $result['searchHistory']
+            'searchHistory' => $result['searchHistory'],
+            'isWin' => $isWin
         ]);
     }
 
