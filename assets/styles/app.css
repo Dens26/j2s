@@ -571,6 +571,7 @@ a:hover {
 .category-container {
     background-color: var(--solid-background);
     transition: background-color 0.3s ease;
+    position:relative;
 }
 
 /* Couleur de fond quand la liste est visible */

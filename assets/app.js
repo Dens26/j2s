@@ -149,6 +149,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Empêcher les boutons indices d'affecter l'état des catégories
+function preventHintButtonPropagation() {
+    document.querySelectorAll(".btn-hint").forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.stopPropagation(); // Empêche le clic de remonter au parent
+        });
+    });
+}
+
     // Initialisation
     function init() {
         handlePaginationLinks();
@@ -158,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         handleContentToggle();
         handleFooterShadow();
         handleCategoryToggle();
+        preventHintButtonPropagation();
     }
 
     init();
