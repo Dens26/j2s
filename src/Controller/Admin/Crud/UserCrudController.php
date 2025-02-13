@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -21,7 +22,7 @@ class UserCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-        ->setPermission(Action::EDIT, 'ROLE_SUPER_ADMIN')
+        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
         ->setPermission(Action::NEW, 'ROLE_SUPER_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_SUPER_ADMIN')
     ;
@@ -41,6 +42,14 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            ChoiceField::new('roles')
+            ->setLabel('Rôles')
+            ->setChoices([
+                'Utilisateur' => 'ROLE_USER',
+                'Admin' => 'ROLE_ADMIN',
+                // 'Manager' => 'ROLE_MANAGER',
+            ])
+            ->allowMultipleChoices(),
             TextField::new('firstname')->setLabel('Prénom'),
             TextField::new('lastname')->setLabel('Nom'),
             TextField::new('username')->setLabel('Nom d\'utilisateur'),

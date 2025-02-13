@@ -21,5 +21,8 @@ return [
     ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
-    ]
+    ],
+    'canvas-confetti' => [
+        'version' => '1.9.3',
+    ],
 ];
