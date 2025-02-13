@@ -89,6 +89,6 @@ class Family
 
     public function __toString()
     {
-        return $this->name;
+        return $this->translatedName;
     }
 }
