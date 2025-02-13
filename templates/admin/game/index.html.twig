@@ -5,7 +5,6 @@
 
 {% block body %}
 	<div class="container text-center py-5">
-
 		{% if not mysteryGame %}
 			<h1 class="admin-title mb-4">🔍 Trouve le Jeu Mystère avec Sorralli</h1>
 			<div class="component p-4">
@@ -22,6 +21,12 @@
 					<button class="btn ms-2" type="submit">🔍 Rechercher</button>
 				</form>
 			</div>
+
+			{% if isWin %}
+				<div class="win-message" style="display: none;"></div>
+				<div class="title">Félicitation</div>
+				<div class="subtitle mb-5">Vous avez trouvé le jeu mystére</div>
+			{% endif %}
 
 			{# Premier pack d'indices #}
 			<div
