@@ -61,6 +61,7 @@ class GameCrudController extends AbstractCrudController
             AssociationField::new('families')->setLabel('Familles')->setFormTypeOption('by_reference', false)->onlyOnForms(),
             AssociationField::new('mechanics')->setLabel('Mécanisme')->setFormTypeOption('by_reference', false)->onlyOnForms(),
             AssociationField::new('subdomains')->setLabel('Catégories')->setFormTypeOption('by_reference', false)->onlyOnForms(),
+            AssociationField::new('honorGames')->setLabel('Récompenses')->setFormTypeOption('by_reference', false)->onlyOnForms(),
             AssociationField::new('publishers')->setLabel('Editeurs')->setFormTypeOption('by_reference', false)->onlyOnForms()
         ];
     }

@@ -64,4 +64,9 @@ class HonorGame
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->honor;
+    }
 }
