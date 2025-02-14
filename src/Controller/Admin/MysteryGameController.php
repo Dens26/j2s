@@ -124,10 +124,8 @@ class MysteryGameController extends AbstractController
         $data = $request->request->all();
 
         $mysteryGame = $this->setMysteryGame($data, $this->inPendingStatus);
-        $streamMatch = $this->setStreamMatch($mysteryGame);
 
         $this->entityManager->persist($mysteryGame);
-        $this->entityManager->persist($streamMatch);
         $this->entityManager->flush();
 
         $this->addFlash('success', 'Le jeu a été ajouté à la liste des jeu mystère en attente');
@@ -198,7 +196,6 @@ class MysteryGameController extends AbstractController
     #[Route('/admin-push-auto', name: 'admin_push_auto')]
     public function pushToAuto(): Response
     {
-        dd('here');
         $mysteryGameAuto = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
         if ($mysteryGameAuto) {
             $mysteryGameAuto->setStatus($this->archivedStatus);
@@ -209,6 +206,9 @@ class MysteryGameController extends AbstractController
             $mysteryGame->setStatus($this->autoStatus);
             $this->entityManager->persist($mysteryGame);
         }
+        $streamMatch = $this->setStreamMatch(new MysteryGame());
+
+        $this->entityManager->persist($streamMatch);
         $this->entityManager->flush();
         return $this->redirectToRoute('admin_game_index');
     }
@@ -232,6 +232,10 @@ class MysteryGameController extends AbstractController
             $mysteryGameInPending->setStatus($this->streamStatus);
             $this->entityManager->persist($mysteryGameInPending);
         }
+
+        $streamMatch = $this->setStreamMatch($mysteryGameInPending);
+
+        $this->entityManager->persist($streamMatch);
 
         $this->entityManager->flush();
         return $this->redirectToRoute('admin_game_index');
