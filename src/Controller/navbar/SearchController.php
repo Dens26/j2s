@@ -30,8 +30,8 @@ class SearchController extends AbstractController
         try {
             $results = $games->SearchGames($request);
         } catch (\Exception $e) {
-            $this->addFlash('error', 'Erreur lors de la récupération des données.');
-            return [];
+            $this->addFlash('error', 'Erreur lors de la récupération des données.' . $e);
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('base.html.twig', [
