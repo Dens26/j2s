@@ -258,16 +258,21 @@ a:hover {
     border-color: var(--hovered-solid-background);
 }
 
-.btn-hint{
+.btn-hint {
     max-height: 36px;
     max-width: 36px;
     background-color: transparent;
     border: none;
     border-radius: 20px;
 }
-.btn-hint:hover{
+
+.btn-hint:hover {
     background-color: var(--high-contrast-text);
     border: none;
+}
+
+.btn-stream {
+    width : 150px;
 }
 
 /* Title */
@@ -571,7 +576,7 @@ a:hover {
 .category-container {
     background-color: var(--solid-background);
     transition: background-color 0.3s ease;
-    position:relative;
+    position: relative;
 }
 
 /* Couleur de fond quand la liste est visible */

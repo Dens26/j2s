@@ -1,5 +1,6 @@
 import './bootstrap.js';
 import './styles/app.css';
+import canvasConfetti from 'canvas-confetti'
 
 document.addEventListener("DOMContentLoaded", () => {
     // Suppression du localStorage lors de la création d'un nouveau jeu mystère
@@ -7,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Nouvelle partie détectée : suppression du localStorage.");
         localStorage.clear(); // Efface tout le localStorage
     }
-    
+
     const overlay = document.getElementById("loading-overlay");
 
     // Gestion de la pagination
@@ -150,13 +151,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Empêcher les boutons indices d'affecter l'état des catégories
-function preventHintButtonPropagation() {
-    document.querySelectorAll(".btn-hint").forEach(button => {
-        button.addEventListener("click", function (event) {
-            event.stopPropagation(); // Empêche le clic de remonter au parent
+    function preventHintButtonPropagation() {
+        document.querySelectorAll(".btn-hint").forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.stopPropagation(); // Empêche le clic de remonter au parent
+            });
         });
-    });
-}
+    }
+
+    // Canvas confetti
+    function win() {
+        // Effet de confettis animé
+        var duration = 5 * 1000; // Durée en millisecondes (3 sec)
+        var end = Date.now() + duration;
+
+        (function frame() {
+            canvasConfetti({
+                particleCount: 5, // Nombre de particules par explosion
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 } // Côté gauche
+            });
+
+            canvasConfetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 } // Côté droit
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        })();
+    }
 
     // Initialisation
     function init() {
@@ -168,6 +196,9 @@ function preventHintButtonPropagation() {
         handleFooterShadow();
         handleCategoryToggle();
         preventHintButtonPropagation();
+    }
+    if (document.querySelector(".win-message")) {
+        win();
     }
 
     init();

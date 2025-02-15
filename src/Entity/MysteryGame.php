@@ -41,7 +41,7 @@ class MysteryGame
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $categoriesIndices = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $subdomainsIndices = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
