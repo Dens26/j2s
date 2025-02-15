@@ -23,9 +23,13 @@
 			</div>
 
 			{% if isWin %}
+			<div class="mb-5">
 				<div class="win-message" style="display: none;"></div>
-				<div class="title">Félicitation</div>
-				<div class="subtitle mb-5">Vous avez trouvé le jeu mystére</div>
+				<div class="title fs-1">Félicitation</div>
+				<div class="subtitle">Vous avez trouvé le jeu mystére</div>
+				<div class="title">{{mysteryGame.name}}</div>
+				{{dump(mysteryGame)}}
+			</div>
 			{% endif %}
 
 			{# Premier pack d'indices #}

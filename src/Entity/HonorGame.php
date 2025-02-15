@@ -17,11 +17,11 @@ class HonorGame
     private ?string $year = null;
 
     #[ORM\ManyToOne(inversedBy: 'honorGames')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Honor $honor = null;
 
     #[ORM\ManyToOne(inversedBy: 'honorGames')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Game $game = null;
 
     public function getId(): ?int
