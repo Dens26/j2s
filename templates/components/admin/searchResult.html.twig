@@ -38,7 +38,7 @@
 		<div
 			class="pagination mt-4 mx-1 d-flex justify-content-between align-items-center">
 			<!-- Bouton Page Précédente -->
-			<a class="btn pagination-link {% if page <= 1 %}disabled{% endif %}" {% if page > 1 %} href="{{ path('app_boardgame_search', { 'search': searchTerm, 'page': page - 1 }) }}" {% endif %}>
+			<a class="btn pagination-link {% if page <= 1 %}disabled{% endif %}" {% if page > 1 %} href="{{ path('admin_game_search', { 'search': adminSearchTerm, 'page': page - 1 }) }}" {% endif %}>
 				← Page précédente
 			</a>
 
@@ -49,4 +49,4 @@
 				{{ totalPages }}</p>
 
 			<!-- Bouton Page Suivante -->
-			<a class="btn pagination-link {% if page >= totalPages %}disabled{% endif %}" {% if page < totalPages %}href="{{ path('app_boardgame_search', { 'search': adminSearchTerm, 'page': page + 1 }) }}"{% endif %}> Page suivante → </a> </div> </div> {% endif %}
+			<a class="btn pagination-link {% if page >= totalPages %}disabled{% endif %}" {% if page < totalPages %}href="{{ path('admin_game_search', { 'search': adminSearchTerm, 'page': page + 1 }) }}"{% endif %}> Page suivante → </a> </div> </div> {% endif %}
