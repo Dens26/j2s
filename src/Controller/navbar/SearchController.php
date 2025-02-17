@@ -5,6 +5,7 @@ namespace App\Controller\navbar;
 use App\Classe\GameClass;
 use App\Entity\Game;
 use App\Service\TranslatorService;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,10 +49,14 @@ class SearchController extends AbstractController
     #[Route('/boardgame-show/{id}/{name}', name: 'app_boardgame_show', requirements: ['id' => '\d+', 'name' => '.+'], methods: ['GET'])]
     public function show(int $id, string $name, EntityManagerInterface $entityManager, TranslatorService $translatorService): Response
     {
-        // Check if the game exist in the database
         $gameClass = new GameClass($this->client);
         $game = $entityManager->getRepository(Game::class)->findOneBy(['gameId' => $id]);
         if ($game) {
+            $game->setVisits($game->getVisits() + 1);
+            $game->setLastVisit(new DateTimeImmutable());
+            $entityManager->persist($game);
+            $entityManager->flush();
+
             return $this->render('pages/search/show.html.twig', [
                 'results' => $gameClass->formatGame($game)
             ]);
