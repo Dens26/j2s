@@ -300,6 +300,10 @@ a:hover {
     height: 50px;
 }
 
+.image{
+    width: 75%;
+}
+
 /* Footer */
 .footer-fixed {
     background-color: var(--app-background);

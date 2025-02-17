@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GameClass
@@ -30,14 +31,14 @@ class GameClass
         $this->client = $client;
     }
 
-    public function SearchGames(Request $request): array
+    public function SearchGames(Request $request, SluggerInterface $slugger): array
     {
         $searchTerm = $request->query->get('search', '');
         $mysterySearchTerm = $request->query->get('search', '');
         $page = (int)$request->query->get('page', 1);
         $resultsPerPage = 10;
 
-        $data = $this->fetchBoardGameGeekData($searchTerm, $page, $resultsPerPage);
+        $data = $this->fetchBoardGameGeekData($searchTerm, $page, $resultsPerPage, $slugger);
         $results = $data['results'];
         $totalPages = $data['totalPages'];
         $totalResults = $data['totalResults'];
@@ -258,7 +259,7 @@ class GameClass
 
 
 
-    private function fetchBoardGameGeekData(string $searchTerm, int $page, int $resultsPerPage): array
+    private function fetchBoardGameGeekData(string $searchTerm, int $page, int $resultsPerPage, SluggerInterface $slugger): array
     {
         $url = 'https://boardgamegeek.com/xmlapi/search?search=' . urlencode($searchTerm);
         $results = [];
@@ -286,7 +287,7 @@ class GameClass
 
                 $results[] = [
                     'id' => $id,
-                    'name' => $name,
+                    'name' => $slugger->slug($name),
                     'thumbnail' => $thumbnail
                 ];
             }

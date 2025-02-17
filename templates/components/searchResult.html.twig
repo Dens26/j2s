@@ -1,5 +1,5 @@
 <div class="m-4">
-{% if searchTerm is defined and searchTerm is not empty %}
+{% if searchTerm is defined %}
 	<a class="btn mb-2" href="{{path('app_home')}}">← Retour</a>
 	<div class="component text-center">
 		<h3 class="mb-4">Résultats pour : "{{ searchTerm | capitalize }}"</h3>

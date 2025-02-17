@@ -11,12 +11,11 @@ use App\Service\TranslatorService;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MysteryGameController extends AbstractController
@@ -58,7 +57,7 @@ class MysteryGameController extends AbstractController
     }
 
     #[Route('/admin-mystery-game-search', name: 'admin_mystery_game_search', methods: ['GET'])]
-    public function search(Request $request): Response
+    public function search(Request $request, SluggerInterface $slugger): Response
     {
         $streamMatch = $this->entityManager->getRepository(StreamMatch::class)->findOneBy(["id" => 1]);
         $streamMatchFormated = $this->formatGame($streamMatch);
@@ -66,7 +65,7 @@ class MysteryGameController extends AbstractController
         $games = new GameClass($this->client);
 
         try {
-            $results = $games->SearchGames($request);
+            $results = $games->SearchGames($request, $slugger);
         } catch (\Exception $e) {
             $this->addFlash('error', 'Erreur lors de la récupération des données.');
             return [];
@@ -159,6 +158,7 @@ class MysteryGameController extends AbstractController
             'age' => $data['age'] ?? null,
             'players' => $data['players'] ?? null,
             'playingTime' => $data['playingTime'] ?? null,
+            'image' => $data['image'] ?? null,
             'artists' => [],
             'designers' => [],
             'developers' => [],
@@ -307,7 +307,8 @@ class MysteryGameController extends AbstractController
             ->setMinPlayers($minPlayers)
             ->setMaxPlayers($maxPlayers)
             ->setPlayingTime($data['playingTime'])
-            ->setAge($data['age']);
+            ->setAge($data['age'])
+            ->setImage($data['image']);
 
         $this->setOptionalJsonFields($mysteryGame, $data);
 
