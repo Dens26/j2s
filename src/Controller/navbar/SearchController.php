@@ -6,6 +6,7 @@ use App\Classe\GameClass;
 use App\Entity\Game;
 use App\Service\TranslatorService;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,11 +50,12 @@ class SearchController extends AbstractController
     #[Route('/boardgame-show/{id}/{name}', name: 'app_boardgame_show', requirements: ['id' => '\d+', 'name' => '.+'], methods: ['GET'])]
     public function show(int $id, string $name, EntityManagerInterface $entityManager, TranslatorService $translatorService): Response
     {
+        $timezone = new DateTimeZone('Europe/Paris'); 
         $gameClass = new GameClass($this->client);
         $game = $entityManager->getRepository(Game::class)->findOneBy(['gameId' => $id]);
         if ($game) {
             $game->setVisits($game->getVisits() + 1);
-            $game->setLastVisit(new DateTimeImmutable());
+            $game->setLastVisit(new DateTimeImmutable('now', $timezone));
             $entityManager->persist($game);
             $entityManager->flush();
 
