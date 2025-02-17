@@ -15,6 +15,7 @@ use App\Entity\Mechanic;
 use App\Entity\Publisher;
 use App\Entity\Subdomain;
 use App\Service\TranslatorService;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use HTMLPurifier;
 use HTMLPurifier_Config;
@@ -100,6 +101,10 @@ class GameClass
         $game
             ->setGameId($id)
             ->setName($results['name'])
+            ->setCreatedAt(new DateTimeImmutable())
+            ->setUpdatedAt($game->getCreatedAt())
+            ->setVisits(1)
+            ->setLastVisit($game->getCreatedAt())
             ->setAllNames($results['names'])
             ->setYearPublished($results['yearPublished'])
             ->setMinPlayers($results['minPlayers'])
@@ -205,7 +210,7 @@ class GameClass
 
         $translateAvailable = $translatorService->checkIfQuotaAvailable(json_encode($itemsToTranslate));
         // Si la traduction est disponible et qu'il y a des éléments à traduire, procéder à la traduction
-        if (/*$translateAvailable && */!empty($itemsToTranslate)) {
+        if ($translateAvailable && !empty($itemsToTranslate)) {
             $translatedItems = $translatorService->translate($itemsToTranslate);
             $translatedItemsArray = explode('|', $translatedItems);
             if ($translatedItemsArray) {
