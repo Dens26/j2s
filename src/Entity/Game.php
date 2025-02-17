@@ -115,6 +115,18 @@ class Game
     #[ORM\Column]
     private ?bool $checked = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column]
+    private ?int $visits = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $lastVisit = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -547,6 +559,54 @@ class Game
     public function setChecked(bool $checked): static
     {
         $this->checked = $checked;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getVisits(): ?int
+    {
+        return $this->visits;
+    }
+
+    public function setVisits(int $visits): static
+    {
+        $this->visits = $visits;
+
+        return $this;
+    }
+
+    public function getLastVisit(): ?\DateTimeImmutable
+    {
+        return $this->lastVisit;
+    }
+
+    public function setLastVisit(\DateTimeImmutable $lastVisit): static
+    {
+        $this->lastVisit = $lastVisit;
 
         return $this;
     }

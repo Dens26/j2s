@@ -9,7 +9,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -45,15 +47,18 @@ class GameCrudController extends AbstractCrudController
         return [
             BooleanField::new('checked')->setLabel('Vérifié')->onlyOnIndex()->setDisabled(),
             BooleanField::new('checked')->setLabel('Vérifié')->onlyOnForms(),
+            NumberField::new('gameId')->setLabel('Id')->onlyOnIndex(),
             TextField::new('thumbnail')
                 ->setLabel('Image')
                 ->formatValue(function ($value, $entity) {
                     return sprintf('<img src="%s" width="100">', $value);
                 })
                 ->onlyOnIndex(),
-            NumberField::new('gameId')->setLabel('Id')->onlyOnIndex(),
-            NumberField::new('yearPublished')->setLabel('Année de publication'),
             TextField::new('name')->setLabel('Nom'),
+            NumberField::new('yearPublished')->setLabel('Année'),
+            DateTimeField::new('createdAt')->setLabel('Ajouté le')->onlyOnIndex(),
+            DateTimeField::new('lastVisit')->setLabel('Dernière visite')->onlyOnIndex(),
+            IntegerField::new('visits')->setLabel('Visites')->onlyOnIndex(),
             TextField::new('allNames')->setLabel('Liste des noms')->setDisabled()->onlyOnForms(),
             NumberField::new('minPlayers')->setLabel('Joueur min.')->onlyOnForms(),
             NumberField::new('maxPlayers')->setLabel('Joueur max.')->onlyOnForms(),
