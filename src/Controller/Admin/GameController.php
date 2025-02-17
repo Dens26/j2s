@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GameController extends AbstractController
@@ -63,13 +64,13 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('/admin-game-search', name: 'admin_game_search')]
-    public function search(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/admin-game-search', name: 'admin_game_search', methods: ['GET'])]
+    public function search(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $mysteryGame = $entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => 'stream']);
         $games = new GameClass($this->client);
         try {
-            $results = $games->SearchGames($request);
+            $results = $games->SearchGames($request, $slugger);
         } catch (\Exception $e) {
             $this->addFlash('error', 'Erreur lors de la récupération des données.');
             return [];

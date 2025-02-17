@@ -69,6 +69,9 @@ class MysteryGame
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $DevelopersIndices = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -286,6 +289,18 @@ class MysteryGame
     public function setDevelopersIndices(?string $DevelopersIndices): static
     {
         $this->DevelopersIndices = $DevelopersIndices;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

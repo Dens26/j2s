@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SearchController extends AbstractController
@@ -23,12 +24,12 @@ class SearchController extends AbstractController
 
 
     #[Route('/boardgame-search', name: 'app_boardgame_search', methods: ['GET'])]
-    public function search(Request $request): Response
+    public function search(Request $request, SluggerInterface $slugger): Response
     {
         $games = new GameClass($this->client);
 
         try {
-            $results = $games->SearchGames($request);
+            $results = $games->SearchGames($request, $slugger);
         } catch (\Exception $e) {
             $this->addFlash('error', 'Erreur lors de la récupération des données.' . $e);
             return $this->redirectToRoute('app_home');

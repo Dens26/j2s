@@ -21,7 +21,8 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
+        return $actions 
+        ->setPermission(Action::INDEX, 'ROLE_MANAGER')
         ->setPermission(Action::EDIT, 'ROLE_MANAGER')
         ->setPermission(Action::NEW, 'ROLE_SUPER_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_SUPER_ADMIN')
@@ -49,16 +50,7 @@ class UserCrudController extends AbstractCrudController
                 'Admin' => 'ROLE_ADMIN',
                 'Manager' => 'ROLE_MANAGER',
             ])
-            ->allowMultipleChoices()
-            ->onlyOnIndex(),
-            ChoiceField::new('roles')
-            ->setLabel('Rôles')
-            ->setChoices([
-                'Utilisateur' => 'ROLE_USER',
-                'Admin' => 'ROLE_ADMIN',
-            ])
-            ->allowMultipleChoices()
-            ->onlyOnForms(),
+            ->allowMultipleChoices(),
             TextField::new('firstname')->setLabel('Prénom'),
             TextField::new('lastname')->setLabel('Nom'),
             TextField::new('username')->setLabel('Nom d\'utilisateur'),
