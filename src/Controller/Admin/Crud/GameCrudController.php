@@ -65,9 +65,11 @@ class GameCrudController extends AbstractCrudController
                 })
                 ->onlyOnIndex(),
             TextField::new('name')
+                ->setDisabled()
                 ->setLabel('Nom'),
 
             NumberField::new('yearPublished')
+                ->setDisabled()
                 ->setLabel('Année'),
 
             DateTimeField::new('createdAt')
@@ -89,17 +91,21 @@ class GameCrudController extends AbstractCrudController
 
             NumberField::new('minPlayers')
                 ->setLabel('Joueur min.')
+                ->setDisabled()
                 ->onlyOnForms(),
 
             NumberField::new('maxPlayers')
                 ->setLabel('Joueur max.')
+                ->setDisabled()
                 ->onlyOnForms(),
 
             NumberField::new('playingTime')
                 ->setLabel('Temps de jeu')
+                ->setDisabled()
                 ->onlyOnForms(),
 
             NumberField::new('age')->setLabel('Age')
+                ->setDisabled()
                 ->onlyOnForms(),
 
             TextareaField::new('description')
@@ -108,57 +114,73 @@ class GameCrudController extends AbstractCrudController
 
             AssociationField::new('designers')
                 ->setLabel('Créateurs')
+                ->setDisabled()
                 ->setFormTypeOption('by_reference', false)
                 ->onlyOnForms(),
 
             AssociationField::new('artists')
                 ->setLabel('Artistes')
+                ->setDisabled()
                 ->setFormTypeOption('by_reference', false)
                 ->onlyOnForms(),
 
             AssociationField::new('developers')
                 ->setLabel('Développeurs')
                 ->setFormTypeOption('by_reference', false)
+                ->setDisabled()
                 ->onlyOnForms(),
 
             AssociationField::new('graphicDesigners')
                 ->setLabel('Designers')
                 ->setFormTypeOption('by_reference', false)
+                ->setDisabled()
                 ->onlyOnForms(),
 
             AssociationField::new('categories')
                 ->setLabel('Thèmes')
                 ->setFormTypeOption('by_reference', false)
+                ->setDisabled()
                 ->onlyOnForms(),
 
             AssociationField::new('families')
                 ->setLabel('Familles')
                 ->setFormTypeOption('by_reference', false)
+                ->setDisabled()
                 ->onlyOnForms(),
 
-                AssociationField::new('mechanics')
+            // AssociationField::new('mechanics')
+            //     ->setLabel('Mécanisme')
+            //     ->setFormTypeOption('by_reference', false)
+            //     ->setQueryBuilder(function ($queryBuilder) {
+            //         return $queryBuilder
+            //             ->orderBy('entity.translatedName', 'ASC'); // Trier par 'name' de l'entité Mechanic
+            //     })
+            //     ->setDisabled()
+            //     ->onlyOnForms(),
+
+
+            AssociationField::new('mechanics')
                 ->setLabel('Mécanisme')
                 ->setFormTypeOption('by_reference', false)
-                ->setQueryBuilder(function ($queryBuilder) {
-                    return $queryBuilder
-                        ->orderBy('entity.translatedName', 'ASC'); // Trier par 'name' de l'entité Mechanic
-                })
+                ->setDisabled()
                 ->onlyOnForms(),
-            
 
             AssociationField::new('subdomains')
                 ->setLabel('Catégories')
                 ->setFormTypeOption('by_reference', false)
+                ->setDisabled()
                 ->onlyOnForms(),
 
             AssociationField::new('honorGames')
                 ->setLabel('Récompenses')
                 ->setFormTypeOption('by_reference', false)
+                ->setDisabled()
                 ->onlyOnForms(),
 
             AssociationField::new('publishers')
                 ->setLabel('Editeurs')
                 ->setFormTypeOption('by_reference', false)
+                ->setDisabled()
                 ->onlyOnForms()
         ];
     }
