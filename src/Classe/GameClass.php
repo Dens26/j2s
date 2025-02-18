@@ -167,8 +167,7 @@ class GameClass
             'artists' => $game->getArtists()->map(fn($artist) => $artist->getName())->toArray(),
             'categories' => $game->getCategories()->map(fn($category) => $category->getTranslatedName())->toArray(),
             'subdomains' => $game->getSubdomains()->map(fn($subdomain) => $subdomain->getTranslatedName())->toArray(),
-            'mechanics' => $game->getMechanics()->map(fn($mechanic) => $mechanic->getTranslatedName())->toArray(),
-            'designers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'mechanics' => $game->getMechanics()->map(fn($mechanic) => str_replace('*', '', $mechanic->getTranslatedName()))->toArray(),            'designers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
             'graphicDesigners' => $game->getGraphicDesigners()->map(fn($graphicDesigner) => $graphicDesigner->getName())->toArray(),
             'developers' => $game->getDevelopers()->map(fn($developer) => $developer->getName())->toArray(),
             'honors' => $game->getHonorGames()->map(function ($honorGame) {
