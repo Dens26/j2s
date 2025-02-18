@@ -16,6 +16,7 @@ use App\Entity\Publisher;
 use App\Entity\Subdomain;
 use App\Service\TranslatorService;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use HTMLPurifier;
 use HTMLPurifier_Config;
@@ -96,12 +97,13 @@ class GameClass
         // Si il n'y a pas assez de credit pour traduire la description
         $translateAvailable = $this->translateItems($results, $translatorService);
 
+        $timezone = new DateTimeZone('Europe/Paris'); 
         // Création du jeu
         $game = new Game();
         $game
             ->setGameId($id)
             ->setName($results['name'])
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new DateTimeImmutable('now', $timezone))
             ->setUpdatedAt($game->getCreatedAt())
             ->setVisits(1)
             ->setLastVisit($game->getCreatedAt())

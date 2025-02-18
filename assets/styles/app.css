@@ -596,6 +596,16 @@ a:hover {
     padding: 0;
 }
 
+.bgg-small{
+    display: flex;
+    justify-content: end;
+    margin-right: 1rem;
+}
+
+.bgg{
+    display: none;
+}
+
 @media screen and (min-width: 390px) {
 
     /* Home */
@@ -606,9 +616,14 @@ a:hover {
     }
 }
 
-
 @media screen and (min-width: 768px) {
-
+    .bgg-small{
+        display: none;
+    }
+    
+    .bgg{
+        display: flex;
+    }
     /* img */
     .img-container {
         margin-right: 2rem;
