@@ -217,13 +217,14 @@ class MysteryGameController extends AbstractController
     public function pushToStream(Request $request): Response
     {
         $id = $request->request->get('mysteryGameId');
-        $mysteryGameAuto = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
-        if ($mysteryGameAuto) {
-            $mysteryGameAuto->setStatus($this->archivedStatus);
-            $this->entityManager->persist($mysteryGameAuto);
-        }
+
         $mysteryGameStream = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->streamStatus]);
         if ($mysteryGameStream) {
+            $mysteryGameAuto = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
+            if ($mysteryGameAuto) {
+                $mysteryGameAuto->setStatus($this->archivedStatus);
+                $this->entityManager->persist($mysteryGameAuto);
+            }
             $mysteryGameStream->setStatus($this->autoStatus);
             $this->entityManager->persist($mysteryGameStream);
         }
