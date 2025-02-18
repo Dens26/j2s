@@ -117,6 +117,10 @@ a:hover {
     padding: 0;
 }
 
+.navbar-width{
+    max-width: 768px;
+}
+
 .navbar-border {
     border-bottom: 1px solid var(--subtle-border);
 }
