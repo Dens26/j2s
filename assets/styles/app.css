@@ -315,7 +315,7 @@ a:hover {
     bottom: 0;
     width: 100vw;
     z-index: 100;
-    padding: 8px 0;
+    padding: 5px 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
     /* Par défaut, avec ombrage */
     transition: box-shadow 0.3s ease;
@@ -336,7 +336,7 @@ a:hover {
 .footer-classic {
     background-color: var(--app-background);
     padding-top: 10px;
-    padding-bottom: 35px;
+    padding-bottom: 50px;
     text-align: center;
     font-size: 14px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);

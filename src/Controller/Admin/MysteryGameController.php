@@ -68,7 +68,7 @@ class MysteryGameController extends AbstractController
             $results = $games->SearchGames($request, $slugger);
         } catch (\Exception $e) {
             $this->addFlash('error', 'Erreur lors de la récupération des données.');
-            return [];
+            return $this->redirectToRoute('admin_mystery_game_index');
         }
 
         return $this->render('admin/game/index.html.twig', [
