@@ -22,14 +22,16 @@
 				</form>
 			</div>
 
-			{% if isWin %}
-			<div class="mb-5">
-				<div class="win-message" style="display: none;"></div>
-				<div class="title fs-1">Félicitation</div>
-				<div class="subtitle">Vous avez trouvé le jeu mystére</div>
-				<div class="title">{{mysteryGame.name}}</div>
-				<img class="image" src="{{mysteryGame.image}}" alt="">
-			</div>
+			{% if isWin is defined  %}
+				{% if isWin %}
+					<div class="mb-5">
+						<div class="win-message" style="display: none;"></div>
+						<div class="title fs-1">Félicitation</div>
+						<div class="subtitle">Vous avez trouvé le jeu mystère</div>
+						<div class="title">{{mysteryGame.name}}</div>
+						<img class="image" src="{{mysteryGame.image}}" alt="">
+					</div>
+				{% endif %}
 			{% endif %}
 
 			{# Premier pack d'indices #}
@@ -46,7 +48,7 @@
 							<div class="d-flex align-items-center justify-content-between w-100">
 								<div></div>
 								<div class="d-flex align-items-center">
-								<img class="me-2" width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
 									<div class="category-content">
 										<span class="category-placeholder fs-4 fw-bold">Thèmes</span>
 										<div class="category-list" style="display: none;">
@@ -59,9 +61,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'categoriesIndices' }}">
-									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
-										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
-									</button>
+									{% set showHint = false %}
+									{% for category in streamMatchFormated.categoriesIndices %}
+										{% if category == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
+										<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
+											<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
+										</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -88,9 +98,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'subdomainsIndices' }}">
+									{% set showHint = false %}
+									{% for subdomain in streamMatchFormated.subdomainsIndices %}
+										{% if subdomain == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -116,9 +134,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'mechanicsIndices' }}">
-									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
-										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
-									</button>
+									{% set showHint = false %}
+									{% for mechanic in streamMatchFormated.mechanicsIndices %}
+										{% if mechanic == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
+										<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
+											<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
+										</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -158,9 +184,11 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'age' }}">
-									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
-										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
-									</button>
+									{% if streamMatch.age != mysteryGame.age %}
+										<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
+											<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
+										</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -188,9 +216,11 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'players' }}">
+									{% if streamMatch.minPlayers != mysteryGame.minPlayers %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -215,9 +245,11 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'playingTime' }}">
+									{% if streamMatch.playingTime != mysteryGame.playingTime %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -241,9 +273,11 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'yearPublished' }}">
+									{% if streamMatch.yearPublished != mysteryGame.yearPublished %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -279,9 +313,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'designersIndices' }}">
+									{% set showHint = false %}
+									{% for designer in streamMatchFormated.designersIndices %}
+										{% if designer == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -307,9 +349,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'artistsIndices' }}">
+									{% set showHint = false %}
+									{% for artist in streamMatchFormated.artistsIndices %}
+										{% if artist == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -335,9 +385,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'graphicDesignersIndices' }}">
+									{% set showHint = false %}
+									{% for graphicDesigner in streamMatchFormated.graphicDesigners %}
+										{% if graphicDesigner == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -363,9 +421,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'developersIndices' }}">
+									{% set showHint = false %}
+									{% for developer in streamMatchFormated.developersIndices %}
+										{% if developer == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -399,9 +465,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'honorsIndices' }}">
+									{% set showHint = false %}
+									{% for honor in streamMatchFormated.honorsIndices %}
+										{% if honor == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
@@ -427,9 +501,17 @@
 								</div>
 								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
 									<input type="hidden" name="category" value="{{ 'publishersIndices' }}">
+									{% set showHint = false %}
+									{% for publisher in streamMatchFormated.publishersIndices %}
+										{% if publisher == "---" %}
+											{% set showHint = true %}
+										{% endif %}
+									{% endfor %}
+									{% if showHint %}
 									<button type="submit" class="btn btn-hint d-flex align-items-center justify-content-center">
 										<img class="" width="24" height="24" src="{{ asset('logo/hint.png') }}" alt="">
 									</button>
+									{% endif %}
 								</form>
 							</div>
 						</div>
