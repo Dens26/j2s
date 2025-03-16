@@ -15,10 +15,13 @@ use App\Entity\Mechanic;
 use App\Entity\Publisher;
 use App\Entity\Subdomain;
 use App\Service\TranslatorService;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GameClass
@@ -30,14 +33,14 @@ class GameClass
         $this->client = $client;
     }
 
-    public function SearchGames(Request $request): array
+    public function SearchGames(Request $request, SluggerInterface $slugger): array
     {
         $searchTerm = $request->query->get('search', '');
         $mysterySearchTerm = $request->query->get('search', '');
         $page = (int)$request->query->get('page', 1);
         $resultsPerPage = 10;
 
-        $data = $this->fetchBoardGameGeekData($searchTerm, $page, $resultsPerPage);
+        $data = $this->fetchBoardGameGeekData($searchTerm, $page, $resultsPerPage, $slugger);
         $results = $data['results'];
         $totalPages = $data['totalPages'];
         $totalResults = $data['totalResults'];
@@ -94,11 +97,16 @@ class GameClass
         // Si il n'y a pas assez de credit pour traduire la description
         $translateAvailable = $this->translateItems($results, $translatorService);
 
+        $timezone = new DateTimeZone('Europe/Paris'); 
         // Création du jeu
         $game = new Game();
         $game
             ->setGameId($id)
             ->setName($results['name'])
+            ->setCreatedAt(new DateTimeImmutable('now', $timezone))
+            ->setUpdatedAt($game->getCreatedAt())
+            ->setVisits(1)
+            ->setLastVisit($game->getCreatedAt())
             ->setAllNames($results['names'])
             ->setYearPublished($results['yearPublished'])
             ->setMinPlayers($results['minPlayers'])
@@ -161,8 +169,7 @@ class GameClass
             'artists' => $game->getArtists()->map(fn($artist) => $artist->getName())->toArray(),
             'categories' => $game->getCategories()->map(fn($category) => $category->getTranslatedName())->toArray(),
             'subdomains' => $game->getSubdomains()->map(fn($subdomain) => $subdomain->getTranslatedName())->toArray(),
-            'mechanics' => $game->getMechanics()->map(fn($mechanic) => $mechanic->getTranslatedName())->toArray(),
-            'designers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'mechanics' => $game->getMechanics()->map(fn($mechanic) => str_replace('*', '', $mechanic->getTranslatedName()))->toArray(),            'designers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
             'graphicDesigners' => $game->getGraphicDesigners()->map(fn($graphicDesigner) => $graphicDesigner->getName())->toArray(),
             'developers' => $game->getDevelopers()->map(fn($developer) => $developer->getName())->toArray(),
             'honors' => $game->getHonorGames()->map(function ($honorGame) {
@@ -204,7 +211,7 @@ class GameClass
 
         $translateAvailable = $translatorService->checkIfQuotaAvailable(json_encode($itemsToTranslate));
         // Si la traduction est disponible et qu'il y a des éléments à traduire, procéder à la traduction
-        if (/*$translateAvailable && */!empty($itemsToTranslate)) {
+        if ($translateAvailable && !empty($itemsToTranslate)) {
             $translatedItems = $translatorService->translate($itemsToTranslate);
             $translatedItemsArray = explode('|', $translatedItems);
             if ($translatedItemsArray) {
@@ -258,7 +265,7 @@ class GameClass
 
 
 
-    private function fetchBoardGameGeekData(string $searchTerm, int $page, int $resultsPerPage): array
+    private function fetchBoardGameGeekData(string $searchTerm, int $page, int $resultsPerPage, SluggerInterface $slugger): array
     {
         $url = 'https://boardgamegeek.com/xmlapi/search?search=' . urlencode($searchTerm);
         $results = [];
@@ -286,7 +293,7 @@ class GameClass
 
                 $results[] = [
                     'id' => $id,
-                    'name' => $name,
+                    'name' => $slugger->slug($name),
                     'thumbnail' => $thumbnail
                 ];
             }

@@ -20,7 +20,7 @@ class FamilyCrudController extends AbstractCrudController
     {
         return $actions
         ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-        ->setPermission(Action::NEW, 'ROLE_ADMIN')
+        ->setPermission(Action::NEW, 'ROLE_SUPER_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_SUPER_ADMIN')
     ;
     }
@@ -38,7 +38,7 @@ class FamilyCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name')->setLabel('Nom'),
+            TextField::new('name')->setLabel('Nom')->setDisabled(),
             TextField::new('translatedName')->setLabel('Traduction')
         ];
     }

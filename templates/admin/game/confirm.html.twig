@@ -12,8 +12,8 @@
 				<div class="w-100 mb-5">
 					<input class="form-control admin-searchbar-container text-center" type="text" value="{{ data.name }}" disabled>
 					<input type="hidden" name="name" value="{{ data.name }}">
+					<input type="hidden" name="image" value="{{ data.image }}">				
 				</div>
-
 				{# Premier pack d'indices #}
 				<div
 					class="row row-cols-1 row-cols-md-{{(data.categorys|length > 0 ? 1 : 0) + (data.subdomains|length >0 ? 1 : 0) + (data.mechanics|length >0 ? 1 : 0)}} mb-5 align-items-center">

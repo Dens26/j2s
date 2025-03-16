@@ -37,7 +37,7 @@
         					{{ mysteryGame.name }} ({{ mysteryGame.yearPublished }})
     					</div>
     					<input type="hidden" name="mysteryGameId" value="{{ mysteryGame.id }}">
-    					<button type="submit" class="btn btn-stream">Commencer</button>
+    					<button id="resetLocalStorageButton" type="submit" class="btn btn-stream">Commencer</button>
 					</form>
 				{% endif %}
 			{% endfor %}

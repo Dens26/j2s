@@ -117,6 +117,10 @@ a:hover {
     padding: 0;
 }
 
+.navbar-width{
+    max-width: 768px;
+}
+
 .navbar-border {
     border-bottom: 1px solid var(--subtle-border);
 }
@@ -300,6 +304,10 @@ a:hover {
     height: 50px;
 }
 
+.image{
+    width: 75%;
+}
+
 /* Footer */
 .footer-fixed {
     background-color: var(--app-background);
@@ -307,7 +315,7 @@ a:hover {
     bottom: 0;
     width: 100vw;
     z-index: 100;
-    padding: 8px 0;
+    padding: 5px 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
     /* Par défaut, avec ombrage */
     transition: box-shadow 0.3s ease;
@@ -328,7 +336,7 @@ a:hover {
 .footer-classic {
     background-color: var(--app-background);
     padding-top: 10px;
-    padding-bottom: 35px;
+    padding-bottom: 50px;
     text-align: center;
     font-size: 14px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
@@ -588,6 +596,16 @@ a:hover {
     padding: 0;
 }
 
+.bgg-small{
+    display: flex;
+    justify-content: end;
+    margin-right: 1rem;
+}
+
+.bgg{
+    display: none;
+}
+
 @media screen and (min-width: 390px) {
 
     /* Home */
@@ -598,9 +616,14 @@ a:hover {
     }
 }
 
-
 @media screen and (min-width: 768px) {
-
+    .bgg-small{
+        display: none;
+    }
+    
+    .bgg{
+        display: flex;
+    }
     /* img */
     .img-container {
         margin-right: 2rem;

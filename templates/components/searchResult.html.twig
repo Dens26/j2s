@@ -1,5 +1,7 @@
-{% if searchTerm is defined and searchTerm is not empty %}
-	<div class="component m-4 text-center">
+<div class="m-4">
+{% if searchTerm is defined %}
+	<a class="btn mb-2" href="{{path('app_home')}}">← Retour</a>
+	<div class="component text-center">
 		<h3 class="mb-4">Résultats pour : "{{ searchTerm | capitalize }}"</h3>
 
 		<!-- Spinner et overlay cachés au début -->
@@ -50,3 +52,4 @@
 
 			<!-- Bouton Page Suivante -->
 			<a class="btn pagination-link {% if page >= totalPages %}disabled{% endif %}" {% if page < totalPages %}href="{{ path('app_boardgame_search', { 'search': searchTerm, 'page': page + 1 }) }}"{% endif %}> Page suivante → </a> </div> </div> {% endif %}
+</div>

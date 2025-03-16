@@ -4,9 +4,12 @@ import canvasConfetti from 'canvas-confetti'
 
 document.addEventListener("DOMContentLoaded", () => {
     // Suppression du localStorage lors de la création d'un nouveau jeu mystère
-    if (window.location.pathname.includes("/admin-mystery-game-create")) {
+    const resetLocalStorageButton = document.getElementById("resetLocalStorageButton");
+    if (resetLocalStorageButton) {
+        resetLocalStorageButton.addEventListener("click", () => {
         console.log("Nouvelle partie détectée : suppression du localStorage.");
         localStorage.clear(); // Efface tout le localStorage
+        });
     }
 
     const overlay = document.getElementById("loading-overlay");
