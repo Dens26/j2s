@@ -336,7 +336,7 @@ a:hover {
 .footer-classic {
     background-color: var(--app-background);
     padding-top: 10px;
-    padding-bottom: 50px;
+    padding-bottom: 55px;
     text-align: center;
     font-size: 14px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
