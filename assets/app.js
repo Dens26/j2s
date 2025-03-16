@@ -7,10 +7,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetLocalStorageButton = document.getElementById("resetLocalStorageButton");
     if (resetLocalStorageButton) {
         resetLocalStorageButton.addEventListener("click", () => {
-        console.log("Nouvelle partie détectée : suppression du localStorage.");
-        localStorage.clear(); // Efface tout le localStorage
+            console.log("Nouvelle partie détectée : suppression du localStorage.");
+            localStorage.clear(); // Efface tout le localStorage
         });
     }
+
+    // Masquer le nom du Jeu mystère en attente
+    document.querySelectorAll(".hideTheName").forEach((button) => {
+        button.addEventListener("click", () => {
+            const parentContainer = button.closest(".d-flex"); // Trouve le bon parent
+            const mysteryGameName = parentContainer.querySelector(".mysteryGameName");
+            const mysteryGameNameHidden = parentContainer.querySelector(".mysteryGameNameHidden");
+            const hideIcon = button.querySelector("img");
+
+            console.log("Cache/Montre le nom du jeu mystère");
+
+            if (mysteryGameName.style.display === "none") {
+                mysteryGameName.style.display = "inline";
+                mysteryGameNameHidden.style.display = "none";
+            } else {
+                mysteryGameName.style.display = "none";
+                mysteryGameNameHidden.style.display = "inline";
+            }
+        });
+    });
+
+
 
     const overlay = document.getElementById("loading-overlay");
 
