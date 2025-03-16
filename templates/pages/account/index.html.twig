@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de
+	{{ app.user.firstname}}
+	{{ app.user.lastname}}
+{% endblock %}
+
+{% block body %}
+	<div class="form-container">
+		<div class=" mx-4 my-2">
+			<h1 class="title">Profil de
+				{{ app.user.firstname}}
+				{{ app.user.lastname}}
+			</h1>
+
+			<p class="subtitle">Information du compte</p>
+
+			<p class="m-0 text-high">Nom complet</p>
+			<p>{{app.user.firstname}}
+				{{app.user.lastname}}</p>
+
+			<p class="m-0 text-high">Username</p>
+			<p>{{app.user.username}}</p>
+
+			<p class="m-0 text-high">Adresse mail du compte</p>
+			<p>{{app.user.email}}</p>
+
+			<p class="m-0 text-high">Modifiez votre mot de passe :</p>
+			<div class="component">
+				{{ form(form)}}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN--Confirmation!
+{% endblock %}
+
+{% block body %}
+	<div class="admin-container m-4">
+		<div class="m-2">
+			<h1 class="admin-section-title mb-4 d-flex justify-content-center">Aperçu du jeu mystère</h1>
+
+			<form action="{{path('admin_mystery_game_show')}}" method="post">
+				<div class="w-100 mb-5">
+					<input class="form-control admin-searchbar-container text-center" type="text" value="{{ data.name }}" disabled>
+					<input type="hidden" name="name" value="{{ data.name }}">
+					<input type="hidden" name="image" value="{{ data.image }}">				
+				</div>
+				{# Premier pack d'indices #}
+				<div
+					class="row row-cols-1 row-cols-md-{{(data.categorys|length > 0 ? 1 : 0) + (data.subdomains|length >0 ? 1 : 0) + (data.mechanics|length >0 ? 1 : 0)}} mb-5 align-items-center">
+					{# Catégories #}
+					{% if data.categorys %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Thèmes</span>
+										<div class="category-list" style="display: none;">
+											{% for category in data.categorys %}
+												<input type="hidden" name="categories[]" value="{{ category }}">
+												<div>{{ category }}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Domaines #}
+					{% if data.subdomains %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/subdomain.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Catégories</span>
+										<div class="category-list" style="display: none;">
+											{% for subdomain in data.subdomains %}
+												<input type="hidden" name="subdomains[]" value="{{ subdomain }}">
+												<div>{{ subdomain }}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Genres #}
+					{% if data.mechanics %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/mechanic.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Mécanismes</span>
+										<div class="category-list" style="display: none;">
+											{% for mechanic in data.mechanics %}
+												<input type="hidden" name="mechanics[]" value="{{ mechanic }}">
+												<div>{{ mechanic }}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+
+				{# Deuxième pack d'indices #}
+				<div
+					class="row row-cols-{{((data.age|length > 0 ? 1 : 0) + (data.players|length > 0 ? 1 : 0) + (data.playingTime|length > 0 ? 1 : 0) + (data.yearPublished|length > 0 ? 1 : 0)) / 2}} row-cols-md-{{(data.age|length > 0 ? 1 : 0) + (data.players|length > 0 ? 1 : 0) + (data.playingTime|length > 0 ? 1 : 0) + (data.yearPublished|length > 0 ? 1 : 0)}} mb-5 align-items-center">
+					{# Age #}
+					{% if data.age %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/age.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Age</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="age" value="{{ data.age }}">
+											{{data.age}}
+											ans
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Joueurs #}
+					{% if data.players %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/players.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="players" value="{{ data.players }}">
+											{{data.players}}
+											joueurs
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Durée #}
+					{% if data.playingTime %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/playingTime.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Durée</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="playingTime" value="{{ data.playingTime }}">
+											{{data.playingTime}}
+											minutes
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Sortie #}
+					{% if data.yearPublished %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/date.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Sortie</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="yearPublished" value="{{ data.yearPublished }}">
+											{{data.yearPublished}}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+
+				{# Troisième pack d'indices #}
+				<div
+					class="row row-cols-1 row-cols-md-{{((data.designers|length > 0 ? 1 : 0) + (data.artists|length > 0 ? 1 : 0) + (data.graphicDesigners|length > 0 ? 1 : 0) + (data.developers|length > 0 ? 1 : 0)) / 2}} mb-5 align-items-center">
+					{# Créateurs #}
+					{% if data.designers %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/designer.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
+										<div class="category-list" style="display: none;">
+											{% for designer in data.designers %}
+												<input type="hidden" name="designers[]" value="{{ designer }}">
+												<div>{{designer}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Illustrateurs #}
+					{% if data.artists %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/artist.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
+										<div class="category-list" style="display: none;">
+											{% for artist in data.artists %}
+												<input type="hidden" name="artists[]" value="{{ artist }}">
+												<div>{{artist}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Designers #}
+					{% if data.graphicDesigners %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/designer-graphique.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Designers</span>
+										<div class="category-list" style="display: none;">
+											{% for graphicDesigner in data.graphicDesigners %}
+												<input type="hidden" name="graphicDesigners[]" value="{{ graphicDesigner }}">
+												<div>{{graphicDesigner}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Developers #}
+					{% if data.developers %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/developer.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Développeurs</span>
+										<div class="category-list" style="display: none;">
+											{% for developer in data.developers %}
+												<input type="hidden" name="developers[]" value="{{ developer }}">
+												<div>{{developer}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+
+				{# Quatrième pack d'indices #}
+				<div
+					class="row row-cols-1 row-cols-md-{{(data.honors|length > 0 ? 1 : 0) + (data.publishers|length > 0 ? 1 : 0)}} mb-5 align-items-center">
+					{# Récompense #}
+					{% if data.honors %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/honor.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Récompenses</span>
+										<div class="category-list" style="display: none;">
+											{% for honor in data.honors %}
+												<input type="hidden" name="honors[]" value="{{ honor }}">
+												<div>{{honor}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{# Editeurs #}
+					{% if data.publishers %}
+						<div class="my-1">
+							<div class="category-container btn admin-btn admin-btn-container">
+								<div class="d-flex align-items-center justify-content-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/publisher.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Editeurs</span>
+										<div class="category-list" style="display: none;">
+											{% for publisher in data.publishers %}
+												<input type="hidden" name="publishers[]" value="{{ publisher }}">
+												<div>{{publisher}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+
+				<div class="d-flex justify-content-center mt-4">
+					<button class="btn" type="submit">Confirmer</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
