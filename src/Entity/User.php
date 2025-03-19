@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -53,6 +55,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $passwordResetTokenExpiration = null;
+
+    /**
+     * @var Collection<int, GameScore>
+     */
+    #[ORM\OneToMany(targetEntity: GameScore::class, mappedBy: 'User')]
+    private Collection $gameScores;
+
+    public function __construct()
+    {
+        $this->gameScores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -209,6 +222,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPasswordResetTokenExpiration(?\DateTimeImmutable $passwordResetTokenExpiration): static
     {
         $this->passwordResetTokenExpiration = $passwordResetTokenExpiration;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GameScore>
+     */
+    public function getGameScores(): Collection
+    {
+        return $this->gameScores;
+    }
+
+    public function addGameScore(GameScore $gameScore): static
+    {
+        if (!$this->gameScores->contains($gameScore)) {
+            $this->gameScores->add($gameScore);
+            $gameScore->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameScore(GameScore $gameScore): static
+    {
+        if ($this->gameScores->removeElement($gameScore)) {
+            // set the owning side to null (unless already changed)
+            if ($gameScore->getUser() === $this) {
+                $gameScore->setUser(null);
+            }
+        }
 
         return $this;
     }

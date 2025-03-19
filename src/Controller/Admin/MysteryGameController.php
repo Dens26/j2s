@@ -21,6 +21,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class MysteryGameController extends AbstractController
 {
     private Status $streamStatus;
+    private Status $queueStatus;
     private Status $autoStatus;
     private Status $archivedStatus;
     private Status $inPendingStatus;
@@ -30,6 +31,7 @@ class MysteryGameController extends AbstractController
         private HttpClientInterface $client
     ) {
         $this->streamStatus = $this->entityManager->getRepository(Status::class)->findOneBy(['name' => 'stream']);
+        $this->queueStatus = $this->entityManager->getRepository(Status::class)->findOneBy(['name' => 'queue']);
         $this->autoStatus = $this->entityManager->getRepository(Status::class)->findOneBy(['name' => 'auto']);
         $this->archivedStatus = $this->entityManager->getRepository(Status::class)->findOneBy(['name' => 'archived']);
         $this->inPendingStatus = $this->entityManager->getRepository(Status::class)->findOneBy(['name' => 'in pending']);
@@ -196,14 +198,14 @@ class MysteryGameController extends AbstractController
     #[Route('/admin-push-auto', name: 'admin_push_auto')]
     public function pushToAuto(): Response
     {
-        $mysteryGameAuto = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
-        if ($mysteryGameAuto) {
-            $mysteryGameAuto->setStatus($this->archivedStatus);
-            $this->entityManager->persist($mysteryGameAuto);
-        }
+        // $mysteryGameAuto = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
+        // if ($mysteryGameAuto) {
+        //     $mysteryGameAuto->setStatus($this->archivedStatus);
+        //     $this->entityManager->persist($mysteryGameAuto);
+        // }
         $mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->streamStatus]);
         if ($mysteryGame) {
-            $mysteryGame->setStatus($this->autoStatus);
+            $mysteryGame->setStatus($this->queueStatus);
             $this->entityManager->persist($mysteryGame);
         }
         $streamMatch = $this->setStreamMatch(new MysteryGame());
@@ -220,12 +222,12 @@ class MysteryGameController extends AbstractController
 
         $mysteryGameStream = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->streamStatus]);
         if ($mysteryGameStream) {
-            $mysteryGameAuto = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
-            if ($mysteryGameAuto) {
-                $mysteryGameAuto->setStatus($this->archivedStatus);
-                $this->entityManager->persist($mysteryGameAuto);
-            }
-            $mysteryGameStream->setStatus($this->autoStatus);
+            // $mysteryGameAuto = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
+            // if ($mysteryGameAuto) {
+            //     $mysteryGameAuto->setStatus($this->archivedStatus);
+            //     $this->entityManager->persist($mysteryGameAuto);
+            // }
+            $mysteryGameStream->setStatus($this->queueStatus);
             $this->entityManager->persist($mysteryGameStream);
         }
         $mysteryGameInPending = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['id' => $id]);
