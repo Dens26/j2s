@@ -57,19 +57,19 @@ class GameScore
     private ?string $publishersIndices = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $develpersIndices = null;
+    private ?string $developersIndices = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $searchHistory = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $relation = null;
 
     #[ORM\ManyToOne(inversedBy: 'gameScores')]
     private ?User $User = null;
 
     #[ORM\ManyToOne(inversedBy: 'gameScores')]
     private ?Game $game = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $maxPlayers = null;
 
     public function getId(): ?int
     {
@@ -244,14 +244,14 @@ class GameScore
         return $this;
     }
 
-    public function getDevelpersIndices(): ?string
+    public function getDevelopersIndices(): ?string
     {
-        return $this->develpersIndices;
+        return $this->developersIndices;
     }
 
-    public function setDevelpersIndices(string $develpersIndices): static
+    public function setDevelopersIndices(string $developersIndices): static
     {
-        $this->develpersIndices = $develpersIndices;
+        $this->developersIndices = $developersIndices;
 
         return $this;
     }
@@ -264,18 +264,6 @@ class GameScore
     public function setSearchHistory(string $searchHistory): static
     {
         $this->searchHistory = $searchHistory;
-
-        return $this;
-    }
-
-    public function getRelation(): ?string
-    {
-        return $this->relation;
-    }
-
-    public function setRelation(string $relation): static
-    {
-        $this->relation = $relation;
 
         return $this;
     }
@@ -300,6 +288,18 @@ class GameScore
     public function setGame(?Game $game): static
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    public function getMaxPlayers(): ?string
+    {
+        return $this->maxPlayers;
+    }
+
+    public function setMaxPlayers(string $maxPlayers): static
+    {
+        $this->maxPlayers = $maxPlayers;
 
         return $this;
     }
