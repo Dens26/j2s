@@ -66,10 +66,13 @@ class GameScore
     private ?User $User = null;
 
     #[ORM\ManyToOne(inversedBy: 'gameScores')]
-    private ?Game $game = null;
+    private ?MysteryGame $mysteryGame = null;
 
     #[ORM\Column(length: 255)]
     private ?string $maxPlayers = null;
+
+    #[ORM\Column]
+    private ?int $attempt = null;
 
     public function getId(): ?int
     {
@@ -280,14 +283,14 @@ class GameScore
         return $this;
     }
 
-    public function getGame(): ?Game
+    public function getMysteryGame(): ?MysteryGame
     {
-        return $this->game;
+        return $this->mysteryGame;
     }
 
-    public function setGame(?Game $game): static
+    public function setMysteryGame(?MysteryGame $mysteryGame): static
     {
-        $this->game = $game;
+        $this->mysteryGame = $mysteryGame;
 
         return $this;
     }
@@ -300,6 +303,18 @@ class GameScore
     public function setMaxPlayers(string $maxPlayers): static
     {
         $this->maxPlayers = $maxPlayers;
+
+        return $this;
+    }
+
+    public function getAttempt(): ?int
+    {
+        return $this->attempt;
+    }
+
+    public function setAttempt(int $attempt): static
+    {
+        $this->attempt = $attempt;
 
         return $this;
     }

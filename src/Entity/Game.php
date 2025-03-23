@@ -127,12 +127,6 @@ class Game
     #[ORM\Column]
     private ?\DateTimeImmutable $lastVisit = null;
 
-    /**
-     * @var Collection<int, GameScore>
-     */
-    #[ORM\OneToMany(targetEntity: GameScore::class, mappedBy: 'game')]
-    private Collection $gameScores;
-
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -145,7 +139,6 @@ class Game
         $this->publishers = new ArrayCollection();
         $this->graphicDesigners = new ArrayCollection();
         $this->honorGames = new ArrayCollection();
-        $this->gameScores = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -618,33 +611,8 @@ class Game
         return $this;
     }
 
-    /**
-     * @return Collection<int, GameScore>
-     */
-    public function getGameScores(): Collection
+    public function __toString(): string
     {
-        return $this->gameScores;
-    }
-
-    public function addGameScore(GameScore $gameScore): static
-    {
-        if (!$this->gameScores->contains($gameScore)) {
-            $this->gameScores->add($gameScore);
-            $gameScore->setGame($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGameScore(GameScore $gameScore): static
-    {
-        if ($this->gameScores->removeElement($gameScore)) {
-            // set the owning side to null (unless already changed)
-            if ($gameScore->getGame() === $this) {
-                $gameScore->setGame(null);
-            }
-        }
-
-        return $this;
+        return $this->name ?? 'Game (no name)';
     }
 }
