@@ -45,6 +45,9 @@ class FindTheGameController extends AbstractController
         ];
 
         $mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
+        if (!$mysteryGame){
+            return $this->redirectToRoute('app_home');
+        }
         $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy(['mysteryGame' => $mysteryGame->getId()]);
 
         if (!$gameScore) {
