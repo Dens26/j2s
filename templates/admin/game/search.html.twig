@@ -4,48 +4,65 @@
 {% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-	<h1 class="title fw-bold mb-4">Création du jeu pour le prochain stream</h1>
+	<div class="container mt-5">
+		<h1 class="title fw-bold mb-4">Création du jeu pour le prochain stream</h1>
 
-	<div class="text-center mt-3">
-		<form class="d-flex justify-content-center mt-3" role="search" method="GET"
-			action="{{ path('admin_game_search') }}">
-			<input class="form-control w-50" type="search" name="search" placeholder="Saisissez le nom du jeu"
-				aria-label="Search">
-			<button class="btn ms-2" type="submit">Rechercher</button>
-		</form>
-	</div>
+		<div class="text-center mt-3">
+			<form class="d-flex justify-content-center mt-3" role="search" method="GET" action="{{ path('admin_game_search') }}">
+				<input class="form-control w-50" type="search" name="search" placeholder="Saisissez le nom du jeu" aria-label="Search">
+				<button class="btn ms-2" type="submit">Rechercher</button>
+			</form>
+		</div>
 
-	<div>
-		{% if mysteryGames is defined %}
-			{% for mysteryGame in mysteryGames %}
-				{% if mysteryGame.status == 'stream' %}
-					<div class="subtitle mt-4 d-flex justify-content-center">Jeu mystère actuellement en stream</div>
-					<div class="d-flex justify-content-between w-75 m-auto mb-2 gap-2">
-						<div class="component w-100">
-							{{mysteryGame.name}} ({{mysteryGame.yearPublished}})
+		<div>
+			{% if mysteryGames is defined %}
+				{% for mysteryGame in mysteryGames %}
+					{% if mysteryGame.status == 'stream' %}
+						<div class="subtitle mt-4 d-flex justify-content-center">Jeu mystère actuellement en stream</div>
+						<div class="d-flex justify-content-between w-75 m-auto mb-2 gap-2">
+							<div class="component w-100">
+								<span class="mysteryGameName" style="display: none;">
+									{{ mysteryGame.name }}
+									({{ mysteryGame.yearPublished }})
+								</span>
+								<span class="mysteryGameNameHidden">
+									**********
+								</span>
+							</div>
+							<button type="button" class="btn hideTheName">
+								<img src="{{ asset('icons/eye.png') }}" alt="" width="16" class="d-flex">
+							</button>
+							<a href="{{path('admin_push_auto')}}" class="btn btn-stream">Terminé</a>
 						</div>
-						<a href="{{path('admin_push_auto')}}" class="btn btn-stream">Terminé</a>
-					</div>
-				{% endif %}
-			{% endfor %}
-			<div class="subtitle mt-4 d-flex justify-content-center">Jeu mystère en attente</div>
-			{% for mysteryGame in mysteryGames %}
-				{% if mysteryGame.status == 'in pending'  %}
-					<form action="{{ path('admin_push_stream') }}" method="post" class="d-flex justify-content-between w-75 m-auto mb-2 gap-2">
-    					<div class="component w-100">
-        					{{ mysteryGame.name }} ({{ mysteryGame.yearPublished }})
-    					</div>
-    					<input type="hidden" name="mysteryGameId" value="{{ mysteryGame.id }}">
-    					<button id="resetLocalStorageButton" type="submit" class="btn btn-stream">Commencer</button>
-					</form>
-				{% endif %}
-			{% endfor %}
-		{% endif %}
-	</div>
+					{% endif %}
+				{% endfor %}
+				<div class="subtitle mt-4 d-flex justify-content-center">Jeu mystère en attente</div>
+				{% for mysteryGame in mysteryGames %}
+					{% if mysteryGame.status == 'in pending'  %}
+						<form action="{{ path('admin_push_stream') }}" method="post" class="d-flex justify-content-between w-75 m-auto mb-2 gap-2">
+							<div class="component w-100">
+								<span class="mysteryGameName" style="display: none;">
+									{{ mysteryGame.name }}
+									({{ mysteryGame.yearPublished }})
+								</span>
+								<span class="mysteryGameNameHidden">
+									**********
+								</span>
+							</div>
+							<button type="button" class="btn hideTheName">
+								<img src="{{ asset('icons/eye.png') }}" alt="" width="16" class="d-flex">
+							</button>
+							<input type="hidden" name="mysteryGameId" value="{{ mysteryGame.id }}">
+							<button id="resetLocalStorageButton" type="submit" class="btn btn-stream">Commencer</button>
+						</form>
+					{% endif %}
+				{% endfor %}
 
-	<div class="mt-4">
-		{% include 'components/admin/searchResult.html.twig' %}
+			{% endif %}
+		</div>
+
+		<div class="mt-4">
+			{% include 'components/admin/searchResult.html.twig' %}
+		</div>
 	</div>
-</div>
 {% endblock %}
