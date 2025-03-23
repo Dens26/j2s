@@ -1,13 +1,416 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trouve le jeu mystère!
+{% block title %}Jeu Mystère
 {% endblock %}
 
 {% block body %}
-	<div class="home-container">
-		<div class="m-2">
-            <h1 class="title">Trouve le jeu Mystère</h1>
-            <p>Page en cours de construction ...</p>
-        </div>
+	<div class="container text-center py-5">
+		{% if not mysteryGame %}
+			<h1 class="admin-title mb-4">🔍 Trouve le Jeu Mystère</h1>
+			<div class="component p-4">
+				<p class="mb-3">Aucun jeu mystère n'est actuellement disponible.</p>
+			</div>
+		{% elseif mysterySearchTerm is not defined %}
+			<h1 class="admin-title mb-4">🔍 Trouve le Jeu Mystère</h1>
+			<div class="text-center my-5">
+				{% if not isWin %}
+					<form class="d-flex justify-content-center mt-3" role="search" method="get" action="{{ path('app_findthegame_search') }}">
+						<input class="form-control w-50" type="search" name="search" placeholder="Recherchez un jeu..." aria-label="Search">
+						<button class="btn ms-2" type="submit">🔍 Rechercher</button>
+					</form>
+				{% endif %}
+			</div>
+
+			{% if isWin is defined  %}
+				{% if isWin %}
+					<div class="mb-5">
+						<div class="win-message" style="display: none;"></div>
+						<span class="title fs-1">🎉 Score : {{ gameScore.score }} 🎉</span>
+						<div class="title fs-1">Félicitation ! 🏆</div>
+						<div class="subtitle">Vous avez percé le mystère et découvert le jeu caché :</div>
+						<div class="title mb-4">{{mysteryGame.name}}</div>
+						<img class="image" src="{{mysteryGame.image}}" alt="">
+					</div>
+				{% endif %}
+			{% endif %}
+
+			{# Premier pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+																				(mysteryGame.categoriesIndices and mysteryGame.categoriesIndices|length > 0 ? 1 : 0) +
+																				(gameScore.subdomainsIndices and mysteryGame.subdomainsIndices|length >0 ? 1 : 0) +
+																				(mysteryGame.mechanicsIndices and mysteryGame.mechanicsIndices|length >0 ? 1 : 0)
+																			}} mb-4 align-items-center">
+				{# Catégories #}
+				{% if mysteryGame.categoriesIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="categories" class="category-container btn {% if newHints['categories'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Thèmes</span>
+										<div class="category-list" style="display: none;">
+											{% for category in gameScoreFormated.categoriesIndices %}
+												<input type="hidden" name="categories[]" value="{{ category }}">
+												<div class="fs-6">{{ category }}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'categoriesIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				{# Domaines #}
+				{% if mysteryGame.subdomainsIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="subdomains" class="category-container btn {% if newHints['subdomains'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/subdomain.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Catégories</span>
+										<div class="category-list" style="display: none;">
+											{% for subdomain in gameScoreFormated.subdomainsIndices %}
+												<input type="hidden" name="subdomains[]" value="{{ subdomain }}">
+												<div class="fs-6">{{ subdomain }}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'subdomainsIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Genres #}
+				{% if mysteryGame.mechanicsIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="mechanics" class="category-container btn {% if newHints['mechanics'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/mechanic.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Mécanismes</span>
+										<div class="category-list" style="display: none;">
+											{% for mechanic in gameScoreFormated.mechanicsIndices %}
+												<input type="hidden" name="mechanics[]" value="{{ mechanic }}">
+												<div class="fs-6">{{ mechanic }}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'mechanicsIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Deuxième pack d'indices #}
+			<div
+				class="row row-cols-{{
+																				((mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+																				(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+																				(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+																				(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)) / 2
+																			}} row-cols-md-{{
+																				(mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+																				(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+																			 	(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+																			 	(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)
+																			 }} mb-4 align-items-center">
+				{# Age #}
+				{% if mysteryGame.age %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="age" class="category-container btn {% if newHints['age'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/age.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Age</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="age" value="{{ gameScore.age }}">
+											<span class="fs-6">{{gameScore.age}}
+												ans</span>
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'age' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Joueurs #}
+				{% if mysteryGame.minPlayers %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="players" class="category-container btn {% if newHints['minPlayers'] is defined or newHints['maxPlayers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/players.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Joueurs</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="players" value="{{ gameScore.minPlayers }}">
+											<span class="fs-6">de
+												{{gameScore.minPlayers}}
+												à
+												{{gameScore.maxPlayers}}
+												j</span>
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'players' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Durée #}
+				{% if mysteryGame.playingTime %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="playingTime" class="category-container btn {% if newHints['playingTime'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/playingTime.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Durée</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="playingTime" value="{{ gameScore.playingTime }}">
+											<span class="fs-6">{{gameScore.playingTime}}
+												mn</span>
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'playingTime' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Sortie #}
+				{% if mysteryGame.yearPublished %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="year" class="category-container btn {% if newHints['yearPublished'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/date.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Sortie</span>
+										<div class="category-list" style="display: none;">
+											<input type="hidden" name="yearPublished" value="{{ gameScore.yearPublished }}">
+											<span class="fs-6">{{gameScore.yearPublished}}</span>
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'yearPublished' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Troisième pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+																				((mysteryGame.designersIndices and mysteryGame.designersIndices|length > 0 ? 1 : 0) +
+																				(mysteryGame.artistsIndices and mysteryGame.artistsIndices|length > 0 ? 1 : 0) +
+																				(mysteryGame.graphicDesignersIndices and mysteryGame.graphicDesignersIndices|length > 0 ? 1 : 0) +
+																				(mysteryGame.developersIndices and mysteryGame.developersIndices|length > 0 ? 1 : 0)) / 2
+																			}} mb-4 align-items-center">
+				{# Créateurs #}
+				{% if mysteryGame.designersIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="designers" class="category-container btn {% if newHints['designers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/designer.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Créateurs</span>
+										<div class="category-list" style="display: none;">
+											{% for designer in gameScoreFormated.designersIndices %}
+												<input type="hidden" name="designers[]" value="{{ designer }}">
+												<div class="fs-6">{{designer}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'designersIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Illustrateurs #}
+				{% if mysteryGame.artistsIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="artists" class="category-container btn {% if newHints['artists'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/artist.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Illustrateurs</span>
+										<div class="category-list" style="display: none;">
+											{% for artist in gameScoreFormated.artistsIndices %}
+												<input type="hidden" name="artists[]" value="{{ artist }}">
+												<div class="fs-6">{{artist}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'artistsIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Designers #}
+				{% if mysteryGame.graphicDesignersIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="graphicDesigners" class="category-container btn {% if newHints['graphicDesigners'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/designer-graphique.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Designers</span>
+										<div class="category-list" style="display: none;">
+											{% for graphicDesigner in gameScoreFormated.graphicDesignersIndices %}
+												<input type="hidden" name="graphicDesigners[]" value="{{ graphicDesigner }}">
+												<div class="fs-6">{{graphicDesigner}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'graphicDesignersIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Developers #}
+				{% if mysteryGame.developersIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="developers" class="category-container btn {% if newHints['developers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/developer.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Développeurs</span>
+										<div class="category-list" style="display: none;">
+											{% for developer in gameScgameScoreFormatedore.developersIndices %}
+												<input type="hidden" name="developers[]" value="{{ developer }}">
+												<div class="fs-6">{{developer}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'developersIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Quatrième pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+																				(mysteryGame.honorsIndices and mysteryGame.honorsIndices|length > 0 ? 1 : 0) +
+																				(mysteryGame.publishersIndices and mysteryGame.publishersIndices|length > 0 ? 1 : 0)
+																			}} mb-4 align-items-center">
+				{# Récompense #}
+				{% if mysteryGame.honorsIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="honors" class="category-container btn {% if newHints['honors'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/honor.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Récompenses</span>
+										<div class="category-list" style="display: none;">
+											{% for honor in gameScoreFormated.honorsIndices %}
+												<input type="hidden" name="honors[]" value="{{ honor }}">
+												<div class="fs-6">{{honor}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'honorsIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Editeurs #}
+				{% if mysteryGame.publishersIndices %}
+					<div class="mb-1 d-flex align-items-start gap-1">
+						<div data-category="publishers" class="category-container btn {% if newHints['publishers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<div></div>
+								<div class="d-flex align-items-center">
+									<img class="me-2" width="24" height="24" src="{{asset('logo/publisher.png')}}" alt="">
+									<div class="category-content">
+										<span class="category-placeholder fs-4 fw-bold">Editeurs</span>
+										<div class="category-list" style="display: none;">
+											{% for publisher in gameScoreFormated.publishersIndices %}
+												<input type="hidden" name="publishers[]" value="{{ publisher }}">
+												<div class="fs-6">{{publisher}}</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<form action="{{ path('admin_mystery_game_show_hint') }}" method="POST">
+									<input type="hidden" name="category" value="{{ 'publishersIndices' }}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+			<div>
+				<div class="title">Liste des jeux recherchés</div>
+				{% for history in searchHistory %}
+					<div class="component my-2">
+						<div class="fw-bold fs-5">{{history.name}}</div>
+						{% for hint in history.hintMatch %}
+							<div class="btn m-1">{{hint}}</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+
+		{% endif %}
 	</div>
 {% endblock %}

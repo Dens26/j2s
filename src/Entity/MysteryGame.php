@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MysteryGameRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -71,6 +73,17 @@ class MysteryGame
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+     /**
+     * @var Collection<int, GameScore>
+     */
+    #[ORM\OneToMany(targetEntity: GameScore::class, mappedBy: 'mysteryGame')]
+    private Collection $gameScores;
+
+    public function __construct()
+    {
+        $this->gameScores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -301,6 +314,36 @@ class MysteryGame
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+        /**
+     * @return Collection<int, GameScore>
+     */
+    public function getGameScores(): Collection
+    {
+        return $this->gameScores;
+    }
+
+    public function addGameScore(GameScore $gameScore): static
+    {
+        if (!$this->gameScores->contains($gameScore)) {
+            $this->gameScores->add($gameScore);
+            $gameScore->setMysteryGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameScore(GameScore $gameScore): static
+    {
+        if ($this->gameScores->removeElement($gameScore)) {
+            // set the owning side to null (unless already changed)
+            if ($gameScore->getMysteryGame() === $this) {
+                $gameScore->setMysteryGame(null);
+            }
+        }
 
         return $this;
     }
