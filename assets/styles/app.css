@@ -603,6 +603,17 @@ a:hover {
 .hasHints-container:hover {
     background-color: var(--ui-element-background);
 }
+.hasNotHints-container {
+    background-color: var(--solid-background);
+    border: solid var(--ui-element-border);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.hasNotHints-container:hover {
+    background-color: var(--solid-background);
+}
 
 .spacing {
     padding: 0;
