@@ -39,10 +39,10 @@
 			{# Premier pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-															(mysteryGame.categoriesIndices and mysteryGame.categoriesIndices|length > 0 ? 1 : 0) +
-															(gameScore.subdomainsIndices and mysteryGame.subdomainsIndices|length >0 ? 1 : 0) +
-															(mysteryGame.mechanicsIndices and mysteryGame.mechanicsIndices|length >0 ? 1 : 0)
-														}} mb-4 align-items-top">
+					(mysteryGame.categoriesIndices and mysteryGame.categoriesIndices|length > 0 ? 1 : 0) +
+					(gameScore.subdomainsIndices and mysteryGame.subdomainsIndices|length >0 ? 1 : 0) +
+					(mysteryGame.mechanicsIndices and mysteryGame.mechanicsIndices|length >0 ? 1 : 0)
+				}} mb-4 align-items-top">
 				{# Catégories #}
 				{% if mysteryGame.categoriesIndices %}
 					<div class="mb-2 d-flex align-items-stretch gap-1">
@@ -104,16 +104,16 @@
 			{# Deuxième pack d'indices #}
 			<div
 				class="row row-cols-{{
-															((mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
-															(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
-															(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
-															(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)) / 2
-														}} row-cols-md-{{
-															(mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
-															(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
-														 	(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
-														 	(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)
-														 }} mb-4 align-items-center">
+					((mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+					(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+					(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)) / 2
+				}} row-cols-md-{{
+					(mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+				 	(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+				 	(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)
+				 }} mb-4 align-items-center">
 				{# Age #}
 				{% if mysteryGame.age %}
 					<div class="mb-2 d-flex align-items-start gap-1">
@@ -181,11 +181,11 @@
 			{# Troisième pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-															((mysteryGame.designersIndices and mysteryGame.designersIndices|length > 0 ? 1 : 0) +
-															(mysteryGame.artistsIndices and mysteryGame.artistsIndices|length > 0 ? 1 : 0) +
-															(mysteryGame.graphicDesignersIndices and mysteryGame.graphicDesignersIndices|length > 0 ? 1 : 0) +
-															(mysteryGame.developersIndices and mysteryGame.developersIndices|length > 0 ? 1 : 0)) / 2
-														}} mb-4 align-items-stretch">
+					((mysteryGame.designersIndices and mysteryGame.designersIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.artistsIndices and mysteryGame.artistsIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.graphicDesignersIndices and mysteryGame.graphicDesignersIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.developersIndices and mysteryGame.developersIndices|length > 0 ? 1 : 0)) / 2
+				}} mb-4 align-items-stretch">
 				{# Créateurs #}
 				{% if mysteryGame.designersIndices %}
 					<div class="mb-2 d-flex align-items-stretch gap-1">
@@ -263,9 +263,9 @@
 			{# Quatrième pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-															(mysteryGame.honorsIndices and mysteryGame.honorsIndices|length > 0 ? 1 : 0) +
-															(mysteryGame.publishersIndices and mysteryGame.publishersIndices|length > 0 ? 1 : 0)
-														}} mb-4 align-items-stretch">
+					(mysteryGame.honorsIndices and mysteryGame.honorsIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.publishersIndices and mysteryGame.publishersIndices|length > 0 ? 1 : 0)
+				}} mb-4 align-items-stretch">
 				{# Récompense #}
 				{% if mysteryGame.honorsIndices %}
 					<div class="mb-2 d-flex align-items-stretch gap-1">
@@ -317,10 +317,10 @@
 			{# Premier pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-															(mysteryGame.categoriesIndices and mysteryGame.categoriesIndices|length > 0 ? 1 : 0) +
-															(gameScore.subdomainsIndices and mysteryGame.subdomainsIndices|length >0 ? 1 : 0) +
-															(mysteryGame.mechanicsIndices and mysteryGame.mechanicsIndices|length >0 ? 1 : 0)
-														}} mb-4 align-items-top">
+					(mysteryGame.categoriesIndices and mysteryGame.categoriesIndices|length > 0 ? 1 : 0) +
+					(gameScore.subdomainsIndices and mysteryGame.subdomainsIndices|length >0 ? 1 : 0) +
+					(mysteryGame.mechanicsIndices and mysteryGame.mechanicsIndices|length >0 ? 1 : 0)
+				}} mb-4 align-items-top">
 
 				{# Catégories #}
 				{% if mysteryGame.categoriesIndices %}
@@ -335,11 +335,11 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Thèmes</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
-																										{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
-																										{% if newHints['categories'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['categories'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
 									<img width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
 									{% if not hasHints %}
@@ -371,7 +371,7 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Catégories</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
 																										{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
@@ -405,11 +405,11 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Mécanismes</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
-																										{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
-																										{% if newHints['mechanics'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['mechanics'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
 									<img width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
 									{% if not hasHints %}
@@ -431,16 +431,16 @@
 			{# Deuxième pack d'indices #}
 			<div
 				class="row row-cols-{{
-															((mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
-															(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
-															(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
-															(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)) / 2
-														}} row-cols-md-{{
-															(mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
-															(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
-														 	(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
-														 	(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)
-														 }} mb-4 align-items-center">
+					((mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+					(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+					(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)) / 2
+				}} row-cols-md-{{
+					(mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+				 	(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+				 	(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)
+				 }} mb-4 align-items-center">
 
 				{# Age #}
 				{% if mysteryGame.age %}
@@ -517,8 +517,8 @@
 								<span class="fw-bold fs-5">&#8203;</span>
 							{% endif %}
 							<div class="h-100
-																{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
-																{% if newHints['playingTime'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['playingTime'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
 									<img width="24" height="24" src="{{asset('logo/playingTime.png')}}" alt="">
 									{% if not hasHints %}
@@ -546,8 +546,8 @@
 								<span class="fw-bold fs-5">&#8203;</span>
 							{% endif %}
 							<div class="h-100
-																{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
-																{% if newHints['yearPublished'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['yearPublished'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
 								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
 									<img width="24" height="24" src="{{asset('logo/date.png')}}" alt="">
 									{% if not hasHints %}
@@ -584,7 +584,7 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Créateurs</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
 							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
@@ -618,7 +618,7 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Illustrateurs</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
 							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
@@ -652,7 +652,7 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Designers</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
 							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
@@ -686,7 +686,7 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Développeurs</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
 							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
@@ -712,9 +712,9 @@
 			{# Quatrième pack d'indices #}
 			<div
 				class="row row-cols-1 row-cols-md-{{
-															(mysteryGame.honorsIndices and mysteryGame.honorsIndices|length > 0 ? 1 : 0) +
-															(mysteryGame.publishersIndices and mysteryGame.publishersIndices|length > 0 ? 1 : 0)
-														}} mb-4 align-items-stretch">
+					(mysteryGame.honorsIndices and mysteryGame.honorsIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.publishersIndices and mysteryGame.publishersIndices|length > 0 ? 1 : 0)
+				}} mb-4 align-items-stretch">
 				{# Récompense #}
 				{% if mysteryGame.honorsIndices %}
 					{% set hasHints = false %}
@@ -728,7 +728,7 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Récompenses</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
 							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
@@ -762,7 +762,7 @@
 							{% if hasHints %}
 								<span class="fw-bold fs-5">Editeurs</span>
 							{% else %}
-								<span class="fw-bold fs-5">&#8203;</span>
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
 							{% endif %}
 							<div class="h-100
 							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
