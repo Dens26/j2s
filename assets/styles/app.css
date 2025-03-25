@@ -576,7 +576,7 @@ a:hover {
     text-align: center;
     align-self: center;
     width: 100%;
-    box-shadow: 0 0 15px 10px var(--high-contrast-text);
+    box-shadow: 0 0 15px 10px var(--low-contrast-text);
     transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
@@ -590,6 +590,18 @@ a:hover {
 /* Couleur de fond quand la liste est visible */
 .category-container.active {
     background-color: transparent;
+}
+
+.hasHints-container {
+    background-color: var(--ui-element-background);
+    border: solid var(--ui-element-border);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.hasHints-container:hover {
+    background-color: var(--ui-element-background);
 }
 
 .spacing {
