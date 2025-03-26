@@ -279,6 +279,21 @@ a:hover {
     width : 150px;
 }
 
+.btn-nocursor{
+    cursor: default;
+}
+
+.btn-alert{
+    background-color: red;
+    color: white;
+    border: none;
+    display: flex;
+}
+.btn-alert:hover{
+    background-color: rgb(219, 0, 0);
+    color: white;
+}
+
 /* Title */
 .title {
     font-size: 2rem;
