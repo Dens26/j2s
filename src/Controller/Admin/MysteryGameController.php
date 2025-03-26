@@ -243,6 +243,23 @@ class MysteryGameController extends AbstractController
         $this->entityManager->flush();
         return $this->redirectToRoute('admin_game_index');
     }
+    #[Route('/admin-remove', name: 'admin_remove', methods: ['POST'])]
+public function removeMysteryGame(Request $request): Response
+{
+    $id = $request->request->get('mysteryGameId');
+    $mysteryGameToRemove = $this->entityManager->getRepository(MysteryGame::class)->find($id);
+
+    if (!$mysteryGameToRemove) {
+        $this->addFlash('danger', 'Le jeu mystère n\'existe pas.');
+        return $this->redirectToRoute('admin_game_index');
+    }
+
+    $this->entityManager->remove($mysteryGameToRemove);
+    $this->entityManager->flush();
+
+    $this->addFlash('success', 'Le jeu mystère a bien été retiré.');
+    return $this->redirectToRoute('admin_game_index');
+}
 
     #[Route('/admin-mystery-game-show-hint', name: 'admin_mystery_game_show_hint', methods: ['POST'])]
     public function showHint(Request $request)
