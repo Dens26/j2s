@@ -29,6 +29,9 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $translatedName = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct()
     {
         $this->game = new ArrayCollection();
@@ -90,5 +93,17 @@ class Category
     public function __toString()
     {
         return $this->translatedName;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }
