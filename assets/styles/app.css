@@ -616,7 +616,7 @@ a:hover {
     justify-content: center;
 }
 .hasHints-container:hover {
-    background-color: var(--hovered-ui-element-background);
+    background-color: var(--active-selected-ui-element-background);
 }
 .hasNotHints-container {
     background-color: var(--solid-background);
