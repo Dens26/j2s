@@ -74,10 +74,12 @@ class GameCrudController extends AbstractCrudController
 
             DateTimeField::new('createdAt')
                 ->setLabel('Ajouté le')
+                ->setFormat('dd MMMM yyyy')
                 ->onlyOnIndex(),
 
             DateTimeField::new('lastVisit')
                 ->setLabel('Dernière visite')
+                ->setFormat('dd MMMM yyyy')
                 ->onlyOnIndex(),
 
             IntegerField::new('visits')

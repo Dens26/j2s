@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class MechanicCrudController extends AbstractCrudController
@@ -38,6 +39,10 @@ class MechanicCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            DateTimeField::new('createdAt')
+                ->setLabel('Ajouté le')
+                ->setFormat('dd MMMM yyyy')
+                ->onlyOnIndex(),
             TextField::new('name')->setLabel('Nom')->setDisabled(),
             TextField::new('translatedName')->setLabel('Traduction')
         ];
