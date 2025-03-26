@@ -27,10 +27,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class GameClass
 {
     private HttpClientInterface $client;
+    private DateTimeZone $timezone;
 
     public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
+        $this->timezone = new DateTimeZone('Europe/Paris');
     }
 
     public function SearchGames(Request $request, SluggerInterface $slugger): array
@@ -99,13 +101,12 @@ class GameClass
         // Si il n'y a pas assez de credit pour traduire la description
         $translateAvailable = $this->translateItems($results, $translatorService);
 
-        $timezone = new DateTimeZone('Europe/Paris');
         // Création du jeu
         $game = new Game();
         $game
             ->setGameId($id)
             ->setName($results['name'])
-            ->setCreatedAt(new DateTimeImmutable('now', $timezone))
+            ->setCreatedAt(new DateTimeImmutable('now', $this->timezone))
             ->setUpdatedAt($game->getCreatedAt())
             ->setVisits(1)
             ->setLastVisit($game->getCreatedAt())
@@ -360,6 +361,7 @@ class GameClass
                     $relatedEntity = new $entityClass();
                     $relatedEntity->setName($item['name']);
                     $relatedEntity->setTranslatedName($item['translated-name']); // Enregistrer la traduction aussi
+                    $relatedEntity->setCreatedAt(new DateTimeImmutable('now', $this->timezone));
 
                     if ($translateAvailable) {
                         $entityManager->persist($relatedEntity);
@@ -381,6 +383,7 @@ class GameClass
                 if (!$relatedEntity) {
                     $relatedEntity = new $entityClass();
                     $relatedEntity->setName($item);
+                    $relatedEntity->setCreatedAt(new DateTimeImmutable('now', $this->timezone));
 
                     if ($translateAvailable) {
                         $entityManager->persist($relatedEntity);
