@@ -7,6 +7,7 @@ use App\Entity\Game;
 use App\Entity\GameScore;
 use App\Entity\MysteryGame;
 use App\Entity\Status;
+use App\Entity\User;
 use App\Service\TranslatorService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,18 +21,24 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class FindTheGameController extends AbstractController
 {
     private Status $autoStatus;
+    private MysteryGame $mysteryGame;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
         private HttpClientInterface $client
     ) {
         $this->autoStatus = $this->entityManager->getRepository(Status::class)->findOneBy(['name' => 'auto']);
+        $this->mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
     }
 
     #[Route('/findthegame', name: 'app_find_the_game')]
     public function index(): Response
     {
-        $isWin = false;
+        $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy([
+            'mysteryGame' => $this->mysteryGame->getId(),
+            'User' => $this->getUser()
+        ]);
+
         $fields = [
             'categories' => 'setCategoriesIndices',
             'subdomains' => 'setSubdomainsIndices',
@@ -44,18 +51,18 @@ class FindTheGameController extends AbstractController
             'developers' => 'setDevelopersIndices'
         ];
 
-        $mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
-        if (!$mysteryGame){
+        if (!$this->mysteryGame){
             return $this->redirectToRoute('app_home');
         }
-        $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy(['mysteryGame' => $mysteryGame->getId()]);
+
+        $isWin = false;
 
         if (!$gameScore) {
             /** @var GameScore $gameScore */
             $gameScore = new GameScore();
             $gameScore
                 ->setUser($this->getUser())
-                ->setMysteryGame($mysteryGame)
+                ->setMysteryGame($this->mysteryGame)
                 ->setYearPublished('----')
                 ->setMinPlayers('--')
                 ->setMaxPlayers('--')
@@ -65,7 +72,7 @@ class FindTheGameController extends AbstractController
 
             // Boucle sur les champs dynamiques
             foreach ($fields as $property => $setter) {
-                $values = explode(',', $mysteryGame->{'get' . ucfirst($property) . 'Indices'}());
+                $values = explode(',', $this->mysteryGame->{'get' . ucfirst($property) . 'Indices'}());
                 $placeholders = array_fill(0, count($values), "---");
                 $gameScore->$setter(json_encode($placeholders));
             }
@@ -78,24 +85,28 @@ class FindTheGameController extends AbstractController
         }
         $gameScoreFormated = $this->formatGame($gameScore);
 
+        $searchHistory = $this->formatSearchHistory($gameScore);
+
         return $this->render('pages/find_the_game/index.html.twig', [
-            'mysteryGame' => $mysteryGame,
+            'mysteryGame' => $this->mysteryGame,
             'gameScore' => $gameScore,
             'gameScoreFormated' => $gameScoreFormated,
             'isWin' => $isWin,
-            'searchHistory' => null
+            'searchHistory' => $searchHistory
         ]);
     }
 
     #[Route('/app-findthegame-search', name: 'app_findthegame_search', methods: ['GET'])]
     public function search(Request $request, SluggerInterface $slugger): Response
     {
-        $mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
-        $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy(['mysteryGame' => $mysteryGame->getId()]);
+        $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy([
+            'mysteryGame' => $this->mysteryGame->getId(),
+            'User' => $this->getUser()
+        ]);
         $gameScoreFormated = $this->formatGame($gameScore);
         if ($gameScore->getScore() != null) {
             return $this->render('pages/find_the_game/index.html.twig', [
-                'mysteryGame' => $mysteryGame,
+                'mysteryGame' => $this->mysteryGame,
                 'gameScore' => $gameScore,
                 'gameScoreFormated' => $gameScoreFormated,
                 'isWin' => true,
@@ -113,7 +124,7 @@ class FindTheGameController extends AbstractController
         }
 
         return $this->render('pages/find_the_game/index.html.twig', [
-            'mysteryGame' => $mysteryGame,
+            'mysteryGame' => $this->mysteryGame,
             'gameScore' => $gameScore,
             'gameScoreFormated' => $gameScoreFormated,
             'findTheGameSearchTerm' => $results['findTheGameSearchTerm'],
@@ -129,12 +140,14 @@ class FindTheGameController extends AbstractController
     #[Route('/app-findthegame-find/{id}/{name}', name: 'app_findthegame_find', requirements: ['id' => '\d+', 'name' => '.+'], methods: ['GET'])]
     public function find(int $id, string $name, TranslatorService $translatorService): Response
     {
-        $mysteryGame = $this->entityManager->getRepository(MysteryGame::class)->findOneBy(['status' => $this->autoStatus]);
-        $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy(['mysteryGame' => $mysteryGame->getId()]);
+        $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy([
+            'mysteryGame' => $this->mysteryGame->getId(),
+            'User' => $this->getUser()
+        ]);
         $gameScoreFormated = $this->formatGame($gameScore);
         if ($gameScore->getScore() != null) {
             return $this->render('pages/find_the_game/index.html.twig', [
-                'mysteryGame' => $mysteryGame,
+                'mysteryGame' => $this->mysteryGame,
                 'gameScore' => $gameScore,
                 'gameScoreFormated' => $gameScoreFormated,
                 'isWin' => true,
@@ -149,26 +162,26 @@ class FindTheGameController extends AbstractController
             $game = $gameClass->ShowGame($this->entityManager, $id, $name, $translatorService);
         }
 
-        $result = $this->compareGame($mysteryGame, $game);
-        $attempt = $result['gameScore']->getAttempt();
-        $progression = $result['gameScore']->getProgression();
+        $result = $this->compareGame($game, $gameScore);
+        $attempt = $gameScore->getAttempt();
+        $progression = $gameScore->getProgression();
 
-        $gameScoreFormated = $this->formatGame($result['gameScore']);
+        $gameScoreFormated = $this->formatGame($gameScore);
 
         $isWin = false;
-        if ($game->getName() == $mysteryGame->getName()) {
+        if ($game->getName() == $this->mysteryGame->getName()) {
             $isWin = true;
-            $result['gameScore']->setScore(100 - ($attempt) - $progression);
+            $gameScore->setScore(100 - ($attempt) - $progression);
         } else {
-            $result['gameScore']->setAttempt($attempt + 1);
-            $result['gameScore']->setProgression($progression + $result['progression']);
+            $gameScore->setAttempt($attempt + 1);
+            $gameScore->setProgression($progression + $result['progression']);
         }
 
-        $this->entityManager->persist($result['gameScore']);
+        $this->entityManager->persist($gameScore);
         $this->entityManager->flush();
         return $this->render('pages/find_the_game/index.html.twig', [
-            'mysteryGame' => $mysteryGame,
-            'gameScore' => $result['gameScore'],
+            'mysteryGame' => $this->mysteryGame,
+            'gameScore' => $gameScore,
             'gameScoreFormated' => $gameScoreFormated,
             'newHints' => $result['newHints'],
             'searchHistory' => $result['searchHistory'],
@@ -192,13 +205,11 @@ class FindTheGameController extends AbstractController
         return $gameFormatted;
     }
 
-    private function compareGame(MysteryGame $mysteryGame, Game $game): array
+    private function compareGame(Game $game, $gameScore): array
     {
         $progression = 0;
         $name = $game->getName();
         $hintMatch = [];
-
-        $gameScore = $this->entityManager->getRepository(GameScore::class)->findOneBy(['mysteryGame' => $mysteryGame->getId()]);
 
         if (!$gameScore) {
             throw new \Exception("Aucun gameScore trouvé.");
@@ -207,9 +218,9 @@ class FindTheGameController extends AbstractController
         $newHints = [];
 
         // 🔹 Gestion de l'âge
-        if ($mysteryGame->getAge()) {
+        if ($this->mysteryGame->getAge()) {
             $currentAge = $gameScore->getAge();
-            $mysteryAge = $mysteryGame->getAge();
+            $mysteryAge = $this->mysteryGame->getAge();
             $proposedAge = $game->getAge();
 
             if ($mysteryAge != $currentAge) {
@@ -228,9 +239,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion du temps de jeu (playingTime)
-        if ($mysteryGame->getPlayingTime()) {
+        if ($this->mysteryGame->getPlayingTime()) {
             $currentPlayingTime = $gameScore->getPlayingTime();
-            $mysteryPlayingTime = $mysteryGame->getPlayingTime();
+            $mysteryPlayingTime = $this->mysteryGame->getPlayingTime();
             $proposedPlayingTime = $game->getPlayingTime();
 
             if ($mysteryPlayingTime != $currentPlayingTime) {
@@ -249,9 +260,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion de la date de sortie (yearPublished)
-        if ($mysteryGame->getYearPublished()) {
+        if ($this->mysteryGame->getYearPublished()) {
             $currentYearPublished = $gameScore->getYearPublished();
-            $mysteryYearPublished = $mysteryGame->getYearPublished();
+            $mysteryYearPublished = $this->mysteryGame->getYearPublished();
             $proposedYearPublished = $game->getYearPublished();
 
             if ($mysteryYearPublished != $currentYearPublished) {
@@ -270,9 +281,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion du joueur minimum (minPlayers)
-        if ($mysteryGame->getMinPlayers()) {
+        if ($this->mysteryGame->getMinPlayers()) {
             $currentMinPlayers = $gameScore->getMinPlayers();
-            $mysteryMinPlayers = $mysteryGame->getMinPlayers();
+            $mysteryMinPlayers = $this->mysteryGame->getMinPlayers();
             $proposedMinPlayers = $game->getMinPlayers();
 
             if ($mysteryMinPlayers != $currentMinPlayers) {
@@ -291,9 +302,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion du joueur maximum (maxPlayers)
-        if ($mysteryGame->getMaxPlayers()) {
+        if ($this->mysteryGame->getMaxPlayers()) {
             $currentMaxPlayers = $gameScore->getMaxPlayers();
-            $mysteryMaxPlayers = $mysteryGame->getMaxPlayers();
+            $mysteryMaxPlayers = $this->mysteryGame->getMaxPlayers();
             $proposedMaxPlayers = $game->getMaxPlayers();
 
             if ($mysteryMaxPlayers != $currentMaxPlayers) {
@@ -312,9 +323,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des Thèmes (categories)
-        if ($mysteryGame->getCategoriesIndices()) {
+        if ($this->mysteryGame->getCategoriesIndices()) {
             $currentCategories = json_decode($gameScore->getCategoriesIndices(), true);
-            $mysteryCategories = json_decode($mysteryGame->getCategoriesIndices(), true);
+            $mysteryCategories = json_decode($this->mysteryGame->getCategoriesIndices(), true);
             $proposedCategories = $game->getCategories();
 
             $categories = [];
@@ -342,9 +353,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des catégories (subdomains)
-        if ($mysteryGame->getSubdomainsIndices()) {
+        if ($this->mysteryGame->getSubdomainsIndices()) {
             $currentSubdomains = json_decode($gameScore->getSubdomainsIndices(), true) ?? [];
-            $mysterySubdomains = json_decode($mysteryGame->getSubdomainsIndices(), true) ?? [];
+            $mysterySubdomains = json_decode($this->mysteryGame->getSubdomainsIndices(), true) ?? [];
             $proposedSubdomains = $game->getSubdomains();
 
             $subdomains = [];
@@ -372,9 +383,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des mécanisme (mechanics)
-        if ($mysteryGame->getMechanicsIndices()) {
+        if ($this->mysteryGame->getMechanicsIndices()) {
             $currentMechanics = json_decode($gameScore->getMechanicsIndices(), true);
-            $mysteryMechanics = json_decode($mysteryGame->getMechanicsIndices(), true);
+            $mysteryMechanics = json_decode($this->mysteryGame->getMechanicsIndices(), true);
             $proposedMechanics = $game->getMechanics();
 
             $mechanics = [];
@@ -402,9 +413,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des créateurs (designers)
-        if ($mysteryGame->getDesignersIndices()) {
+        if ($this->mysteryGame->getDesignersIndices()) {
             $currentDesigners = json_decode($gameScore->getDesignersIndices(), true);
-            $mysteryDesigners = json_decode($mysteryGame->getDesignersIndices(), true);
+            $mysteryDesigners = json_decode($this->mysteryGame->getDesignersIndices(), true);
             $proposedDesigners = $game->getDesigners();
 
             $result = $this->generateComplexHint($currentDesigners, $mysteryDesigners, $proposedDesigners);
@@ -420,9 +431,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des Illustrateurs (artists)
-        if ($mysteryGame->getArtistsIndices()) {
+        if ($this->mysteryGame->getArtistsIndices()) {
             $currentArtists = json_decode($gameScore->getArtistsIndices(), true);
-            $mysteryArtists = json_decode($mysteryGame->getArtistsIndices(), true);
+            $mysteryArtists = json_decode($this->mysteryGame->getArtistsIndices(), true);
             $proposedArtists = $game->getArtists();
 
             $result = $this->generateComplexHint($currentArtists, $mysteryArtists, $proposedArtists);
@@ -438,9 +449,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des Développeurs (developers)
-        if ($mysteryGame->getDevelopersIndices()) {
+        if ($this->mysteryGame->getDevelopersIndices()) {
             $currentDevelopers = json_decode($gameScore->getDevelopersIndices(), true);
-            $mysteryDevelopers = json_decode($mysteryGame->getDevelopersIndices(), true);
+            $mysteryDevelopers = json_decode($this->mysteryGame->getDevelopersIndices(), true);
             $proposedDevelopers = $game->getDevelopers();
 
             $result = $this->generateComplexHint($currentDevelopers, $mysteryDevelopers, $proposedDevelopers);
@@ -456,9 +467,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des Designers (graphicDesigners)
-        if ($mysteryGame->getGraphicDesignersIndices()) {
+        if ($this->mysteryGame->getGraphicDesignersIndices()) {
             $currentGraphicDesigners = json_decode($gameScore->getGraphicDesignersIndices(), true);
-            $mysteryGraphicDesigners = json_decode($mysteryGame->getGraphicDesignersIndices(), true);
+            $mysteryGraphicDesigners = json_decode($this->mysteryGame->getGraphicDesignersIndices(), true);
             $proposedGraphicDesigners = $game->getGraphicDesigners();
 
             $result = $this->generateComplexHint($currentGraphicDesigners, $mysteryGraphicDesigners, $proposedGraphicDesigners);
@@ -474,9 +485,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des Editeurs (publishers)
-        if ($mysteryGame->getPublishersIndices()) {
+        if ($this->mysteryGame->getPublishersIndices()) {
             $currentPublishers = json_decode($gameScore->getPublishersIndices(), true);
-            $mysteryPublishers = json_decode($mysteryGame->getPublishersIndices(), true);
+            $mysteryPublishers = json_decode($this->mysteryGame->getPublishersIndices(), true);
             $proposedPublishers = $game->getPublishers();
 
             $result = $this->generateComplexHint($currentPublishers, $mysteryPublishers, $proposedPublishers);
@@ -491,9 +502,9 @@ class FindTheGameController extends AbstractController
         }
 
         // 🔹 Gestion des Récompenses (honors)
-        if ($mysteryGame->getHonorsIndices()) {
+        if ($this->mysteryGame->getHonorsIndices()) {
             $currentHonors = json_decode($gameScore->getHonorsIndices(), true);
-            $mysteryHonors = json_decode($mysteryGame->getHonorsIndices(), true);
+            $mysteryHonors = json_decode($this->mysteryGame->getHonorsIndices(), true);
             $proposedHonors = $game->getHonorGames();
 
             foreach ($proposedHonors as $proposedHonor) {
@@ -511,7 +522,7 @@ class FindTheGameController extends AbstractController
             }
             $gameScore->setHonorsIndices(json_encode($currentHonors));
         }
-        // dd($progression);
+
         $searchHistory = $gameScore->getSearchHistory();
 
         $searchHistory = $searchHistory ? json_decode($searchHistory, true) : [];
@@ -532,6 +543,13 @@ class FindTheGameController extends AbstractController
             $gameScore->setSearchHistory(json_encode($searchHistory, JSON_UNESCAPED_UNICODE));
         }
 
+        $searchHistory = $this->formatSearchHistory($gameScore);
+
+        return compact('newHints', 'searchHistory', 'progression');
+    }
+
+    private function formatSearchHistory($gameScore) : array
+    {
         $searchHistory = $gameScore->getSearchHistory();
         $searchHistory = $searchHistory ? json_decode($searchHistory, true) : [];
         // Parcourir les résultats et supprimer les '---' dans les éditeurs
@@ -544,7 +562,7 @@ class FindTheGameController extends AbstractController
             }
         }
 
-        return compact('gameScore', 'newHints', 'searchHistory', 'progression');
+        return $searchHistory;
     }
 
     /**

@@ -32,14 +32,14 @@
 							<button type="button" class="btn hideTheName">
 								<img src="{{ asset('icons/eye.png') }}" alt="" width="16" class="d-flex">
 							</button>
-							<a href="{{path('admin_push_auto')}}" class="btn btn-stream">Terminé</a>
+							<a href="{{path('admin_push_auto')}}" class="btn btn-stream d-flex justify-content-center align-items-center">Terminer</a>
 						</div>
 					{% endif %}
 				{% endfor %}
 				<div class="subtitle mt-4 d-flex justify-content-center">Jeu mystère en attente</div>
 				{% for mysteryGame in mysteryGames %}
 					{% if mysteryGame.status == 'in pending'  %}
-						<form action="{{ path('admin_push_stream') }}" method="post" class="d-flex justify-content-between w-75 m-auto mb-2 gap-2">
+						<div class="d-flex justify-content-between w-75 m-auto mb-2 gap-2">
 							<div class="component w-100">
 								<span class="mysteryGameName" style="display: none;">
 									{{ mysteryGame.name }}
@@ -52,9 +52,15 @@
 							<button type="button" class="btn hideTheName">
 								<img src="{{ asset('icons/eye.png') }}" alt="" width="16" class="d-flex">
 							</button>
-							<input type="hidden" name="mysteryGameId" value="{{ mysteryGame.id }}">
-							<button id="resetLocalStorageButton" type="submit" class="btn btn-stream">Commencer</button>
-						</form>
+							<form action="{{ path('admin_push_stream') }}" method="post">
+								<input type="hidden" name="mysteryGameId" value="{{ mysteryGame.id }}">
+								<button id="resetLocalStorageButton" type="submit" class="btn btn-stream h-100">Commencer</button>
+							</form>
+							<form action="{{ path('admin_remove') }}" method="post">
+								<input type="hidden" name="mysteryGameId" value="{{ mysteryGame.id }}">
+								<button id="resetLocalStorageButton" type="submit" class="btn btn-alert h-100">Retirer</button>
+							</form>
+						</div>
 					{% endif %}
 				{% endfor %}
 
