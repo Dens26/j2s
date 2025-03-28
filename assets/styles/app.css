@@ -397,7 +397,7 @@ a:hover {
 }
 
 .old-challenges-container {
-    max-width: 576px;
+    max-width: 768px;
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -698,7 +698,6 @@ a:hover {
 
 @media screen and (min-width: 768px) {
     .old-challenges-container {
-        max-width: 768px;
         padding-left: 4rem;
         padding-right: 4rem;
     }
