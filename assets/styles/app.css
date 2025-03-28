@@ -78,10 +78,16 @@ a:hover {
     color: var(--low-contrast-text);
 }
 
+.old-card{
+    background-color: transparent;
+    border: none;
+    color: var(--low-contrast-text);
+}
+
 .main-container {
     width: 100vw;
     flex: 1;
-    max-width: 992px;
+    max-width: 1200px;
     margin: 0 auto;
     padding-bottom: 20px;
 }
@@ -98,6 +104,10 @@ a:hover {
 
 .background-secondary {
     background-color: var(--subtle-background);
+}
+
+.bg-progressbar{
+    background-color: var(--app-background);
 }
 
 /* Navbar */
@@ -307,6 +317,12 @@ a:hover {
     color: var(--high-contrast-text);
 }
 
+.my-card-title{
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
 /* img */
 .img-container {
     display: flex;
@@ -318,6 +334,13 @@ a:hover {
 .img {
     height: 50px;
 }
+
+.img-square {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Force un carré */
+    object-fit: cover; /* Remplit le carré en recadrant l'image si besoin */
+    border-radius: 25%; /* Optionnel, pour avoir des coins arrondis */
+  }
 
 .image{
     width: 75%;
@@ -371,6 +394,12 @@ a:hover {
 .home-container {
     max-width: 576px;
     margin: 0 auto;
+}
+
+.old-challenges-container {
+    max-width: 576px;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 
@@ -661,7 +690,18 @@ a:hover {
     }
 }
 
+@media screen and (min-width: 450px) {
+    .my-card-title{
+        font-size: 1.5rem;
+    }
+}
+
 @media screen and (min-width: 768px) {
+    .old-challenges-container {
+        max-width: 768px;
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
     .show-title{
         display: inline;
     }
@@ -682,6 +722,11 @@ a:hover {
         width: 100%;
     }
 
+    .img-small{
+        height: 20px;
+        width: 20px;
+    }
+
     /* app_boardgame_show */
     .app-boardgame-show-illustration {
         height: 100%;
@@ -696,5 +741,11 @@ a:hover {
         padding-left: 1rem;
         padding-right: 1rem;
         padding-bottom: 0.5rem;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .old-challenges-container {
+        max-width: 1200px;
     }
 }
