@@ -69,7 +69,7 @@ class OldChallengesController extends AbstractController
                 'nbrOfIndices' => $nbrOfIndices
             ];
 
-            $date = $mysteryGame->getCreatedAt();
+            $date = $mysteryGame->getUpdatedAt();
             $monthKey = $date->format('Y-m');
             $monthLabel = $monthsFr[(int) $date->format('n')] . ' ' . $date->format('Y');
 
