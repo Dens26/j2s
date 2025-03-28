@@ -223,7 +223,7 @@ class OldChallengesController extends AbstractController
         ]);
         $gameScoreFormated = $this->formatGame($gameScore);
         if ($gameScore->getScore() != null) {
-            return $this->render('pages/old_challenges/index.html.twig', [
+            return $this->render('pages/old_challenges/play.html.twig', [
                 'mysteryGame' => $mysteryGame,
                 'gameScore' => $gameScore,
                 'gameScoreFormated' => $gameScoreFormated,
@@ -256,7 +256,7 @@ class OldChallengesController extends AbstractController
 
         $this->entityManager->persist($gameScore);
         $this->entityManager->flush();
-        return $this->render('pages/old_challenges/index.html.twig', [
+        return $this->render('pages/old_challenges/play.html.twig', [
             'mysteryGame' => $mysteryGame,
             'gameScore' => $gameScore,
             'gameScoreFormated' => $gameScoreFormated,
