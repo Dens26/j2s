@@ -74,6 +74,9 @@ class GameScore
     #[ORM\Column]
     private ?int $attempt = null;
 
+    #[ORM\Column]
+    private ?int $nbrOfIndices = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -315,6 +318,18 @@ class GameScore
     public function setAttempt(int $attempt): static
     {
         $this->attempt = $attempt;
+
+        return $this;
+    }
+
+    public function getNbrOfIndices(): ?int
+    {
+        return $this->nbrOfIndices;
+    }
+
+    public function setNbrOfIndices(int $nbrOfIndices): static
+    {
+        $this->nbrOfIndices = $nbrOfIndices;
 
         return $this;
     }

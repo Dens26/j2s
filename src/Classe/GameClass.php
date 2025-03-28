@@ -40,6 +40,7 @@ class GameClass
         $searchTerm = $request->query->get('search', '');
         $mysterySearchTerm = $request->query->get('search', '');
         $findTheGameSearchTerm = $request->query->get('search', '');
+        $oldChallengesSearchTerm = $request->query->get('search', '');
         $page = (int)$request->query->get('page', 1);
         $resultsPerPage = 10;
 
@@ -52,6 +53,7 @@ class GameClass
             'searchTerm' => $searchTerm,
             'mysterySearchTerm' => $mysterySearchTerm,
             'findTheGameSearchTerm' => $findTheGameSearchTerm,
+            'oldChallengesSearchTerm' => $oldChallengesSearchTerm,
             'results' => $results,
             'page' => $page,
             'totalPages' => $totalPages,
