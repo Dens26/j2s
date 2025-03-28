@@ -10,7 +10,7 @@
 			{% for month, mysteryGames in groupedMysteryGames %}
 				<h2>{{ mysteryGames.label }}</h2>
 				<div class="mb-4">
-					<div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-4 ">
+					<div class="row row-cols-2 row-cols-sm-3 row-cols-xl-5 g-4 ">
 						{% for mysteryGame in mysteryGames.games %}
 							<div class="col">
 								<form action="{{path('app_oldchallenges_play')}}" class="component h-100">
