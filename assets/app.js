@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Canvas confetti
     function win() {
         // Effet de confettis animé
-        var duration = 2.5 * 1000; // Durée en millisecondes (3 sec)
+        var duration = 1 * 1000; // Durée en millisecondes (3 sec)
         var end = Date.now() + duration;
 
         (function frame() {
