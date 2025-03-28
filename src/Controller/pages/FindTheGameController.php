@@ -57,6 +57,7 @@ class FindTheGameController extends AbstractController
 
         $isWin = false;
 
+        $nbrOfIndices = 5;
         if (!$gameScore) {
             /** @var GameScore $gameScore */
             $gameScore = new GameScore();
@@ -75,7 +76,10 @@ class FindTheGameController extends AbstractController
                 $values = explode(',', $this->mysteryGame->{'get' . ucfirst($property) . 'Indices'}());
                 $placeholders = array_fill(0, count($values), "---");
                 $gameScore->$setter(json_encode($placeholders));
+
+                $nbrOfIndices += count($values);
             }
+            $gameScore->setNbrOfIndices($nbrOfIndices);
             $gameScore->setSearchHistory('');
 
             $this->entityManager->persist($gameScore);
@@ -120,7 +124,7 @@ class FindTheGameController extends AbstractController
             $results = $games->SearchGames($request, $slugger);
         } catch (\Exception $e) {
             $this->addFlash('error', 'Erreur lors de la récupération des données.');
-            return $this->redirectToRoute('admin_mystery_game_index');
+            return $this->redirectToRoute('app_find_the_game');
         }
 
         return $this->render('pages/find_the_game/index.html.twig', [

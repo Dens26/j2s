@@ -4,10 +4,52 @@
 {% endblock %}
 
 {% block body %}
-	<div class="home-container">
+	<div class="old-challenges-container mx-auto">
 		<div class="m-2">
-            <h1 class="title">Trouve les anciens jeux mystères</h1>
-            <p>Page en cours de construction ...</p>
-        </div>
+			<h1 class="title">Trouve les anciens jeux mystères</h1>
+			{% for month, mysteryGames in groupedMysteryGames %}
+				<h2>{{ mysteryGames.label }}</h2>
+				<div class="mb-4">
+					<div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-4 ">
+						{% for mysteryGame in mysteryGames.games %}
+							<div class="col">
+								<form action="{{path('app_oldchallenges_play')}}" class="component h-100">
+									<button type="submit" class="card old-card d-flex flex-column">
+										<input type="hidden" name="id" value="{{mysteryGame.game.id}}">
+										{% if mysteryGame.score %}
+											<img src="{{mysteryGame.game.image}}" class="card-img-top img-square" alt="...">
+										{% else %}
+											<img src="{{asset('images/mysteryGame.png')}}" class="card-img-top img-square" alt="...">
+										{% endif %}
+										<div class="card-body flex-grow-1">
+											<h5 class="card-title my-card-title">
+												{% if mysteryGame.score %}
+													{{ mysteryGame.game.name|length > 15 ? mysteryGame.game.name|slice(0, 15) ~ '...' : mysteryGame.game.name }}
+												{% else %}
+													???
+												{% endif %}
+											</h5>
+											{% if mysteryGame.score %}
+												<p class="card-text">
+													<span class="text-high fs-5">Score :
+														{{mysteryGame.score}}
+														🎉</span>
+												</p>
+											{% else %}
+												{% if mysteryGame.nbrOfIndices %}
+													<div class="progress mt-2 bg-progressbar" role="progressbar" aria-label="Default striped example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+														<div class="progress-bar progress-bar-striped bg-success" style="width: {{mysteryGame.progression / mysteryGame.nbrOfIndices * 100}}%"></div>
+													</div>
+												{% endif %}
+											{% endif %}
+										</div>
+									</button>
+								</form>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 {% endblock %}

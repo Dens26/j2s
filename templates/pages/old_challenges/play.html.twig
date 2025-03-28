@@ -14,8 +14,9 @@
 			<h1 class="admin-title">🔍 Trouve le Jeu Mystère</h1>
 			<div class="text-center mb-4">
 				{% if not isWin %}
-					<form class="d-flex justify-content-center mt-3" role="search" method="get" action="{{ path('app_findthegame_search') }}">
+					<form class="d-flex justify-content-center mt-3" role="search" method="get" action="{{ path('app_oldchallenges_search') }}">
 						<input class="form-control w-50" type="search" name="search" placeholder="Recherchez un jeu..." aria-label="Search">
+                        <input type="hidden" name="id" value="{{mysteryGame.id}}">
 						<button class="btn ms-2" type="submit">🔍 Rechercher</button>
 					</form>
 				{% endif %}
