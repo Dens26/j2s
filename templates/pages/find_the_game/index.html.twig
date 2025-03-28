@@ -1,13 +1,525 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trouve le jeu mystère!
+{% block title %}Jeu Mystère
 {% endblock %}
 
 {% block body %}
-	<div class="home-container">
-		<div class="m-2">
-            <h1 class="title">Trouve le jeu Mystère</h1>
-            <p>Page en cours de construction ...</p>
-        </div>
+	<div class="container text-center">
+		{% if not mysteryGame %}
+			<h1 class="admin-title mb-4">🔍 Trouve le Jeu Mystère</h1>
+			<div class="component p-4">
+				<p class="mb-3">Aucun jeu mystère n'est actuellement disponible.</p>
+			</div>
+		{% elseif mysterySearchTerm is not defined %}
+			<h1 class="admin-title">🔍 Trouve le Jeu Mystère</h1>
+			<div class="text-center mb-4">
+				{% if not isWin %}
+					<form class="d-flex justify-content-center mt-3" role="search" method="get" action="{{ path('app_findthegame_search') }}">
+						<input class="form-control w-50" type="search" name="search" placeholder="Recherchez un jeu..." aria-label="Search">
+						<button class="btn ms-2" type="submit">🔍 Rechercher</button>
+					</form>
+				{% endif %}
+			</div>
+
+			{% if isWin is defined  %}
+				{% if isWin %}
+					<div class="mb-5">
+						<div class="win-message" style="display: none;"></div>
+						<span class="title fs-1">🎉 Score :
+							{{ gameScore.score }}
+							🎉</span>
+						<div class="title fs-1">Félicitation ! 🏆</div>
+						<div class="subtitle">Vous avez percé le mystère et découvert le jeu caché :</div>
+						<div class="title mb-4">{{mysteryGame.name}}</div>
+						<img class="image" src="{{mysteryGame.image}}" alt="">
+					</div>
+				{% endif %}
+			{% endif %}
+
+			{# Premier pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+					(mysteryGame.categoriesIndices and mysteryGame.categoriesIndices|length > 0 ? 1 : 0) +
+					(gameScore.subdomainsIndices and mysteryGame.subdomainsIndices|length >0 ? 1 : 0) +
+					(mysteryGame.mechanicsIndices and mysteryGame.mechanicsIndices|length >0 ? 1 : 0)
+				}} mb-4 align-items-top">
+
+				{# Catégories #}
+				{% if mysteryGame.categoriesIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.categoriesIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Thèmes</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['categories'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Thèmes</span>
+									{% else %}
+										<div>
+											{% for category in gameScoreFormated.categoriesIndices %}
+												<div class="fs-6">{{ category }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+
+				{# Domaines #}
+				{% if mysteryGame.subdomainsIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.subdomainsIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Catégories</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+																										{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+																										{% if newHints['subdomains'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/subdomain.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Catégories</span>
+									{% else %}
+										<div>
+											{% for subdomain in gameScoreFormated.subdomainsIndices %}
+												<div class="fs-6">{{ subdomain }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Genres #}
+				{% if mysteryGame.mechanicsIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.mechanicsIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Mécanismes</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['mechanics'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/category.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Mécanismes</span>
+									{% else %}
+										<div>
+											{% for mechanic in gameScoreFormated.mechanicsIndices %}
+												<div class="fs-6">{{ mechanic }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Deuxième pack d'indices #}
+			<div
+				class="row row-cols-{{
+					((mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+					(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+					(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)) / 2
+				}} row-cols-md-{{
+					(mysteryGame.age and mysteryGame.age|length > 0 ? 1 : 0) +
+					(mysteryGame.minPlayers and mysteryGame.minPlayers|length > 0 ? 1 : 0) +
+				 	(mysteryGame.playingTime and mysteryGame.playingTime|length > 0 ? 1 : 0) +
+				 	(mysteryGame.yearPublished and mysteryGame.yearPublished|length > 0 ? 1 : 0)
+				 }} mb-4 align-items-center">
+
+				{# Age #}
+				{% if mysteryGame.age %}
+					{% set hasHints = false %}
+					{% if gameScore.age != '--' %}
+						{% set hasHints = true %}
+					{% endif %}
+					<div class="mb-2 d-flex align-items-start gap-1">
+						<div class="flex w-100">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Age</span>
+							{% else %}
+								<span class="fw-bold fs-5">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+																{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+																{% if newHints['age'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/age.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Age</span>
+									{% else %}
+										<span class="category-content fs-6">{{gameScore.age}}
+											ans</span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Joueurs #}
+				{% if mysteryGame.minPlayers %}
+					{% set hasHints = false %}
+					{% if gameScore.minPlayers != '--' %}
+						{% set hasHints = true %}
+					{% endif %}
+					<div class="mb-2 d-flex align-items-start gap-1">
+						<div class="flex w-100">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Joueurs</span>
+							{% else %}
+								<span class="fw-bold fs-5">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['minPlayers'] is defined or newHints['maxPlayers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/players.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Joueurs</span>
+									{% else %}
+										<span class="fs-6">de
+											{{gameScore.minPlayers}}
+											à
+											{{gameScore.maxPlayers}}
+											j</span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Durée #}
+				{% if mysteryGame.playingTime %}
+					{% set hasHints = false %}
+					{% if gameScore.playingTime != '--' %}
+						{% set hasHints = true %}
+					{% endif %}
+					<div class="mb-2 d-flex align-items-start gap-1">
+						<div class="flex w-100">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Durée</span>
+							{% else %}
+								<span class="fw-bold fs-5">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['playingTime'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/playingTime.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Durée</span>
+									{% else %}
+										<span class="category-content fs-6">{{gameScore.playingTime}}
+											ans</span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Sortie #}
+				{% if mysteryGame.yearPublished %}
+					{% set hasHints = false %}
+					{% if gameScore.yearPublished != '----' %}
+						{% set hasHints = true %}
+					{% endif %}
+					<div class="mb-2 d-flex align-items-start gap-1">
+						<div class="flex w-100">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Sortie</span>
+							{% else %}
+								<span class="fw-bold fs-5">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['yearPublished'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/date.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Sortie</span>
+									{% else %}
+										<span class="category-content fs-6">{{gameScore.yearPublished}}
+											ans</span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Troisième pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+					((mysteryGame.designersIndices and mysteryGame.designersIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.artistsIndices and mysteryGame.artistsIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.graphicDesignersIndices and mysteryGame.graphicDesignersIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.developersIndices and mysteryGame.developersIndices|length > 0 ? 1 : 0)) / 2
+				}} mb-4 align-items-stretch">
+				{# Créateurs #}
+				{% if mysteryGame.designersIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.designersIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Créateurs</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title-no">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['designers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/designer.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Créateurs</span>
+									{% else %}
+										<div>
+											{% for designer in gameScoreFormated.designersIndices %}
+												<div class="fs-6">{{ designer }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Illustrateurs #}
+				{% if mysteryGame.artistsIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.artistsIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Illustrateurs</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title-no">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['artists'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/artist.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Illustrateurs</span>
+									{% else %}
+										<div>
+											{% for artist in gameScoreFormated.artistsIndices %}
+												<div class="fs-6">{{ artist }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Designers #}
+				{% if mysteryGame.graphicDesignersIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.graphicDesignersIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Designers</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title-no">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['designers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/designer-graphique.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Designers</span>
+									{% else %}
+										<div>
+											{% for designer in gameScoreFormated.graphicDesignersIndices %}
+												<div class="fs-6">{{ designer }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Developers #}
+				{% if mysteryGame.developersIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.developersIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Développeurs</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title-no">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['developers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/developer.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Développeurs</span>
+									{% else %}
+										<div>
+											{% for developer in gameScoreFormated.developersIndices %}
+												<div class="fs-6">{{ developer }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{# Quatrième pack d'indices #}
+			<div
+				class="row row-cols-1 row-cols-md-{{
+					(mysteryGame.honorsIndices and mysteryGame.honorsIndices|length > 0 ? 1 : 0) +
+					(mysteryGame.publishersIndices and mysteryGame.publishersIndices|length > 0 ? 1 : 0)
+				}} mb-4 align-items-stretch">
+				{# Récompense #}
+				{% if mysteryGame.honorsIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.honorsIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Récompenses</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['honors'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/honor.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Récompenses</span>
+									{% else %}
+										<div>
+											{% for honor in gameScoreFormated.honorsIndices %}
+												<div class="fs-6">{{ honor }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				{# Editeurs #}
+				{% if mysteryGame.publishersIndices %}
+					{% set hasHints = false %}
+					{% for indices in gameScoreFormated.publishersIndices %}
+						{% if indices != '---' %}
+							{% set hasHints = true %}
+						{% endif %}
+					{% endfor %}
+					<div class="mb-2 d-flex align-items-stretch gap-1">
+						<div class="flex w-100 d-flex flex-column">
+							{% if hasHints %}
+								<span class="fw-bold fs-5">Editeurs</span>
+							{% else %}
+								<span class="fw-bold fs-5 show-title">&#8203;</span>
+							{% endif %}
+							<div class="h-100
+							{% if hasHints %}hasHints-container{% else %}hasNotHints-container{% endif %}
+							{% if newHints['publishers'] is defined %}admin-btn-highlight{% else %}admin-btn{% endif %}">
+								<div class="d-flex gap-2 align-items-center justify-content-center w-100">
+									<img width="24" height="24" src="{{asset('logo/publisher.png')}}" alt="">
+									{% if not hasHints %}
+										<span class="fw-bold fs-5">Editeurs</span>
+									{% else %}
+										<div>
+											{% for publisher in gameScoreFormated.publishersIndices %}
+												<div class="fs-6">{{ publisher }}</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+
+			<div>
+				<div class="title">Liste des jeux recherchés</div>
+				{% for history in searchHistory %}
+					<div class="component my-2">
+						<div class="fw-bold fs-5">{{history.name}}</div>
+						{% for hint in history.hintMatch %}
+							<div class="btn btn-nocursor m-1">{{hint}}</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+
+		{% endif %}
 	</div>
 {% endblock %}

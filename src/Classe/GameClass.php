@@ -27,16 +27,19 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class GameClass
 {
     private HttpClientInterface $client;
+    private DateTimeZone $timezone;
 
     public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
+        $this->timezone = new DateTimeZone('Europe/Paris');
     }
 
     public function SearchGames(Request $request, SluggerInterface $slugger): array
     {
         $searchTerm = $request->query->get('search', '');
         $mysterySearchTerm = $request->query->get('search', '');
+        $findTheGameSearchTerm = $request->query->get('search', '');
         $page = (int)$request->query->get('page', 1);
         $resultsPerPage = 10;
 
@@ -48,6 +51,7 @@ class GameClass
         return [
             'searchTerm' => $searchTerm,
             'mysterySearchTerm' => $mysterySearchTerm,
+            'findTheGameSearchTerm' => $findTheGameSearchTerm,
             'results' => $results,
             'page' => $page,
             'totalPages' => $totalPages,
@@ -97,13 +101,12 @@ class GameClass
         // Si il n'y a pas assez de credit pour traduire la description
         $translateAvailable = $this->translateItems($results, $translatorService);
 
-        $timezone = new DateTimeZone('Europe/Paris'); 
         // Création du jeu
         $game = new Game();
         $game
             ->setGameId($id)
             ->setName($results['name'])
-            ->setCreatedAt(new DateTimeImmutable('now', $timezone))
+            ->setCreatedAt(new DateTimeImmutable('now', $this->timezone))
             ->setUpdatedAt($game->getCreatedAt())
             ->setVisits(1)
             ->setLastVisit($game->getCreatedAt())
@@ -124,16 +127,18 @@ class GameClass
         }
 
         // Gestion des table liées
-        $this->handleRelateData(false, $results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager, $translateAvailable);
-        $this->handleRelateData(false, $results['artists'], $game, Artist::class, 'addArtist', $entityManager, $translateAvailable);
-        $this->handleRelateData(true, $results['categories'], $game, Category::class, 'addCategory', $entityManager, $translateAvailable);
-        $this->handleRelateData(true, $results['subdomains'], $game, Subdomain::class, 'addSubdomain', $entityManager, $translateAvailable);
-        $this->handleRelateData(true, $results['mechanics'], $game, Mechanic::class, 'addMechanic', $entityManager, $translateAvailable);
-        $this->handleRelateData(false, $results['designers'], $game, Designer::class, 'addDesigner', $entityManager, $translateAvailable);
-        $this->handleRelateData(false, $results['graphicDesigners'], $game, GraphicDesigner::class, 'addGraphicDesigner', $entityManager, $translateAvailable);
-        $this->handleRelateData(false, $results['developers'], $game, Developer::class, 'addDeveloper', $entityManager, $translateAvailable);
-        $this->handleRelateHonorData($results['honors'], $game, $entityManager, $translateAvailable);
-        $this->handleRelateData(true, $results['families'], $game, Family::class, 'addFamily', $entityManager, $translateAvailable);
+        if ($translateAvailable) {
+            $this->handleRelateData(false, $results['publishers'], $game, Publisher::class, 'addPublisher', $entityManager, $translateAvailable);
+            $this->handleRelateData(false, $results['artists'], $game, Artist::class, 'addArtist', $entityManager, $translateAvailable);
+            $this->handleRelateData(true, $results['categories'], $game, Category::class, 'addCategory', $entityManager, $translateAvailable);
+            $this->handleRelateData(true, $results['subdomains'], $game, Subdomain::class, 'addSubdomain', $entityManager, $translateAvailable);
+            $this->handleRelateData(true, $results['mechanics'], $game, Mechanic::class, 'addMechanic', $entityManager, $translateAvailable);
+            $this->handleRelateData(false, $results['designers'], $game, Designer::class, 'addDesigner', $entityManager, $translateAvailable);
+            $this->handleRelateData(false, $results['graphicDesigners'], $game, GraphicDesigner::class, 'addGraphicDesigner', $entityManager, $translateAvailable);
+            $this->handleRelateData(false, $results['developers'], $game, Developer::class, 'addDeveloper', $entityManager, $translateAvailable);
+            $this->handleRelateHonorData($results['honors'], $game, $entityManager, $translateAvailable);
+            $this->handleRelateData(true, $results['families'], $game, Family::class, 'addFamily', $entityManager, $translateAvailable);
+        }
         // Sauvegarde des données
         if ($translateAvailable) {
             $entityManager->flush();
@@ -169,7 +174,8 @@ class GameClass
             'artists' => $game->getArtists()->map(fn($artist) => $artist->getName())->toArray(),
             'categories' => $game->getCategories()->map(fn($category) => $category->getTranslatedName())->toArray(),
             'subdomains' => $game->getSubdomains()->map(fn($subdomain) => $subdomain->getTranslatedName())->toArray(),
-            'mechanics' => $game->getMechanics()->map(fn($mechanic) => str_replace('*', '', $mechanic->getTranslatedName()))->toArray(),            'designers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
+            'mechanics' => $game->getMechanics()->map(fn($mechanic) => str_replace('*', '', $mechanic->getTranslatedName()))->toArray(),
+            'designers' => $game->getDesigners()->map(fn($designer) => $designer->getName())->toArray(),
             'graphicDesigners' => $game->getGraphicDesigners()->map(fn($graphicDesigner) => $graphicDesigner->getName())->toArray(),
             'developers' => $game->getDevelopers()->map(fn($developer) => $developer->getName())->toArray(),
             'honors' => $game->getHonorGames()->map(function ($honorGame) {
@@ -198,7 +204,7 @@ class GameClass
         // Ajout des catégories, sous-domaines, mécaniques, familles
         foreach ($fieldsToTranslate as $field) {
             if (isset($results[$field]) && is_array($results[$field]) && count($results[$field]) > 1) {
-                for($i=0; $i<count($results[$field])-1; $i++){
+                for ($i = 0; $i < count($results[$field]) - 1; $i++) {
                     $itemsToTranslate .= $results[$field][$i] . '|';
                 }
             }
@@ -355,6 +361,7 @@ class GameClass
                     $relatedEntity = new $entityClass();
                     $relatedEntity->setName($item['name']);
                     $relatedEntity->setTranslatedName($item['translated-name']); // Enregistrer la traduction aussi
+                    $relatedEntity->setCreatedAt(new DateTimeImmutable('now', $this->timezone));
 
                     if ($translateAvailable) {
                         $entityManager->persist($relatedEntity);
@@ -376,6 +383,7 @@ class GameClass
                 if (!$relatedEntity) {
                     $relatedEntity = new $entityClass();
                     $relatedEntity->setName($item);
+                    $relatedEntity->setCreatedAt(new DateTimeImmutable('now', $this->timezone));
 
                     if ($translateAvailable) {
                         $entityManager->persist($relatedEntity);
