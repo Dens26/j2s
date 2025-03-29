@@ -25,10 +25,4 @@ class LegalController extends AbstractController
     {
         return $this->render('pages/legal/cgu.html.twig');
     }
-
-    #[Route('/contact', name: 'app_contact')]
-    public function contact(): Response
-    {
-        return $this->render('pages/legal/contact.html.twig');
-    }
 }
